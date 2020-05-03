@@ -1,0 +1,31 @@
+.sidebar {
+    width: 16%;
+    background-color: $color-lighttheme;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+
+    margin-top: 56px;
+
+    & a{
+      display: block;
+      color: $color-white;
+      padding: 16px;
+      text-decoration: none;
+    }
+
+    & a.active {
+      background-color: $color-theme;
+      color: $color-white;
+    }
+
+    & a:hover:not(.active) {
+      background-color: $color-theme;
+      color: $color-white;
+    }
+
+    &__icon{
+      margin-bottom: 5%;
+      margin-right: 5%;
+    }
+  }

@@ -1,0 +1,37 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.login{ 
+
+    &__img{
+        @include commonImageProperty('../../images/login.png', 100%);
+        background-size: 140%;
+    }
+
+    &__footertext{
+        @include commonTextProperty(12px, $color-purple-light, 0);
+        text-align: center;
+    }
+
+    &__heading {
+        @include commonTextProperty(16px,$color-white, 0.8px);
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    &__input{
+        @include commonProperty($color-white)
+    }
+
+    &__btn{
+        @include commonProperty($color-purple-light);
+        border-color: $color-purple-light !important;
+    }
+
+    &__validation{
+        color: $color-red;
+    }
+}
+

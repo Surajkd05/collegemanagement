@@ -1,0 +1,19 @@
+@mixin commonProperty($bgColor) {
+    background-color: $bgColor !important;
+    border-radius: 4px !important;
+    opacity: 1;
+}
+
+@mixin commonImageProperty($imgUrl, $minHeight){
+    background-image: url($imgUrl);
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: $minHeight;
+}
+
+@mixin commonTextProperty($fontSize,$color, $letterSpacing){
+    font-size: $fontSize;
+    letter-spacing: $letterSpacing;
+    color: $color-white;
+    opacity: 1;
+}

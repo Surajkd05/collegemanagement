@@ -1,0 +1,14 @@
+.employeeContainer {
+    padding-top: 20px;
+    &__heading {
+        font-size: 30px;
+        color: #fff;
+        padding-bottom: 30px;
+    }
+}
+
+.pagination {
+    color: white;
+    font-size: 2em;
+    justify-content: flex-end;
+}

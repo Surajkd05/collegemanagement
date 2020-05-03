@@ -1,0 +1,177 @@
+.seat{
+    margin-top: 30px;
+    margin-bottom:15px;
+    background-color: $color-lighttheme;
+    padding: 15px;
+   
+
+    .col-1, .col-2 {
+        > img {
+            height: 15px;
+        }
+    }
+
+    &__title{
+        font-size: 18px;
+        padding-bottom: 10px;
+        color: #fff;
+        font-size: 20px;
+       
+    }
+
+    &__labeltext{
+        color: $color-grey-light;
+        font-size: 14px;
+        
+    }
+
+    .btn {
+        margin-left: 15px;
+        font-size: 16px;
+    }
+
+    &__input{
+        background-color: $color-theme !important;
+        border-color: $color-theme !important;
+        opacity: 1;
+        font-size: 12px;
+    }
+
+    &__seatRow {
+        margin-bottom: 20px;
+    }
+
+    &__btnrow{
+        margin-bottom: 5%;
+
+        &--btnallocation{
+            margin-bottom: 1%;
+            margin-top: 1%;
+        }
+    }
+
+    &__btn{
+        background-color: $color-cold-purple !important;
+        border-color: $color-cold-purple !important;
+        color: white !important;
+    }
+
+    &__deAllocate {
+        background-color: $color-lighttheme !important;
+        border-color: #e53935 !important;
+        color: #e53935 !important;
+        margin-right: 11px;
+    }
+
+    &__reAllocate {
+        background-color: $color-lighttheme !important;
+        border-color: white !important;
+        color: white !important;
+        
+    }
+
+    &__seatrow{
+        background-color: $color-theme;
+        padding: 20px 0 20px 20px;
+    }
+
+    &__textrow {
+        padding: 20px 0 0 0;
+    }
+
+    &__system{
+        width: 15%;
+        position: absolute;
+        top: 125%;
+        left: 50%;
+    }
+
+    &__Project{
+        padding-left: 48%;
+        color: white;
+        margin-bottom:20px;
+    }
+
+    &__hr{
+        &2{
+            width: 10%;
+            background-color: $color-purple-light;
+            margin-left: 25%;
+        }
+        &4{
+            width: 24%;
+            background-color: $color-purple-light;
+            margin-left: 25%;
+        }
+        &5, &6{
+            width: 42%;
+            background-color: $color-purple-light;
+            margin-left: 25%;
+        }
+        &7,&8{
+            width: 60%;
+            background-color: $color-purple-light;
+            margin-left: 25%;
+        }
+        &7, &8, &12{
+            height: 2px;
+            border-radius: 7px 7px 7px 7px;
+            border: 1px solid $color-purple-light; 
+        }
+        &9, &10{
+            width: 80%;
+            background-color: $color-purple-light;
+            margin-left: 25%;
+        }
+        &11, &12{
+            width: 55%;
+            background-color: $color-purple-light;
+            margin-left: 25%; 
+        }
+    }
+
+    &__success{
+        color: white;
+        justify-content: center;
+        &Div{
+            display: block;
+            padding: 45px 45px;
+        }
+    }
+
+    &__rotatechair{
+        transform: rotate(180deg);
+    }
+
+    &__seatselection{
+        filter: invert(43%) sepia(96%) saturate(1237%) hue-rotate(88deg) brightness(128%) contrast(119%) !important;
+    }
+
+    .seats {
+        filter: invert(250%) sepia(66%) saturate(1203%) hue-rotate(88deg) brightness(152%) contrast(160%);
+    }
+
+    &__seatOccupied{
+        filter: invert(50%) sepia(157%) saturate(113) hue-rotate(52deg) brightness(128%) contrast(145%) !important
+        // filter: invert(250%) sepia(66%) saturate(1203%) hue-rotate(88deg) brightness(152%) contrast(160%);
+    }
+
+    &__seatDiv{
+        max-width: 95%;
+        flex: 0 0 100%;
+        margin-left: -7%;
+    }
+
+    &__Row{
+        padding-left: 10%;
+    }
+
+    &__Row_small{
+        padding-left: 25%;
+    }
+
+    &__error{
+        justify-content: center;
+        color: red;
+    }
+}

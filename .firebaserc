@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "seat-management-13",
+    "seat-management-deploy": "seat-management-13"
+  }
+}

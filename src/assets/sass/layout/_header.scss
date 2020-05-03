@@ -1,0 +1,30 @@
+.header {
+  // overflow: hidden;
+  background-color: $color-lighttheme;
+  z-index: 1;
+
+  position: fixed;
+  padding: 5px 0;
+  width: 100%;
+
+
+  &__right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 3px;
+    img {
+      width: 35px;
+    }
+
+    .dropdown-toggle {
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      text-transform: capitalize;
+    }
+
+  } 
+
+  
+}

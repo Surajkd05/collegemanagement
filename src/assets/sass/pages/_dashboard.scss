@@ -1,0 +1,121 @@
+.dashboard{
+    font-size: 30px;
+    color: #fff;
+    padding:20px 0;
+
+}
+
+.commonbox {
+    background: #292D39;
+    &__head {
+        display: flex;
+        padding:20px 15px;
+        h2 {
+            font-size: 18px;
+            color: #fff;
+            flex: 1;
+        }
+        select {
+            background: #181C28;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            border-radius: 3px;
+            border: none;
+            padding: 3px 5px;
+        }
+    }
+    &__body {
+        min-height: 250px;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.roombx {
+    background-color: #181C28;
+    color: #fff;
+    font-size: 14px;
+    padding: 20px 0;
+    position: relative;
+    &__modify {
+        min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+        
+        text-align: center;
+        p {
+            color: #07a99c;
+        }
+    }
+    &__row {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    &__name {
+        color: #fff;
+        font-size: 16px;
+    }
+
+    svg {
+        transform: scale(.6);
+        cursor: pointer;
+    }
+
+    &__chair {
+        transform: rotate(180deg);
+        display: flex;
+        justify-content: space-around;
+    }
+
+    &__hr {
+        border-color: #9d92b2;
+        border-width: 3px;
+        border-radius: 10px;
+        margin: 5px 0;
+    }
+
+    &__btn {
+        margin-top: 10px;
+    }
+
+    &__doors {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    &__door {
+        width: 2px;
+        height: 25px;
+        display: block;
+        background: #fff;
+    }
+}
+
+.chairbox {
+    position: relative;
+    &__tooltip {
+        position: absolute;
+    background-color: #9d92b2;
+    font-size: 10px;
+    white-space: nowrap;
+    padding: 5px 10px;
+    border-radius: 3px;
+    left: 0;
+    top: 100%;
+    display: none;
+    z-index: 2;
+
+    }
+    &:hover > &__tooltip {
+        display: block;
+    }
+}
