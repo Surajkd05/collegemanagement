@@ -1,0 +1,72 @@
+.UserView {
+    margin: 50px auto;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .UserView h4 {
+    margin: 0px auto;
+    color: rgb(46, 20, 117);
+    width: 120%;
+    text-align: center;
+    box-shadow: 0 2px 3px #ccc;
+    border: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: rgb(255, 52, 147);
+  }
+  
+  @media (min-width: 600px) {
+    .UserView,
+    .UserView table,
+    .UserView h2,
+    .UserView h4,
+    .UserView td,
+    .UserView th,
+    .UserView thead {
+      width: 500px;
+    }
+  }
+  
+  .UserView thead tr { 
+    position: relative;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  .UserView h2 {
+    text-align: center;
+    font-family: arial, sans-serif;
+  }
+  
+  .UserView table {
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    flex-flow: column;
+    width: 100%;
+  }
+  
+  .UserView td,
+  .UserView th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .UserView tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .UserView tr:hover {
+    background-color: #ddd;
+  }
+  
+  .UserView th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #4caf50;
+    color: white;
+  }
+  
