@@ -1,0 +1,55 @@
+.RoomView h4 {
+  margin: 20px auto;
+  color: rgb(46, 20, 117);
+  width: 80%;
+  text-align: center;
+  box-shadow: 0 2px 3px #ccc;
+  border: 1px solid #eee;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: rgba(164, 250, 26, 0.938);
+}
+
+@media (min-width: 600px) {
+  .RoomView h4 {
+    width: 500px;
+  }
+}
+  
+.RoomView h2 {
+  text-align: center;
+  font-family: arial, sans-serif;
+}
+
+.RoomView table {
+  text-align: center;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  border: 3px solid #ddd;
+  flex-flow: column;
+  width: 100%;
+  margin: 0px 20px 0px 20px;
+}
+
+.RoomView td,
+.RoomView th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.RoomView tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.RoomView tr:hover {
+  background-color: #ddd;
+}
+
+.RoomView th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #4caf50;
+  color: white;
+}
+

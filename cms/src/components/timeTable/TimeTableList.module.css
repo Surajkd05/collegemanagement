@@ -1,14 +1,4 @@
-.TimeTableListData {
-  margin: 20px auto;
-  width: 80%;
-  text-align: center;
-  box-shadow: 0 2px 3px #ccc;
-  border: 1px solid #eee;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-.TimeTableListData h4 {
+.ScheduleData h4 {
   margin: 20px auto;
   color: rgb(46, 20, 117);
   width: 80%;
@@ -17,55 +7,45 @@
   border: 1px solid #eee;
   padding: 10px;
   box-sizing: border-box;
+  background-color: rgba(164, 250, 26, 0.938);
 }
 
 @media (min-width: 600px) {
-  .TimeTableListData,
-  .TimeTableListData table,
-  .TimeTableListData h2,
-  .TimeTableListData h4,
-  .TimeTableListData td,
-  .TimeTableListData th,
-  .TimeTableListData thead {
+  .ScheduleData h4 {
     width: 500px;
   }
 }
-
-.TimeTableListData thead tr { 
-  position: relative;
-  top: -9999px;
-  left: -9999px;
-}
-
-.TimeTableListData h2 {
+  
+.ScheduleData h2 {
   text-align: center;
   font-family: arial, sans-serif;
 }
 
-.TimeTableListData table {
+.ScheduleData table {
   text-align: center;
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   border: 3px solid #ddd;
   flex-flow: column;
   width: 100%;
+  margin: 0px 20px 0px 20px;
 }
 
-.TimeTableListData td,
-.TimeTableListData th {
+.ScheduleData td,
+.ScheduleData th {
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-.TimeTableListData tr:nth-child(even) {
+.ScheduleData tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-.TimeTableListData tr:hover {
+.ScheduleData tr:hover {
   background-color: #ddd;
 }
 
-.TimeTableListData th {
+.ScheduleData th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;

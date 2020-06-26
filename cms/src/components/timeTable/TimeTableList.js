@@ -1,48 +1,48 @@
 import React from "react";
-//import Table from "react-bootstrap/Table";
 import classes from "./TimeTableList.module.css";
-
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 
 const TimeTableList = (props) => {
   console.log("Props in list is", props);
   console.log("In Period list");
   return (
-    <section className={classes.TimeTableListData}>
+    <section className={classes.ScheduleData}>
       <h2>Added Periods</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Key</th>
-            <th>Faculty Name</th>
-            <th>Subject Code</th>
-            <th>Subject Name</th>
-            <th>Hour</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table>
+        <Thead>
+          <Tr>
+            <Th>Key</Th>
+            <Th>Faculty Name</Th>
+            <Th>Subject Code</Th>
+            <Th>Subject Name</Th>
+            <Th>Hour</Th>
+            <Th>Start Time</Th>
+            <Th>End Time</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
           {props.periods.map((period) => (
-            <tr key={period.id}>
-              <td
+            <Tr key={period.id}>
+              <Td
                 key={period.id}
                 onClick={props.onRemoveItem.bind(this, period.id)}
               >
                 {period.id}
-              </td>
+              </Td>
               {console.log("Period Id : ", period.id)}
               {console.log("Period Faculty : ", period.facName.value)}
 
-              <td>{period.facName.value}</td>
-              <td>{period.subCode.value}</td>
-              <td>{period.subName.value}</td>
-              <td>{period.hour.value}</td>
-              <td>{period.startTime.value}</td>
-              <td>{period.endTime.value}</td>
-            </tr>
+              <Td>{period.facName.value}</Td>
+              <Td>{period.subCode.value}</Td>
+              <Td>{period.subName.value}</Td>
+              <Td>{period.hour.value}</Td>
+              <Td>{period.startTime.value}</Td>
+              <Td>{period.endTime.value}</Td>
+            </Tr>
           ))}
-        </tbody>
-      </table>
+        </Tbody>
+      </Table>
     </section>
   );
 };

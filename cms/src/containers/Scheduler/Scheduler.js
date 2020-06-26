@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Schedule from "./Schedule/Schedule";
 import TimeTable from "./TimeTable/TimeTable";
 import Button from "../../components/UI/Button/Button";
-import axios from "axios";
+import axios from "../../axios-college";
 
 import TimeTableList from "../../components/timeTable/TimeTableList";
 import Spinner from "../../components/UI/Spinner/Spinner";
@@ -13,21 +13,15 @@ const Scheduler = React.memo(() => {
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
 
-  console.log("Periods added", periodsData);
-
-  console.log("Schedule added", scheduleData);
-
   const addPeriodHandler = (period) => {
-    console.log("Added Period is", period);
     setPeriodsData((prevPeriods) => [
       ...prevPeriods,
-      { id: count+1, ...period },
+      { id: count + 1, ...period },
     ]);
-    setCount(count+1)
+    setCount(count + 1);
   };
 
   const addSchedule = (schedule) => {
-    console.log("Added schedule is", schedule);
     setScheduleData({ id: schedule.day.value, ...schedule });
   };
 
@@ -47,29 +41,28 @@ const Scheduler = React.memo(() => {
     for (let period in periodsData) {
       const period1 = {};
       const periodData = periodsData[period];
-      console.log("Period is", periodsData[period]);
       for (let key in periodsData[period]) {
         period1[key] = periodData[key].value;
       }
       periods.push(period1);
     }
     const schedule1 = { ...schedule, periods };
-    console.log("Submitted Periods is : ", schedule1);
     axios
-      .post("http://localhost:8080/college/schedule/addSchedule", schedule1)
+      .post("schedule/addSchedule", schedule1, {
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      })
       .then((response) => {
-        console.log("Response is", response);
         setLoading(false);
         alert(response.data);
       })
       .catch((error) => {
         setLoading(false);
-        console.log("error is ", error);
+        alert(error.response.data.message)
       });
 
     setScheduleData(null);
     setPeriodsData([]);
-    setCount(0)
+    setCount(0);
   };
 
   if (loading) {
@@ -79,7 +72,9 @@ const Scheduler = React.memo(() => {
 
   const timeTableList = (l) => {
     if (l > 0) {
-      return <TimeTableList periods={periodsData} onRemoveItem={removePeriod} />;
+      return (
+        <TimeTableList periods={periodsData} onRemoveItem={removePeriod} />
+      );
     }
   };
 

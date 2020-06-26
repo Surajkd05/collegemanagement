@@ -6,7 +6,7 @@
   border: 1px solid #eee;
   padding: 10px;
   box-sizing: border-box;
-  background-color: orange;
+  background:linear-gradient(white,rgb(255, 217, 166),rgb(250, 214, 94));
 }
 
 .LoginData h4 {
@@ -18,7 +18,7 @@
   border: 1px solid #eee;
   padding: 10px;
   box-sizing: border-box;
-  background-color: cyan;
+  background:linear-gradient(white,rgb(255, 217, 166),rgb(250, 214, 94));
 }
 
 .LoginData button {

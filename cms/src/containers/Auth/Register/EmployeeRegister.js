@@ -3,23 +3,11 @@ import classes from "./Register.module.css";
 import { updateObject, checkValidity } from "../../../shared/utility";
 import Input from "../../../components/UI/Input/Input";
 import Spinner from "../../../components/UI/Spinner/Spinner";
-import axios from "axios";
+import axios from "../../../axios-college";
+import { withRouter, Redirect } from "react-router-dom";
 
-const Register = (props) => {
+const EmployeeRegister = (props) => {
   const [register, setRegister] = useState({
-    registerAs: {
-      elementType: "select",
-      elementConfig: {
-        options: [
-          { value: "none", displayValue: "SELECT ROLE" },
-          { value: "std", displayValue: "Student" },
-          { value: "emp", displayValue: "Employee" },
-        ],
-      },
-      validation: {},
-      value: "none",
-      isValid: true,
-    },
     username: {
       elementType: "input",
       elementConfig: {
@@ -103,6 +91,25 @@ const Register = (props) => {
       isValid: false,
       touched: false,
     },
+    branch: {
+      elementType: "select",
+      elementConfig: {
+        options: [
+          { value: "none", displayValue: "SELECT BRANCH" },
+          { value: "CSE", displayValue: "Computer Science & Engineering" },
+          { value: "CE", displayValue: "Civil Engineering" },
+          { value: "ME", displayValue: "Mechanical Engineering" },
+          {
+            value: "ECE",
+            displayValue: "Electronics & Communication Engineering",
+          },
+          { value: "BT", displayValue: "Bio-Tech Engineering" },
+        ],
+      },
+      validation: {},
+      value: "none",
+      isValid: true,
+    },
     age: {
       elementType: "input",
       elementConfig: {
@@ -115,55 +122,6 @@ const Register = (props) => {
       },
       isValid: false,
       touched: false,
-    },
-    year: {
-      elementType: "select",
-      elementConfig: {
-        options: [
-          { value: "none", displayValue: "SELECT YEAR" },
-          { value: "one", displayValue: "One" },
-          { value: "two", displayValue: "Two" },
-          { value: "three", displayValue: "Three" },
-          { value: "four", displayValue: "Four" },
-        ],
-      },
-      validation: {},
-      value: "none",
-      isValid: true,
-    },
-    branch: {
-      elementType: "select",
-      elementConfig: {
-        options: [
-          { value: "none", displayValue: "SELECT BRANCH" },
-          { value: "cse", displayValue: "Computer Science & Engineering" },
-          { value: "ce", displayValue: "Civil Engineering" },
-          { value: "me", displayValue: "Mechanical Engineering" },
-          {
-            value: "ece",
-            displayValue: "Electronics & Communication Engineering",
-          },
-          { value: "bt", displayValue: "Bio-Tech Engineering" },
-        ],
-      },
-      validation: {},
-      value: "none",
-      isValid: true,
-    },
-    section: {
-      elementType: "select",
-      elementConfig: {
-        options: [
-          { value: "none", displayValue: "SELECT SECTION" },
-          { value: "one", displayValue: "One" },
-          { value: "two", displayValue: "Two" },
-          { value: "three", displayValue: "Three" },
-          { value: "four", displayValue: "Four" },
-        ],
-      },
-      validation: {},
-      value: "none",
-      isValid: true,
     },
     dateOfBirth: {
       elementType: "input",
@@ -205,6 +163,8 @@ const Register = (props) => {
       touched: false,
     },
   });
+
+  const [registered, setRegistered] = useState(false)
 
   const [loading, setLoading] = useState(false);
 
@@ -252,29 +212,18 @@ const Register = (props) => {
       registerData[key] = register[key].value;
     }
 
-    console.log("registered data is", registerData);
-    console.log("Registered as,", (register.registerAs.value));
-    let responseData = null;
-    if (register.registerAs.value === "emp") {
-      console.log("In employe block")
-      responseData = axios.post(
-        "http://localhost:8080/college/auth/employee",
+      axios.post(
+        "auth/employee",
         registerData
-      );
-    } else {
-      responseData = axios.post(
-        "http://localhost:8080/college/auth/student",
-        registerData
-      );
-    }
-    responseData
+      )
       .then((response) => {
         setLoading(false);
-        console.log("Registered data response is", response);
         alert(response.data)
+        setRegistered(true)
       })
       .catch((error) => {
         setLoading(false);
+        alert(error.response.data.message)
         console.log("Error is", error);
       });
   };
@@ -283,9 +232,13 @@ const Register = (props) => {
     form = <Spinner />;
   }
 
+  if(registered){
+    return <Redirect to = "/auth" />
+  }
+
   return (
     <div className={classes.RegisterData}>
-      <h4>Register</h4>
+      <h4>Employee Register</h4>
       <form onSubmit={submitHandler}>
         {form}
         <button type="submit">Register</button>
@@ -294,4 +247,4 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+export default withRouter(EmployeeRegister);

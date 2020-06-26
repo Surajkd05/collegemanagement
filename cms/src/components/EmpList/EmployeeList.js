@@ -17,7 +17,7 @@ import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 import { useEffect } from "react";
-import Constants from "../constants/index";
+import Constants from "../../Constants/index";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {

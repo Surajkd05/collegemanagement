@@ -1,0 +1,55 @@
+.AddressView h4 {
+    margin: 20px auto;
+    color: rgb(46, 20, 117);
+    width: 80%;
+    text-align: center;
+    box-shadow: 0 2px 3px #ccc;
+    border: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: rgba(164, 250, 26, 0.938);
+  }
+  
+  @media (min-width: 600px) {
+    .AddressView h4 {
+      width: 500px;
+    }
+  }
+    
+  .AddressView h2 {
+    text-align: center;
+    font-family: arial, sans-serif;
+  }
+  
+  .AddressView Table {
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    flex-flow: column;
+    width: 100%;
+    margin: 0px 20px 0px 20px;
+  }
+  
+  .AddressView Td,
+  .AddressView Th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .AddressView Tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .AddressView Tr:hover {
+    background-color: #ddd;
+  }
+  
+  .AddressView Th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #4caf50;
+    color: white;
+  }
+  

@@ -6,16 +6,14 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore, compose, applyMiddleware, combineReducers } from "redux";
-import burgerBuilderReducer from "./store/reducers/burgerBuilder";
-import orderDataReducer from "./store/reducers/order";
 import authReducer from "./store/reducers/auth";
 import scheduleReducer from "./store/reducers/schedule";
+import userReducer from "./store/reducers/user"
 import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
-  burger: burgerBuilderReducer,
-  order: orderDataReducer,
   auth: authReducer,
+  user: userReducer,
   schedule: scheduleReducer,
 });
 

@@ -2,20 +2,25 @@ import React, { useState } from "react";
 import classes from "./Auth.module.css";
 import Button from "../../components/UI/Button/Button";
 import Login from "./Login/Login";
-import Register from "./Register/Register";
 
 const Auth = (props) => {
-  const [isSignup, setIsSignup] = useState(true);
+  const registerAsEmployeeHandelr = () => {
+    props.history.push("/employeeRegister");
+  };
 
-  const switchAuthModeHandler = () => {
-    setIsSignup(!isSignup);
+  const registerAsStudentHandelr = () => {
+    props.history.push("studentRegister");
   };
 
   return (
-    <div className = {classes.Auth}>
-      {isSignup ? <Login /> : <Register />}
-      <Button clicked={switchAuthModeHandler} btnType="Danger">
-        SWITCH TO {isSignup ? "SIGNUP" : "SIGNIN"}
+    <div className={classes.Auth}>
+      <Login />
+
+      <Button clicked={registerAsEmployeeHandelr} btnType="Success">
+        Register as Employee?
+      </Button>
+      <Button clicked={registerAsStudentHandelr} btnType="Success">
+        Register as Student?
       </Button>
     </div>
   );

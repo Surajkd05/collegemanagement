@@ -1,12 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./Login.module.css";
 import { updateObject, checkValidity } from "../../../shared/utility";
 import Input from "../../../components/UI/Input/Input";
 import Spinner from "../../../components/UI/Spinner/Spinner";
+import { connect } from "react-redux";
+import { Redirect, Route } from "react-router-dom";
+import * as actions from "../../../store/actions/index";
+import Button from "../../../components/UI/Button/Button";
 
 const Login = React.memo((props) => {
+
+  const [loading, setLoading] = useState(false);
+
+  const { authRedirectPath, onAuthRedirect } = props;
+
+  useEffect(() => {
+    if (authRedirectPath !== "/") {
+      onAuthRedirect();
+    }
+  }, [authRedirectPath, onAuthRedirect]);
+
   const [login, setLogin] = useState({
-    email: {
+    role: {
+      elementType: "select",
+      elementConfig: {
+        options: [
+          { value: "none", displayValue: "SELECT LOGIN AS" },
+          { value: "std", displayValue: "Student" },
+          { value: "emp", displayValue: "Employee" },
+          { value: "admin", displayValue: "Admin" },
+        ],
+      },
+      validation: {},
+      value: "none",
+      isValid: true,
+    },
+    username: {
       elementType: "input",
       elementConfig: {
         type: "email",
@@ -71,21 +100,60 @@ const Login = React.memo((props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    setLoading(true);
+    console.log("props  in login are : ", props);
+    console.log("Role is : ",login.role.value)
+    localStorage.setItem("role", login.role.value);
+    props.onAuth(login);
+    setLoading(false);
   };
 
-  if (props.loading) {
+  if (loading) {
     form = <Spinner />;
   }
+
+  let errorMessage = null;
+
+  if (props.error) {
+    errorMessage = <p>{props.error}</p>;
+  }
+
+  let authRedirect = null;
+  console.log("Authenticated status : ",props.isAuthenticated)
+  if (props.isAuthenticated) {
+    authRedirect = <Redirect to={props.authRedirectPath} />;
+  }
+
+  // if(authentication){
+  //   authRedirect = <Redirect to = "/" />
+  // }
 
   return (
     <div className={classes.LoginData}>
       <h4>Login</h4>
-      <form onSubmit={submitHandler}>
-        {form}
-        <button type="submit">LOGIN</button>
-      </form>
+      {authRedirect}
+      {errorMessage}
+      <form>{form}</form>
+      <Button btnType="Success" clicked={submitHandler}>
+        LOGIN
+      </Button>
     </div>
   );
 });
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {
+    error: state.auth.error,
+    isAuthenticated: state.auth.token !== null,
+    authRedirectPath: state.auth.authRedirectPath,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuth: (login) => dispatch(actions.auth(login)),
+    onAuthRedirect: () => dispatch(actions.authRedirect("/")),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

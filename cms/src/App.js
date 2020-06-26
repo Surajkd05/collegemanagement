@@ -6,14 +6,37 @@ import Logout from "./containers/Auth/Logout/Logout";
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
 import asyncComponent from "./hoc/asyncComponent/asyncComponent";
-import Seats from "./containers/SeatAllocation/SeatDashboard"; 
 import InventoryComplaint from "./containers/InventoryComplaint/InventoryComplaint";
 import Scheduler from "./containers/Scheduler/Scheduler";
 import TimeTableView from "./containers/Scheduler/TimeTableView/TimeTableView";
 import Admin from "./containers/Admin/Admin";
+import DepartmentRoom from "./containers/SeatAllocation/DepartmentRoom";
+import GetAllRoom from "./containers/SeatAllocation/GetAllRooms";
+import AllocateSeat from "./containers/SeatAllocation/AllocateSeat";
+import GetSeat from "./containers/SeatAllocation/GetSeat";
+import StudentRegister from "./containers/Auth/Register/StudentRegister";
+import EmployeeRegister from "./containers/Auth/Register/EmployeeRegister";
+import UserProfile from "./containers/Profile/UserProfile";
+import ProfileImage from "./components/profileImage/ProfileImage";
+import AddAddress from "./containers/Profile/Address/AddAddress";
+import UpdateUserProfile from "./containers/Profile/UpdateProfile/UpdateUserProfile";
+import UserAddressUpdate from "./components/user/UserAddressUpdate";
+import GetSeatInfo from "./containers/SeatAllocation/GetSeatInfo";
+import UpdateStudentProfile from "./containers/Profile/UpdateProfile/UpdateStudentProfile";
+import AddBranch from "./containers/Admin/AddBranch";
+import Preparation from "./containers/Preparation/Preparation";
+import ViewAnswer from "./containers/Preparation/Answer/ViewAnswer/ViewAnswer";
+import Placement from "./containers/Placement/Placement";
+import AddPlacement from "./containers/Placement/AddPlacement/AddPlacement";
+import ViewPlacement from "./containers/Placement/ViewPlacement/ViewPlacement";
+import Interview from "./containers/Preparation/Interview/Interview";
 
 const asyncAuth = asyncComponent(() => {
   return import("./containers/Auth/Auth");
+});
+
+const asyncLogin = asyncComponent(() => {
+  return import("./containers/Auth/Login/Login");
 });
 
 const App = (props) => {
@@ -27,11 +50,13 @@ const App = (props) => {
     <Switch>
       <Route path="/auth" component={asyncAuth} />
       <Route path="/" exact component={Home} />
-      <Route path="/seats" component={Seats} />
-      <Route path="/schedule" component={Scheduler} />
-      <Route path="/complaint" component={InventoryComplaint} />
-      <Route path="/time" component={TimeTableView} />
-      <Route path="/admin" component={Admin} />
+      <Route path="/studentRegister" component={StudentRegister} />
+      <Route path="/preparation" component={Preparation} />
+      <Route path="/answer" component={ViewAnswer} />
+      <Route path="/placement" component={Placement} />
+      <Route path="/interview" component={Interview} />
+      <Route path="/viewPlacement" component={ViewPlacement} />
+      <Route path="/employeeRegister" component={EmployeeRegister} />
       <Redirect to="/" />
     </Switch>
   );
@@ -40,12 +65,67 @@ const App = (props) => {
     routes = (
       <Switch>
         <Route path="/logout" component={Logout} />
-        <Route path="/auth" component={asyncAuth} />
+        <Route path="/schedule" component={Scheduler} />
+        <Route path="/auth" component={asyncLogin} />
+        <Route path="/admin" component={Admin} />
+        <Route path="/createBranch" component={AddBranch} />
+        <Route path="/placement" component={Placement} />
+        <Route path="/viewPlacement" component={ViewPlacement} />
+        <Route path="/addPlacement" component={AddPlacement} />
+        <Route path="/interview" component={Interview} />
+        <Route path="/createRoom" component={DepartmentRoom} />
+        <Route path="/getAllRoom" component={GetAllRoom} />
+        <Route path="/getSeat" component={GetSeat} />
+        <Route path="/allocateSeat" component={AllocateSeat} />
+        <Route path="/answer" component={ViewAnswer} />
+        <Route path="/complaint" component={InventoryComplaint} />
+        <Route path="/time" component={TimeTableView} />
+        <Route path="/complaint" component={InventoryComplaint} />
+        <Route path="/profile" component={UserProfile} />
+        <Route path="/upload" component={ProfileImage} />
+        <Route path="/addAddress" component={AddAddress} />
+        <Route path="/editEmployeeProfile" component={UpdateUserProfile} />
+        <Route path="/editStudentProfile" component={UpdateStudentProfile} />
+        <Route path="/preparation" component={Preparation} />
+        <Route path="/updateAddress" component={UserAddressUpdate} />
+        <Route path="/getSeatInfo" component={GetSeatInfo} />
         <Route path="/" exact component={Home} />
         <Redirect to="/" />
       </Switch>
     );
   }
+
+  // if (props.isAuthenticated && localStorage.getItem("role") === "std") {
+  //   routes = (
+  //     <Switch>
+  //       <Route path="/logout" component={Logout} />
+  //       <Route path="/auth" component={asyncLogin} />
+
+  //       <Route path="/" exact component={Home} />
+  //       <Redirect to="/" />
+  //     </Switch>
+  //   );
+  // }
+
+  // if (props.isAuthenticated && localStorage.getItem("role") === "emp") {
+  //   routes = (
+  //     <Switch>
+  //       <Route path="/logout" component={Logout} />
+  //       <Route path="/auth" component={asyncLogin} />
+  //       <Route path="/time" component={TimeTableView} />
+  //       <Route path="/complaint" component={InventoryComplaint} />
+  //       <Route path="/profile" component={UserProfile} />
+  //       <Route path="/upload" component={ProfileImage} />
+  //       <Route path="/addAddress" component={AddAddress} />
+  //       <Route path="/getAllRoom" component={GetAllRoom} />
+  //       <Route path="/editProfile" component={UpdateUserProfile} />
+  //       <Route path="/updateAddress" component={UserAddressUpdate} />
+  //       <Route path="/" exact component={Home} />
+  //       <Redirect to="/" />
+  //     </Switch>
+  //   );
+  // }
+
   return (
     <div className="App">
       <Layout>{routes}</Layout>

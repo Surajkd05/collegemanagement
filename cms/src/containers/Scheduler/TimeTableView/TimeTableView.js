@@ -4,9 +4,9 @@ import Input from "../../../components/UI/Input/Input";
 import Button from "../../../components/UI/Button/Button";
 import classes from "./TimeTableView.module.css";
 import Spinner from "../../../components/UI/Spinner/Spinner";
-import TimeTableViewList from "../../../components/timeTable/TimeTableViewList"
-import Aux from "../../../hoc/Aux/aux"
-import axios from "axios";
+import TimeTableViewList from "../../../components/timeTable/TimeTableViewList";
+import Aux from "../../../hoc/Aux/aux";
+import axios from "../../../axios-college";
 
 const TimeTableView = React.memo((props) => {
   const [schedule, setSchedule] = useState({
@@ -76,19 +76,19 @@ const TimeTableView = React.memo((props) => {
     }
 
     axios
-      .get("http://localhost:8080/college/schedule/getSchedule" + query)
+      .get("students/getSchedule" + query, {
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      })
       .then((response) => {
         console.log(response);
         result = response.data;
         console.log("Result is : ", result);
-        setResultData(result)
+        setResultData(result);
       })
       .catch((error) => {
         console.log("error is", error);
       });
   };
-
-  console.log("Data fetched is: ",resultData)
 
   const inputChangedHandler = (event, scheduleName) => {
     const updatedSchedules = updateObject(schedule, {
@@ -137,17 +137,14 @@ const TimeTableView = React.memo((props) => {
 
   return (
     <Aux>
-    <div className={classes.ViewData}>
-      <form onSubmit={submitHandler}>
-        <h4>Enter Details to view TimeTable</h4>
-        {form}
-        <Button btnType="Success">Submit</Button>
-        
-      </form>
-    </div>
-    <div>
-      {<section>{timeTableList(resultData.length)}</section>}
-    </div>
+      <div className={classes.ViewData}>
+        <form onSubmit={submitHandler}>
+          <h4>Enter Details to view TimeTable</h4>
+          {form}
+          <Button btnType="Success">Submit</Button>
+        </form>
+      </div>
+      <div>{<section>{timeTableList(resultData.length)}</section>}</div>
     </Aux>
   );
 });

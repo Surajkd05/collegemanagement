@@ -4,8 +4,8 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import classes from "./Admin.module.css";
-import UserView from "../../components/admin/UserView"
-import axios from "axios";
+import UserView from "../../components/admin/UserView";
+import axios from "../../axios-college";
 import Aux from "../../hoc/Aux/aux";
 
 const Admin = React.memo((props) => {
@@ -24,17 +24,17 @@ const Admin = React.memo((props) => {
       isValid: true,
     },
     SortBy: {
-        elementType: "select",
-        elementConfig: {
-          options: [
-            { value: "none", displayValue: "SELECT SORT BY" },
-            { value: "userId", displayValue: "UserId" },
-          ],
-        },
-        validation: {},
-        value: "none",
-        isValid: true,
+      elementType: "select",
+      elementConfig: {
+        options: [
+          { value: "none", displayValue: "SELECT SORT BY" },
+          { value: "userId", displayValue: "UserId" },
+        ],
       },
+      validation: {},
+      value: "none",
+      isValid: true,
+    },
     page: {
       elementType: "input",
       elementConfig: {
@@ -69,7 +69,7 @@ const Admin = React.memo((props) => {
   const submitHandler = (event) => {
     event.preventDefault();
     console.log("Param in submit : ", params);
-    setLoading(true)
+    setLoading(true);
     let result = null;
 
     const paramData = {};
@@ -85,35 +85,47 @@ const Admin = React.memo((props) => {
       }
     }
 
-    console.log("Query passed is",query)
+    console.log("Query passed is", query);
 
     for (let key in params) {
       paramData[key] = params[key].value;
     }
 
-    console.log("Role is",paramData.role)
+    console.log("Role is", paramData.role);
 
     let fetchedData = null;
 
     if (paramData.role === "emp") {
-        fetchedData = axios.get("http://localhost:8080/college/admin/home/employees"+query)
-        setLoading(false)
+      fetchedData = axios.get(
+        "admin/home/employees" + query,
+        {
+          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        }
+      );
+      setLoading(false);
     } else {
-        fetchedData = axios.get("http://localhost:8080/college/admin/home/students"+query)
-        setLoading(false)
+      fetchedData = axios.get(
+        "admin/home/students" + query,
+        {
+          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        }
+      );
+      setLoading(false);
     }
 
-    fetchedData.then(response => {
-        result = response.data
-        setUsers(result)
-        console.log("Data received is: ",response)
-        console.log("Data fetched is",response.data)
-    }).catch(error => {
-        console.log("Error is",error)
-    })
+    fetchedData
+      .then((response) => {
+        result = response.data;
+        setUsers(result);
+        console.log("Data received is: ", response);
+        console.log("Data fetched is", response.data);
+      })
+      .catch((error) => {
+        console.log("Error is", error);
+      });
   };
 
-  console.log("fetched user is : ",users)
+  console.log("fetched user is : ", users);
 
   const inputChangedHandler = (event, paramName) => {
     const updatedSchedules = updateObject(params, {
@@ -126,9 +138,9 @@ const Admin = React.memo((props) => {
     setParams(updatedSchedules);
   };
 
-  const timeTableList = (l) => {
+  const userViewList = (l) => {
     if (l > 0) {
-      return <UserView fetchedUsers={users} userRole={params.role.value}/>;
+      return <UserView fetchedUsers={users} userRole={params.role.value} />;
     }
   };
 
@@ -158,17 +170,17 @@ const Admin = React.memo((props) => {
   }
 
   return (
-      <Aux>
-    <div className={classes.AdminData}>
-      <form onSubmit={submitHandler}>
-        <h4>Enter User Type</h4>
-        {form}
-        <Button btnType="Success">Get Users</Button>
-      </form>
-    </div>
-    <div>
-        <section>{timeTableList(users.length)}</section>
-    </div>
+    <Aux>
+      <div className={classes.AdminData}>
+        <form onSubmit={submitHandler}>
+          <h4>Enter User Type</h4>
+          {form}
+          <Button btnType="Success">Get Users</Button>
+        </form>
+      </div>
+      <div>
+        <section>{userViewList(users.length)}</section>
+      </div>
     </Aux>
   );
 });

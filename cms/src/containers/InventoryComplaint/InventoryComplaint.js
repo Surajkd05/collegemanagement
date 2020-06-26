@@ -4,7 +4,8 @@ import Input from "../../components/UI/Input/Input";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Button from "../../components/UI/Button/Button";
 import classes from "./InventoryComplaint.module.css";
-import axios from "axios";
+import axios from "../../axios-college";
+import { withRouter } from "react-router-dom";
 
 const InventoryComplaint = (props) => {
   const [complaint, setComplaint] = useState({
@@ -104,7 +105,7 @@ const InventoryComplaint = (props) => {
 
     axios
       .post(
-        "http://localhost:8080/college/inventory/register-complaint",
+        "inventory/register-complaint",
         complaint1
       )
       .then((response) => {
@@ -156,4 +157,4 @@ const InventoryComplaint = (props) => {
   );
 };
 
-export default InventoryComplaint;
+export default withRouter(InventoryComplaint);

@@ -10,6 +10,7 @@
     "highcharts": "^8.1.0",
     "highcharts-react-official": "^3.0.0",
     "react": "^16.13.1",
+    "react-avatar-edit": "^0.8.3",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
