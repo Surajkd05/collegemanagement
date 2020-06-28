@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import { updateObject, checkValidity } from "../../shared/utility";
-import Input from "../../components/UI/Input/Input";
-import Button from "../../components/UI/Button/Button";
-import Spinner from "../../components/UI/Spinner/Spinner";
+import { updateObject, checkValidity } from "../../../shared/utility";
+import Input from "../../../components/UI/Input/Input";
+import Button from "../../../components/UI/Button/Button";
+import Spinner from "../../../components/UI/Spinner/Spinner";
 import classes from "./AddBranch.module.css";
-import axios from "../../axios-college";
+import axios from "../../../axios-college";
 
 const AddBranch = (props) => {
   const [branch, setBranch] = useState({
@@ -69,7 +69,7 @@ const AddBranch = (props) => {
     }
 
     axios
-      .post("admin/home/branch", formData, {
+      .post("admin/branch", formData, {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((response) => {

@@ -5,6 +5,8 @@ import Button from "../../../components/UI/Button/Button";
 // import addTip from "./Question/addTip/addTip";
 // import viewTip from "./Question/viewTip/viewTip";
 import classes from "./Interview.module.css";
+import AddTip from "./AddTip/AddTip";
+import ViewTip from "./ViewTip/ViewTip";
 
 const Interview = (props) => {
   const [branches, setBranches] = useState();
@@ -100,22 +102,22 @@ const Interview = (props) => {
             </div>
             <div className="col-md-3">
               <Button btnType="Success" clicked={() => viewTipHandler()}>
-                View Question
+                View Tips
               </Button>
             </div>
             <div className="col-md-3"></div>
           </div>
         ) : null}
-        {/* {addTip ? (
+        {addTip ? (
           <div className="row">
             <div className="col-md-2" />
             <div className="col-md-8">
-              <addTip branchId={branchId} />
+              <AddTip branchId={branchId} />
             </div>
             <div className="col-md-2" />
           </div>
-        ) : null} */}
-        {/* {viewTip ? (
+        ) : null}
+        {viewTip ? (
           <div className="row">
             <div className="container-fluid">
               <div className="col-md-2" />
@@ -127,7 +129,7 @@ const Interview = (props) => {
               <div className="col-md-2" />
             </div>
           </div>
-        ) : null} */}
+        ) : null}
       </div>
     );
   }

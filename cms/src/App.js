@@ -23,13 +23,19 @@ import UpdateUserProfile from "./containers/Profile/UpdateProfile/UpdateUserProf
 import UserAddressUpdate from "./components/user/UserAddressUpdate";
 import GetSeatInfo from "./containers/SeatAllocation/GetSeatInfo";
 import UpdateStudentProfile from "./containers/Profile/UpdateProfile/UpdateStudentProfile";
-import AddBranch from "./containers/Admin/AddBranch";
+import AddBranch from "./containers/Admin/AddBranch/AddBranch";
 import Preparation from "./containers/Preparation/Preparation";
 import ViewAnswer from "./containers/Preparation/Answer/ViewAnswer/ViewAnswer";
 import Placement from "./containers/Placement/Placement";
 import AddPlacement from "./containers/Placement/AddPlacement/AddPlacement";
 import ViewPlacement from "./containers/Placement/ViewPlacement/ViewPlacement";
 import Interview from "./containers/Preparation/Interview/Interview";
+import AddSubject from "./containers/Admin/AddSubject/AddSubject";
+import ResendActivation from "./containers/Auth/Login/Resend/ResendActivation";
+import ResetPassword from "./containers/Auth/Password/ResetPassword";
+import ForgotPassword from "./containers/Auth/Password/ForgotPassword";
+import UpdateUserPassword from "./containers/Auth/Password/UpdateUserPassword";
+import Subject from "./containers/Employee/Subject";
 
 const asyncAuth = asyncComponent(() => {
   return import("./containers/Auth/Auth");
@@ -55,6 +61,9 @@ const App = (props) => {
       <Route path="/answer" component={ViewAnswer} />
       <Route path="/placement" component={Placement} />
       <Route path="/interview" component={Interview} />
+      <Route path="/resendCode" component={ResendActivation} />
+      <Route path="/resetPassword" component={ResetPassword} />
+      <Route path="/forgotPassword" component={ForgotPassword} />
       <Route path="/viewPlacement" component={ViewPlacement} />
       <Route path="/employeeRegister" component={EmployeeRegister} />
       <Redirect to="/" />
@@ -72,6 +81,9 @@ const App = (props) => {
         <Route path="/placement" component={Placement} />
         <Route path="/viewPlacement" component={ViewPlacement} />
         <Route path="/addPlacement" component={AddPlacement} />
+        <Route path="/updatePassword" component={UpdateUserPassword} />
+        <Route path="/addSubject" component={AddSubject} />
+        <Route path="/addSubjectInfo" component={Subject} />
         <Route path="/interview" component={Interview} />
         <Route path="/createRoom" component={DepartmentRoom} />
         <Route path="/getAllRoom" component={GetAllRoom} />

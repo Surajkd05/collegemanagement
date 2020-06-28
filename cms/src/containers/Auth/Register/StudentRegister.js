@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./Register.module.css";
 import { updateObject, checkValidity } from "../../../shared/utility";
 import Input from "../../../components/UI/Input/Input";
@@ -7,6 +7,55 @@ import axios from "../../../axios-college";
 import { withRouter, Redirect } from "react-router-dom";
 
 const StudentRegister = (props) => {
+  const [branches, setBranches] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("preparation/branch")
+      .then((response) => {
+        setBranches(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  }, []);
+
+  const [branchId, setBranchId] = useState(null);
+
+  const idChangedHandler = (e) => {
+    setBranchId(e.target.value);
+  };
+
+  let branchView = null;
+  if (branches !== null) {
+    branchView = (
+      <div className="row" style={{ padding: "10px" }}>
+        <div className="col-md-12">
+          <div>
+            <select
+              id="empId"
+              className="form-control"
+              size="0"
+              onChange={idChangedHandler}
+            >
+              <option value="default">Select Branch</option>
+              {branches.map((branch) => (
+                <option
+                  key={branch.branchId}
+                  value={branch.branchId}
+                  onChange={idChangedHandler}
+                >
+                  {branch.branchName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const [register, setRegister] = useState({
     username: {
       elementType: "input",
@@ -104,6 +153,47 @@ const StudentRegister = (props) => {
       isValid: false,
       touched: false,
     },
+
+    dateOfBirth: {
+      elementType: "input",
+      elementConfig: {
+        type: "date",
+        placeholder: "Enter your Birth date",
+        onfocus : "Enter your Birth date"
+      },
+      value: "",
+      validation: {
+        required: true,
+      },
+      isValid: false,
+      touched: false,
+    },
+    gender: {
+      elementType: "select",
+      elementConfig: {
+        options: [
+          { value: "none", displayValue: "SELECT GENDER" },
+          { value: "male", displayValue: "Male" },
+          { value: "female", displayValue: "Female" },
+        ],
+      },
+      validation: {},
+      value: "none",
+      isValid: true,
+    },
+    mobileNo: {
+      elementType: "input",
+      elementConfig: {
+        type: "text",
+        placeholder: "Enter your Mobile number",
+      },
+      value: "",
+      validation: {
+        required: true,
+      },
+      isValid: false,
+      touched: false,
+    },
     year: {
       elementType: "select",
       elementConfig: {
@@ -113,25 +203,6 @@ const StudentRegister = (props) => {
           { value: 2, displayValue: "Two" },
           { value: 3, displayValue: "Three" },
           { value: 4, displayValue: "Four" },
-        ],
-      },
-      validation: {},
-      value: "none",
-      isValid: true,
-    },
-    branch: {
-      elementType: "select",
-      elementConfig: {
-        options: [
-          { value: "none", displayValue: "SELECT BRANCH" },
-          { value: "CSE", displayValue: "Computer Science & Engineering" },
-          { value: "CE", displayValue: "Civil Engineering" },
-          { value: "ME", displayValue: "Mechanical Engineering" },
-          {
-            value: "ECE",
-            displayValue: "Electronics & Communication Engineering",
-          },
-          { value: "BT", displayValue: "Bio-Tech Engineering" },
         ],
       },
       validation: {},
@@ -172,45 +243,6 @@ const StudentRegister = (props) => {
       validation: {},
       value: "none",
       isValid: true,
-    },
-    dateOfBirth: {
-      elementType: "input",
-      elementConfig: {
-        type: "date",
-        placeholder: "Enter your Birth date",
-      },
-      value: "",
-      validation: {
-        required: true,
-      },
-      isValid: false,
-      touched: false,
-    },
-    gender: {
-      elementType: "select",
-      elementConfig: {
-        options: [
-          { value: "none", displayValue: "SELECT GENDER" },
-          { value: "male", displayValue: "Male" },
-          { value: "female", displayValue: "Female" },
-        ],
-      },
-      validation: {},
-      value: "none",
-      isValid: true,
-    },
-    mobileNo: {
-      elementType: "input",
-      elementConfig: {
-        type: "text",
-        placeholder: "Enter your Mobile number",
-      },
-      value: "",
-      validation: {
-        required: true,
-      },
-      isValid: false,
-      touched: false,
     },
   });
 
@@ -256,7 +288,7 @@ const StudentRegister = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
     setLoading(true);
-    const registerData = { accountNonLocked: true };
+    const registerData = { accountNonLocked: true, branchId: branchId };
 
     for (let key in register) {
       registerData[key] = register[key].value;
@@ -271,7 +303,7 @@ const StudentRegister = (props) => {
       })
       .catch((error) => {
         setLoading(false);
-        alert(error.response.data.message)
+        alert(error.response.data.message);
         console.log("Error is", error);
       });
   };
@@ -289,6 +321,7 @@ const StudentRegister = (props) => {
       <h4> Student Register</h4>
       <form onSubmit={submitHandler}>
         {form}
+        {branchView !== null ? branchView : null}
         <button type="submit">Register</button>
       </form>
     </div>

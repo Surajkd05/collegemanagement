@@ -7,8 +7,9 @@ import Button from "../../components/UI/Button/Button";
 import Aux from "../../hoc/Aux/aux";
 import AddressView from "./Address/AddressView";
 import axios from "../../axios-college";
-import Constants from "../../Constants/index"
+import Constants from "../../Constants/index";
 import { Redirect } from "react-router";
+import { inArray } from "highcharts";
 
 const UserProfile = React.memo((props) => {
   const { onFetchUserProfile } = props;
@@ -29,14 +30,14 @@ const UserProfile = React.memo((props) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     })
-      .then((res) => res.blob())
-      .then((image) => {
-        let outside = URL.createObjectURL(image);
-        setPro(true);
-        setProfileImage(outside);
-        console.log();
-      })
-      .catch((err) => console.error(err));
+    .then((res) => res.blob())
+    .then((image) => {
+      let outside = URL.createObjectURL(image);
+      setPro(true);
+      setProfileImage(outside);
+      console.log();
+    })
+    .catch((err) => console.error(err));
   }, []);
 
   const imageUploaderHandler = () => {
@@ -59,8 +60,19 @@ const UserProfile = React.memo((props) => {
     );
   } else {
     image = (
-      <div onClick={() => imageUploaderHandler()} style={{ cursor: "pointer" }}>
-        <img alt="Profile" src={profileImage} />
+      <div
+        className={classes.Container}
+        onClick={() => imageUploaderHandler()}
+        style={{ cursor: "pointer" }}
+      >
+        <img
+          src={profileImage}
+          alt="ProfileImage"
+          className={classes.Image}
+        />
+        <div className={classes.Middle}>
+          <div className={classes.Text}>Upload Image</div>
+        </div>
       </div>
     );
   }
@@ -109,8 +121,6 @@ const UserProfile = React.memo((props) => {
   // if (isEdit) {
   //   editProfile = <UpdateUserProfile passedProfile={props.profile} />;
   // }
-
-  console.log("profile view is : ", props.profile);
 
   if (props.profile !== null) {
     userProfile = (

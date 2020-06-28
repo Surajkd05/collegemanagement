@@ -22,7 +22,7 @@ const Question = (props) => {
   return (
     <div>
       <div className={classes.Box}>
-        <div className={classes.displayLineBrea}>
+        <div className={classes.displayLineBreak}>
           Q{props.count}
           {".  "}
           {props.question.question}

@@ -68,7 +68,6 @@ const Admin = React.memo((props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("Param in submit : ", params);
     setLoading(true);
     let result = null;
 
@@ -85,19 +84,15 @@ const Admin = React.memo((props) => {
       }
     }
 
-    console.log("Query passed is", query);
-
     for (let key in params) {
       paramData[key] = params[key].value;
     }
-
-    console.log("Role is", paramData.role);
 
     let fetchedData = null;
 
     if (paramData.role === "emp") {
       fetchedData = axios.get(
-        "admin/home/employees" + query,
+        "admin/employees" + query,
         {
           headers: { Authorization: "Bearer " + localStorage.getItem("token") },
         }
@@ -105,7 +100,7 @@ const Admin = React.memo((props) => {
       setLoading(false);
     } else {
       fetchedData = axios.get(
-        "admin/home/students" + query,
+        "admin/students" + query,
         {
           headers: { Authorization: "Bearer " + localStorage.getItem("token") },
         }
@@ -117,15 +112,11 @@ const Admin = React.memo((props) => {
       .then((response) => {
         result = response.data;
         setUsers(result);
-        console.log("Data received is: ", response);
-        console.log("Data fetched is", response.data);
       })
       .catch((error) => {
-        console.log("Error is", error);
+        alert(error.response.data.message);
       });
   };
-
-  console.log("fetched user is : ", users);
 
   const inputChangedHandler = (event, paramName) => {
     const updatedSchedules = updateObject(params, {

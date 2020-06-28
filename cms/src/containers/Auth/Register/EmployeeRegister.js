@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./Register.module.css";
 import { updateObject, checkValidity } from "../../../shared/utility";
 import Input from "../../../components/UI/Input/Input";
@@ -7,6 +7,56 @@ import axios from "../../../axios-college";
 import { withRouter, Redirect } from "react-router-dom";
 
 const EmployeeRegister = (props) => {
+
+  const [branches, setBranches] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("preparation/branch")
+      .then((response) => {
+        setBranches(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  }, []);
+
+  const [branchId, setBranchId] = useState(null);
+
+  const idChangedHandler = (e) => {
+    setBranchId(e.target.value);
+  };
+
+  let branchView = null;
+  if (branches !== null) {
+    branchView = (
+      <div className="row" style={{ padding: "10px" }}>
+        <div className="col-md-12">
+          <div>
+            <select
+              id="empId"
+              className="form-control"
+              size="0"
+              onChange={idChangedHandler}
+            >
+              <option value="default">Select Branch</option>
+              {branches.map((branch) => (
+                <option
+                  key={branch.branchId}
+                  value={branch.branchId}
+                  onChange={idChangedHandler}
+                >
+                  {branch.branchName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const [register, setRegister] = useState({
     username: {
       elementType: "input",
@@ -90,25 +140,6 @@ const EmployeeRegister = (props) => {
       },
       isValid: false,
       touched: false,
-    },
-    branch: {
-      elementType: "select",
-      elementConfig: {
-        options: [
-          { value: "none", displayValue: "SELECT BRANCH" },
-          { value: "CSE", displayValue: "Computer Science & Engineering" },
-          { value: "CE", displayValue: "Civil Engineering" },
-          { value: "ME", displayValue: "Mechanical Engineering" },
-          {
-            value: "ECE",
-            displayValue: "Electronics & Communication Engineering",
-          },
-          { value: "BT", displayValue: "Bio-Tech Engineering" },
-        ],
-      },
-      validation: {},
-      value: "none",
-      isValid: true,
     },
     age: {
       elementType: "input",
@@ -206,7 +237,7 @@ const EmployeeRegister = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
     setLoading(true);
-    const registerData = { accountNonLocked: true };
+    const registerData = { accountNonLocked: true, branchId: branchId };
 
     for (let key in register) {
       registerData[key] = register[key].value;
@@ -224,7 +255,6 @@ const EmployeeRegister = (props) => {
       .catch((error) => {
         setLoading(false);
         alert(error.response.data.message)
-        console.log("Error is", error);
       });
   };
 
@@ -241,6 +271,7 @@ const EmployeeRegister = (props) => {
       <h4>Employee Register</h4>
       <form onSubmit={submitHandler}>
         {form}
+        {branchView !== null ? branchView : null}
         <button type="submit">Register</button>
       </form>
     </div>

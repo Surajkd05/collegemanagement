@@ -45,7 +45,6 @@ const ProfileImage = (props) => {
         ) : (
           <>
             <span className="fa-stack fa-2x mt-3 mb-2">
-              <i className="fas fa-circle fa-stack-2x" />
               <i className="fas fa-store fa-stack-1x fa-inverse" />
             </span>
             <h5 className={classes.uploadImage}>Upload your photo</h5>

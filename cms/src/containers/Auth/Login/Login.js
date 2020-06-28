@@ -4,7 +4,7 @@ import { updateObject, checkValidity } from "../../../shared/utility";
 import Input from "../../../components/UI/Input/Input";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import { connect } from "react-redux";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import * as actions from "../../../store/actions/index";
 import Button from "../../../components/UI/Button/Button";
 
@@ -119,14 +119,9 @@ const Login = React.memo((props) => {
   }
 
   let authRedirect = null;
-  console.log("Authenticated status : ",props.isAuthenticated)
   if (props.isAuthenticated) {
     authRedirect = <Redirect to={props.authRedirectPath} />;
   }
-
-  // if(authentication){
-  //   authRedirect = <Redirect to = "/" />
-  // }
 
   return (
     <div className={classes.LoginData}>

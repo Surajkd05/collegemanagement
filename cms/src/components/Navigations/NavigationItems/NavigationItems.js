@@ -38,6 +38,18 @@ const navigationItems = (props) => (
       </NavigationItem>
     ) : null}
 
+    {props.isAuthenticated && localStorage.getItem("role") === "admin" ? (
+      <NavigationItem link="/addSubject" active>
+        Add Subject
+      </NavigationItem>
+    ) : null}
+
+    {props.isAuthenticated && localStorage.getItem("role") === "emp" ? (
+      <NavigationItem link="/addSubjectInfo" active>
+        Subject Info
+      </NavigationItem>
+    ) : null}
+
     {props.isAuthenticated ? (
       <NavigationItem link="/complaint" active>
         Inventory Complaint
@@ -59,9 +71,13 @@ const navigationItems = (props) => (
         Profile
       </NavigationItem>
     ) : null}
-
-<NavigationItem link="/placement">Placement</NavigationItem>
+    <NavigationItem link="/placement">Placement</NavigationItem>
     <NavigationItem link="/preparation">Preparation</NavigationItem>
+    {props.isAuthenticated ? (
+      <NavigationItem link="/updatePassword" active>
+        UpdatePasword
+      </NavigationItem>
+    ) : null}
     {!props.isAuthenticated ? (
       <NavigationItem link="/auth">Auth</NavigationItem>
     ) : (

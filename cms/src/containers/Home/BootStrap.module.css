@@ -1,0 +1,105 @@
+.Col{
+	background: white;
+}
+.R{
+	background: white;
+}
+.Mainn{
+    margin-top: 180px;
+    margin-left: 100px;
+    margin-right: 100px;
+    height: 900px;
+    width: 1000px;
+    position: absolute;
+    background: white;
+}
+.rw{
+    background: white;
+    margin-top: 10px;
+    height: auto;
+}
+
+h2 {
+    color: white;
+    text-align: left;
+    padding: 20px;
+}
+h1{
+    color: white;
+    text-align: center;
+    padding: 130px 20px;
+}
+.Text {
+    margin-left: 92px;	
+    width: auto;	
+    background: rgb(191, 191, 191);
+}
+.Main{
+	background: white;
+	height: auto;
+	width: 920px;
+	position: absolute;
+}
+
+.Text{
+	margin-left: 20px;
+	margin-top: 20px;
+	margin-right: 20px;
+	background: #bfbfbf;
+	height: auto; 	
+	width: 880px;
+	position: relative;
+}
+.Txt{
+	margin-left: 20px;
+	margin-top: 20px;
+	margin-right: 20px;
+	height: auto; 	
+	width: 960px;
+	position: relative;
+}
+.Txt1{
+	margin-left: 20px;	
+	margin-top: 20px;
+	height: auto; 	
+	width: 960px;
+	position: absolute;
+}
+.Imgmy{
+	margin-top: 20px;
+	margin-right: 20px;
+	height: 315px; 	
+	width: 210px;
+	background: #404040;
+	position: relative;
+}
+.Menu {
+    height: 360px;
+    width: 100%;
+    background: rgb(64, 64, 64);
+}
+
+.Menu{
+	margin-top: 20px;
+	margin-left: 20px;
+	background: #404040;
+	height: 360px; 	
+	width: 880px;
+	position: relative;
+}
+
+.Foot{
+	margin-left: 0px;
+	margin-top: 400px;
+	background: black;
+	height: auto; 	
+	width: 920px;
+	color: white;
+	position: relative;
+	padding: 10px;
+}
+
+.Caption{
+    background:#f2f2f2;
+    width: 215px;
+}

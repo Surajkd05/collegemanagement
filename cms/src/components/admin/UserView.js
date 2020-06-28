@@ -1,77 +1,74 @@
 import React, { useState } from "react";
 import classes from "./UserView.module.css";
 import Button from "../UI/Button/Button";
-import axios from "axios";
+import axios from "../../axios-college";
 import Spinner from "../UI/Spinner/Spinner";
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import { withRouter } from "react-router-dom";
 
 const UserView = (props) => {
-  console.log("Props in list is", props);
-  console.log("In Period list");
   const [loading, setLoading] = useState(false);
 
   const activateUserHandler = (userId) => {
     setLoading(true);
-    console.log("UserId received is ; ", userId);
     let fetchedData = null;
     if (props.userRole === "std") {
-      fetchedData = axios.patch(
-        "http://localhost:8080/college/admin/home/activateStudent/" + userId,
-        {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-        }
-      );
+      fetchedData = axios({
+        method: "PATCH",
+        url: "admin/activateStudent/" + userId,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
     } else {
-      fetchedData = axios.patch(
-        "http://localhost:8080/college/admin/home/activateEmployee/" + userId,
-        {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-        }
-      );
+      fetchedData = axios({
+        method: "PATCH",
+        url: "admin/activateEmployee/" + userId,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
     }
     fetchedData
       .then((response) => {
         setLoading(false);
         alert(response.data);
-        console.log(response);
       })
       .catch((error) => {
         setLoading(false);
-        alert(error.data);
-        console.log("Error is", error.data);
+        alert(error.response.data.message)
       });
   };
 
   const deActivateUserHandler = (userId) => {
     setLoading(true);
-    console.log("UserId received is ; ", userId);
     let fetchedData = null;
     if (props.userRole === "std") {
-      fetchedData = axios.patch(
-        "http://localhost:8080/college/admin/home/de-activateStudent/" + userId,
-        {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-        }
-      );
+      fetchedData = axios({
+        method: "PATCH",
+        url: "admin/de-activateStudent/" + userId,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
     } else {
-      fetchedData = axios.patch(
-        "http://localhost:8080/college/admin/home/de-activateEmployee/" +
-          userId,
-        {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-        }
-      );
+      fetchedData = axios({
+        method: "PATCH",
+        url: "admin/de-activateEmployee/" + userId,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
     }
     fetchedData
       .then((response) => {
         setLoading(false);
         alert(response.data);
-        console.log(response);
       })
       .catch((error) => {
         setLoading(false);
-        console.log("Error is", error);
+        alert(error.response.data.message)
       });
   };
 
@@ -129,4 +126,4 @@ const UserView = (props) => {
   );
 };
 
-export default UserView;
+export default withRouter(UserView);
