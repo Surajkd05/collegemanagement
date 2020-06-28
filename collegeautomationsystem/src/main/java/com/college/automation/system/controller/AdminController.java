@@ -1,8 +1,11 @@
 package com.college.automation.system.controller;
 
+import com.college.automation.system.dtos.AllocateSubjectDto;
 import com.college.automation.system.dtos.BranchDto;
+import com.college.automation.system.dtos.SubjectDto;
 import com.college.automation.system.services.AdminService;
 import com.college.automation.system.services.BranchService;
+import com.college.automation.system.services.SubjectService;
 import com.college.automation.system.services.UserAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -11,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping(path = "/admin/home")
+@RequestMapping(path = "/admin")
 public class AdminController {
 
     @Autowired
@@ -23,6 +26,9 @@ public class AdminController {
     @Autowired
     private BranchService branchService;
 
+    @Autowired
+    private SubjectService subjectService;
+
     /*
      *
      * Get student controller
@@ -30,7 +36,8 @@ public class AdminController {
      */
     @GetMapping(path = "/students")
     public MappingJacksonValue getStudents(@RequestParam(defaultValue = "0") String page, @RequestParam(defaultValue = "10")String size, @RequestParam(defaultValue = "userId") String SortBy){
-        return adminService.registeredStudents(page, size, SortBy);
+        String username = userAuthenticationService.getUserName();
+        return adminService.registeredStudents(username,page, size, SortBy);
     }
 
     /*
@@ -40,7 +47,8 @@ public class AdminController {
      */
     @GetMapping(path = "/employees")
     public MappingJacksonValue getEmployees(@RequestParam(defaultValue = "0") String page, @RequestParam(defaultValue = "10")String size, @RequestParam(defaultValue = "userId") String SortBy){
-        return adminService.registeredEmployees(page, size, SortBy);
+        String username = userAuthenticationService.getUserName();
+        return adminService.registeredEmployees(username,page, size, SortBy);
     }
 
     @GetMapping(path = "/employees1")
@@ -55,12 +63,9 @@ public class AdminController {
      */
     @PatchMapping(path = "/activateStudent/{id}")
     public String activateStudent(@PathVariable(value = "id") Long id,HttpServletResponse response){
-        String message = adminService.activateUser(id);
-
-        if(!message.equals("Account activated")){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        return message;
+        System.out.println("User authentication is : "+userAuthenticationService.getUserName());
+        String username = userAuthenticationService.getUserName();
+        return adminService.activateUser(username,id);
     }
 
     /*
@@ -70,11 +75,8 @@ public class AdminController {
      */
     @PatchMapping(path = "/de-activateStudent/{id}")
     public String deactivateStudent(@PathVariable(value = "id") Long id,HttpServletResponse response){
-        String message = adminService.deactivateUser(id);
-        if(!message.equals("Account de-activated")){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        return message;
+        String username = userAuthenticationService.getUserName();
+        return adminService.deactivateUser(username,id);
     }
 
     /*
@@ -84,12 +86,8 @@ public class AdminController {
      */
     @PatchMapping(path = "/activateEmployee/{id}")
     public String activateEmployee(@PathVariable(value = "id") Long id,HttpServletResponse response){
-        String message = adminService.activateUser(id);
-
-        if(!message.equals("Account activated")){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        return message;
+        String username = userAuthenticationService.getUserName();
+        return adminService.activateUser(username,id);
     }
 
     /*
@@ -99,11 +97,8 @@ public class AdminController {
      */
     @PatchMapping(path = "/de-activateEmployee/{id}")
     public String deactivateEmployee(@PathVariable(value = "id") Long id,HttpServletResponse response){
-        String message = adminService.deactivateUser(id);
-        if(!message.equals("Account de-activated")){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        return message;
+        String username = userAuthenticationService.getUserName();
+        return adminService.deactivateUser(username,id);
     }
 
     /*
@@ -113,7 +108,28 @@ public class AdminController {
      */
     @PostMapping(path="/branch")
     public String addBranch(@RequestBody BranchDto branchDto){
-        return branchService.addBranch(branchDto);
+        String username = userAuthenticationService.getUserName();
+        return branchService.addBranch(username,branchDto);
+    }
+
+    /*
+    *
+    * Add subjects by branch and year
+    *
+    */
+    @PostMapping(path="/subject")
+    public String addSubjectByBranch(@RequestBody SubjectDto subjectDto){
+        return subjectService.addSubjectByBranchAndYear(subjectDto);
+    }
+
+    /*
+    *
+    * Allocate subject to employee
+    *
+    */
+    @PostMapping(path="/allocate")
+    public String allocateEmployeeSubject(@RequestBody AllocateSubjectDto allocateSubjectDto){
+        return subjectService.addEmployeeSubject(allocateSubjectDto);
     }
 }
 

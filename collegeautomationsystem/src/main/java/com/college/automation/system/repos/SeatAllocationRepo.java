@@ -20,4 +20,6 @@ public interface SeatAllocationRepo extends JpaRepository<SeatsMapped, Long> {
 
 	SeatsMapped findBySeatId(Long seatId);
 
+
+
 }

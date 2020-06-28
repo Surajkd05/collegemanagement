@@ -5,14 +5,8 @@ import com.college.automation.system.dtos.StudentProfileDto;
 import com.college.automation.system.dtos.UpdateStudentProfileDto;
 import com.college.automation.system.dtos.UserProfileDto;
 import com.college.automation.system.exceptions.NotFoundException;
-import com.college.automation.system.model.Address;
-import com.college.automation.system.model.Employee;
-import com.college.automation.system.model.Student;
-import com.college.automation.system.model.User;
-import com.college.automation.system.repos.AddressRepo;
-import com.college.automation.system.repos.EmployeeRepo;
-import com.college.automation.system.repos.StudentRepo;
-import com.college.automation.system.repos.UserRepo;
+import com.college.automation.system.model.*;
+import com.college.automation.system.repos.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
@@ -38,6 +32,9 @@ public class UserService {
     @Autowired
     private EmployeeRepo employeeRepo;
 
+    @Autowired
+    private BranchRepo branchRepo;
+
     public UserProfileDto getUserProfile(String username) {
         User customer = userRepo.findByEmail(username);
 
@@ -61,7 +58,7 @@ public class UserService {
             studentProfileDto.setUsername(student.get().getUsername());
             studentProfileDto.setFirstName(student.get().getFirstName());
             studentProfileDto.setLastName(student.get().getLastName());
-            studentProfileDto.setBranch(student.get().getBranch());
+            studentProfileDto.setBranch(student.get().getBranches().getBranchName());
             studentProfileDto.setMobileNo(student.get().getMobileNo());
             studentProfileDto.setSection(student.get().getSection());
             studentProfileDto.setYear(student.get().getYear());
@@ -103,7 +100,10 @@ public class UserService {
             studentExist.get().setFirstName(userProfileDto.getFirstName());
             studentExist.get().setLastName(userProfileDto.getLastName());
             studentExist.get().setMobileNo(userProfileDto.getMobileNo());
-            studentExist.get().setBranch(userProfileDto.getBranch());
+             Optional<Branches> branches = branchRepo.findById(userProfileDto.getBranchId());
+             if(branches.isPresent()) {
+                 studentExist.get().setBranches(branches.get());
+             }
             studentExist.get().setSection(userProfileDto.getSection());
             studentExist.get().setYear(userProfileDto.getYear());
             studentExist.get().setSemester(userProfileDto.getSemester());

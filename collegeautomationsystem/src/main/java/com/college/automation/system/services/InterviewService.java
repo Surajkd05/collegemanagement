@@ -70,7 +70,7 @@ public class InterviewService {
 
             return interviewTipViewDtos;
         }else {
-            throw new BadRequestException("There is no question available for this branch");
+            throw new BadRequestException("There is no tips available for this branch");
         }
     }
 }

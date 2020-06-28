@@ -67,7 +67,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 "/swagger-ui.html",
                 "/webjars/**").anonymous()
                 .antMatchers("/auth/**").permitAll()//.anonymous()
-                .antMatchers("/admin/home/**").hasAuthority("ADMIN")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/forgotPassword/**").permitAll()//.hasAnyAuthority("ADMIN","EMPLOYEE","STUDENT")
                 .antMatchers("/master/**").permitAll()//.hasAuthority("ADMIN")
                 .antMatchers("/seatAllocation/**").permitAll()//.hasAnyAuthority("ADMIN","STUDENT","EMPLOYEE")
@@ -75,7 +75,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers("/inventory/**").permitAll()//.hasAnyAuthority("ADMIN","STUDENT","EMPLOYEE")
                 .antMatchers("/schedule/**").hasAuthority("ADMIN")
                 .antMatchers("/preparation/**").permitAll()
+                .antMatchers("/employee/**").permitAll()//.hasAuthority("EMPLOYEE")
                 .antMatchers("/placement/**").permitAll()
+                .antMatchers("/image/**").permitAll()
                 .antMatchers("/students/**").hasAnyAuthority("STUDENT","EMPLOYEE")
                 .antMatchers("/user/**").hasAnyAuthority("STUDENT","EMPLOYEE")
                 .anyRequest().authenticated()

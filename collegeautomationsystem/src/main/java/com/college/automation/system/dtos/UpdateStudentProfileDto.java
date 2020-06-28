@@ -15,7 +15,7 @@ public class UpdateStudentProfileDto {
     @Pattern(regexp = "\\d{10}", message = "Mobile number is invalid")
     private String mobileNo;
 
-    private String branch;
+    private Long branchId;
 
     private int year;
 
@@ -23,12 +23,12 @@ public class UpdateStudentProfileDto {
 
     private int semester;
 
-    public String getBranch() {
-        return branch;
+    public Long getBranchId() {
+        return branchId;
     }
 
-    public void setBranch(String branch) {
-        this.branch = branch;
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 
     public int getYear() {

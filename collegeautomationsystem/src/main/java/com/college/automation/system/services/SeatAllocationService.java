@@ -2,18 +2,12 @@ package com.college.automation.system.services;
 
 import com.college.automation.system.dtos.CustomSeatProjection;
 import com.college.automation.system.dtos.SeatOccupancy;
-import com.college.automation.system.model.CollegeSeatMaster;
-import com.college.automation.system.model.SeatsMapped;
-import com.college.automation.system.model.User;
-import com.college.automation.system.repos.SeatAllocationRepo;
-import com.college.automation.system.repos.CollegeSeatMasterRepo;
-import com.college.automation.system.repos.UserRepo;
+import com.college.automation.system.model.*;
+import com.college.automation.system.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SeatAllocationService {
@@ -33,6 +27,12 @@ public class SeatAllocationService {
 
 	@Autowired
 	private UserRepo userRepo;
+
+	@Autowired
+	private BranchRepo branchRepo;
+
+	@Autowired
+	private EmployeeRepo employeeRepo;
 
 	public String allocateSeat(SeatsMapped seatMapped) {
 
@@ -91,6 +91,25 @@ public class SeatAllocationService {
 
 	public User getSeatInfo(Long seatId) {
 		seatsMapped = seatAllocationRepo.findBySeatId(seatId);
-		return userRepo.findByUserId(seatsMapped.getEmpId());
+		return employeeRepo.findByUserId(seatsMapped.getEmpId());
+	}
+
+	public Set<Employee> getEmployeeByBranch(Long branchId){
+
+		Optional<Branches> branches = branchRepo.findById(branchId);
+		List<Employee> employees = new ArrayList<>();
+		try{
+		 employees = employeeRepo.findByBranches(branches.get());
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		Set<Employee> employeeSet = new HashSet<>();
+		for(Employee employee : employees){
+			SeatsMapped seatsMapped = seatAllocationRepo.findByEmpId(employee.getUserId());
+			if(null == seatsMapped){
+				employeeSet.add(employee);
+			}
+		}
+		return employeeSet;
 	}
 }

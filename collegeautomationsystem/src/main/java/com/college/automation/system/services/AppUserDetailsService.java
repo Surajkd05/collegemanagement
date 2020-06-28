@@ -15,10 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {
@@ -46,6 +43,9 @@ public class AppUserDetailsService implements UserDetailsService {
     @Autowired
     private SendEmail sendEmail;
 
+    @Autowired
+    private BranchRepo branchRepo;
+
     public Employee getEmployee(Long userId){
         return employeeRepo.findByUserId(userId);
     }
@@ -53,6 +53,10 @@ public class AppUserDetailsService implements UserDetailsService {
     public String registerStudent(StudentDto studentDto){
         Student student = new Student();
         BeanUtils.copyProperties(studentDto, student);
+
+        Optional<Branches> branches = branchRepo.findById(studentDto.getBranchId());
+
+        student.setBranches(branches.get());
         String pass = passwordEncoder.encode(student.getPassword());
         student.setPassword(pass);
 
@@ -84,6 +88,12 @@ public class AppUserDetailsService implements UserDetailsService {
     public String registerEmployee(EmployeeDto employeeDto){
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDto,employee);
+
+        if(null != employeeDto.getBranchId() ) {
+            Optional<Branches> branches = branchRepo.findById(employeeDto.getBranchId());
+            employee.setBranches(branches.get());
+        }
+
         String pass = passwordEncoder.encode(employee.getPassword());
         Set<Role> roles = new HashSet<>();
         roles.add(new Role("EMPLOYEE"));
@@ -125,40 +135,5 @@ public class AppUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetails userDetails = userDao.loadUserByUsername(username);
         return userDetails;
-    }
-
-    @Transactional
-    @Modifying
-    public void updateUserUsername(String username,String userName){
-        Long userId = userRepo.findUserId(username);
-        userRepo.updateUserUsername(userId,userName);
-    }
-
-    @Transactional
-    @Modifying
-    public void updateUserFirstName(String username,String firstName){
-        Long userId = userRepo.findUserId(username);
-        userRepo.updateUserFirstName(userId,firstName);
-    }
-
-    @Transactional
-    @Modifying
-    public void updateUserLastName(String username,String lastName){
-        Long userId = userRepo.findUserId(username);
-        userRepo.updateUserLastName(userId,lastName);
-    }
-
-    @Transactional
-    @Modifying
-    public void updateUserEmail(String username,String email){
-        Long userId = userRepo.findUserId(username);
-        userRepo.updateUserEmail(userId,email);
-    }
-
-    @Transactional
-    @Modifying
-    public void updateUserPassword(String username,String password){
-        Long userId = userRepo.findUserId(username);
-        userRepo.updateUserPassword(userId,password);
     }
 }

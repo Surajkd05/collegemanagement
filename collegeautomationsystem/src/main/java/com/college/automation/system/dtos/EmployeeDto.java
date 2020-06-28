@@ -32,8 +32,6 @@ public class EmployeeDto {
 
     private String gender;
 
-    //private Address address;
-
     @NotEmpty(message = "Enter your email")
     @Email(message = "Email is not valid")
     private String email;
@@ -52,7 +50,7 @@ public class EmployeeDto {
     @Pattern(regexp="\\d{10}", message="Mobile number is invalid")
     private String mobileNo;
 
-    private String branch;
+    private Long branchId;
 
     private boolean isAccountNonLocked;
 
@@ -104,12 +102,12 @@ public class EmployeeDto {
         this.gender = gender;
     }
 
-    public String getBranch() {
-        return branch;
+    public Long getBranchId() {
+        return branchId;
     }
 
-    public void setBranch(String branch) {
-        this.branch = branch;
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 
     public String getEmail() {

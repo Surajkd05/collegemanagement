@@ -23,7 +23,7 @@ public class StudentDto {
 
     private int age;
 
-    private String branch;
+    private Long branchId;
 
     @Temporal(TemporalType.DATE)
     @Past
@@ -109,14 +109,6 @@ public class StudentDto {
         this.gender = gender;
     }
 
-    /*public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }*/
-
     public String getEmail() {
         return email;
     }
@@ -157,12 +149,12 @@ public class StudentDto {
         this.confirmPassword = confirmPassword;
     }
 
-    public String getBranch() {
-        return branch;
+    public Long getBranchId() {
+        return branchId;
     }
 
-    public void setBranch(String branch) {
-        this.branch = branch;
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 
     public int getYear() {

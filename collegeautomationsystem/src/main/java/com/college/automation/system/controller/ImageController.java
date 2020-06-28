@@ -32,14 +32,14 @@ public class ImageController {
     @PostMapping(path = "/")
     public String uploadUserImage(@RequestParam MultipartFile image) throws IOException {
         String username = userAuthenticationService.getUserName();
-        System.out.println("Image retrieved is : "+image);
         return imageService.uploadImage(username, image);
     }
 
     @GetMapping(path = "/")
     public ResponseEntity<?> getProfileImage() {
         String username = userAuthenticationService.getUserName();
-        ImageData imageData = imageService.downloadImage(username);
+
+         ImageData imageData = imageService.downloadImage(username);
 
         System.out.println("Image data is "+imageData);
 

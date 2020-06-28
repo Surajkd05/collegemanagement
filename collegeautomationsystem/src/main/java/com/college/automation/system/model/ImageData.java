@@ -18,8 +18,6 @@ public class ImageData {
 
     private Long userId;
 
-    private Long productVariationId;
-
     private String contentType;
 
     private String fileName;
@@ -57,14 +55,6 @@ public class ImageData {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getProductVariationId() {
-        return productVariationId;
-    }
-
-    public void setProductVariationId(Long productVariationId) {
-        this.productVariationId = productVariationId;
     }
 
     public byte[] getProfileImage() {

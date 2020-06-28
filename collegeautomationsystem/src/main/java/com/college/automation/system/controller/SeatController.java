@@ -3,10 +3,7 @@ package com.college.automation.system.controller;
 import com.college.automation.system.dtos.CustomSeatProjection;
 import com.college.automation.system.dtos.SeatOccupancy;
 import com.college.automation.system.exceptions.NotFoundException;
-import com.college.automation.system.model.CollegeSeatMaster;
-import com.college.automation.system.model.ImageData;
-import com.college.automation.system.model.SeatsMapped;
-import com.college.automation.system.model.User;
+import com.college.automation.system.model.*;
 import com.college.automation.system.repos.SeatAllocationRepo;
 import com.college.automation.system.services.ImageService;
 import com.college.automation.system.services.SeatAllocationService;
@@ -18,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -57,6 +55,11 @@ public class SeatController {
 	@GetMapping("/deallocateSeat")
 	public CollegeSeatMaster deAllocateSeat(@RequestParam(value = "seatId") Long seatId) {
 		return seatAllocationService.deallocateSeat(seatId);
+	}
+
+	@GetMapping("/employee")
+	public Set<Employee> getEmployee(@RequestParam(value = "branchId") Long branchId){
+		return seatAllocationService.getEmployeeByBranch(branchId);
 	}
 	
 

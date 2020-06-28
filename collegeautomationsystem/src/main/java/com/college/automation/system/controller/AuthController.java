@@ -85,7 +85,7 @@ public class AuthController {
         }
     }
 
-    @PutMapping(path = "/confirm-account")
+    @GetMapping(path = "/confirm-account")
     public String confirmCustomerAccount(@RequestParam("token") String token, HttpServletResponse response) {
         String message = userActivateService.activateUser(token);
         if (!message.equals("Successfully activated")) {

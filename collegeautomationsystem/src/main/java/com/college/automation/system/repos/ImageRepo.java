@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ImageRepo extends JpaRepository<ImageData, Long> {
 
-    @Query("from ImageData where userId=:userId AND productVariationId is null")
+    @Query("from ImageData where userId=:userId")
     ImageData findImageByUserId(@Param("userId") Long userId);
 }

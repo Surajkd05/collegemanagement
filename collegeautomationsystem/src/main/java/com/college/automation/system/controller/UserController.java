@@ -4,6 +4,7 @@ import com.college.automation.system.dtos.AddressDto;
 import com.college.automation.system.dtos.StudentProfileDto;
 import com.college.automation.system.dtos.UpdateStudentProfileDto;
 import com.college.automation.system.dtos.UserProfileDto;
+import com.college.automation.system.exceptions.BadRequestException;
 import com.college.automation.system.model.Address;
 import com.college.automation.system.services.PasswordService;
 import com.college.automation.system.services.UserAuthenticationService;
@@ -69,8 +70,7 @@ public class UserController {
         if (passwordValidator.validatePassword(oldPass, newPass, confirmPass)) {
             return passwordService.updatePassword(username, oldPass, newPass, confirmPass);
         } else {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return "Password must be matched or password must be of minimum 8 characters and maximum 15 characters and must contain 1 uppercase letter,1 lowercase letter,1 digit and 1 special character";
+            throw new BadRequestException("Password must be matched or password must be of minimum 8 characters and maximum 15 characters and must contain 1 uppercase letter,1 lowercase letter,1 digit and 1 special character");
         }
     }
 

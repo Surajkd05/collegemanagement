@@ -1,5 +1,6 @@
 package com.college.automation.system.services;
 
+import com.college.automation.system.exceptions.BadRequestException;
 import com.college.automation.system.exceptions.NotFoundException;
 import com.college.automation.system.model.Employee;
 import com.college.automation.system.model.Student;
@@ -34,33 +35,47 @@ public class AdminService {
     @Autowired
     private SendEmail sendEmail;
 
-    public MappingJacksonValue registeredStudents(String page, String size, String SortBy){
-        List<Student> students = studentRepo.findAll(PageRequest.of(Integer.parseInt(page),Integer.parseInt(size), Sort.by(SortBy))).getContent();
-        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("userId","firstName","lastName","email","active");
-        FilterProvider filterProvider =  new SimpleFilterProvider().addFilter("Student-Filter",filter);
+    public MappingJacksonValue registeredStudents(String username, String page, String size, String SortBy) {
+        User admin = userRepo.findByEmail(username);
 
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(students);
+        System.out.println("Admin is  : "+admin);
+        if (null != admin) {
+            List<Student> students = studentRepo.findAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), Sort.by(SortBy))).getContent();
+            SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("userId", "firstName", "lastName", "email", "active");
+            FilterProvider filterProvider = new SimpleFilterProvider().addFilter("Student-Filter", filter);
 
-        mappingJacksonValue.setFilters(filterProvider);
+            MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(students);
 
-        return mappingJacksonValue;
+            mappingJacksonValue.setFilters(filterProvider);
+
+            return mappingJacksonValue;
+        } else {
+            throw new BadRequestException("You are not authorized to view this information");
+        }
     }
 
-    public MappingJacksonValue registeredEmployees(String page, String size, String SortBy){
-        List<Employee> sellers = employeeRepo.findAll(PageRequest.of(Integer.parseInt(page),Integer.parseInt(size), Sort.by(SortBy))).getContent();
-        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("userId","firstName","lastName","email","active");
-        FilterProvider filterProvider =  new SimpleFilterProvider().addFilter("Employee-Filter",filter);
+    public MappingJacksonValue registeredEmployees(String username, String page, String size, String SortBy) {
+        User admin = userRepo.findByEmail(username);
 
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(sellers);
+        System.out.println("Admin is  : "+admin);
+        if (null != admin) {
+            List<Employee> sellers = employeeRepo.findAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), Sort.by(SortBy))).getContent();
+            SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("userId", "firstName", "lastName", "email", "active");
+            FilterProvider filterProvider = new SimpleFilterProvider().addFilter("Employee-Filter", filter);
 
-        mappingJacksonValue.setFilters(filterProvider);
-        return mappingJacksonValue;
+            MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(sellers);
+
+            mappingJacksonValue.setFilters(filterProvider);
+            return mappingJacksonValue;
+        } else {
+            throw new BadRequestException("You are not authorized to view this information");
+        }
     }
 
-    public MappingJacksonValue getEmployees(){
+    public MappingJacksonValue getEmployees() {
         List<Employee> sellers = employeeRepo.findAll();
-        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("userId","firstName","lastName","email","active");
-        FilterProvider filterProvider =  new SimpleFilterProvider().addFilter("Employee-Filter",filter);
+        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("userId", "firstName", "lastName", "email", "active");
+        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("Employee-Filter", filter);
 
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(sellers);
 
@@ -68,45 +83,57 @@ public class AdminService {
         return mappingJacksonValue;
     }
 
-    public String activateUser(Long userId){
-        Optional<User> user = userRepo.findById(userId);
-        StringBuilder sb = new StringBuilder();
+    public String activateUser(String username,Long userId) {
+        User admin = userRepo.findByEmail(username);
 
-        if(user.isPresent()){
-            boolean flag = user.get().isActive();
-            if(!flag){
-                user.get().setActive(true);
-                userRepo.save(user.get());
-                sendEmail.sendEmail("Account Activation","Your account is successfully activated",
-                        user.get().getEmail());
-                sb.append("Account activated");
-            }else {
-                sb.append("User is already activated");
+        System.out.println("Admin is  : "+admin);
+        if(null != admin){
+            Optional<User> user = userRepo.findById(userId);
+            StringBuilder sb = new StringBuilder();
+
+            if (user.isPresent()) {
+                boolean flag = user.get().isActive();
+                if (!flag) {
+                    user.get().setActive(true);
+                    userRepo.save(user.get());
+                    sendEmail.sendEmail("Account Activation", "Your account is successfully activated",
+                            user.get().getEmail());
+                    sb.append("Account activated");
+                } else {
+                    sb.append("User is already activated");
+                }
+            } else {
+                throw new NotFoundException("User not found");
             }
+            return sb.toString();
         }else {
-            throw new NotFoundException("User not found");
+            throw new BadRequestException("You are not authorized to view this information");
         }
-        return sb.toString();
     }
 
-    public String deactivateUser(Long userId){
-        Optional<User> user = userRepo.findById(userId);
-        StringBuilder sb = new StringBuilder();
+    public String deactivateUser(String username,Long userId) {
+        User admin = userRepo.findByEmail(username);
+        if(null != admin){
+            Optional<User> user = userRepo.findById(userId);
+            StringBuilder sb = new StringBuilder();
 
-        if(user.isPresent()){
-            boolean flag = user.get().isActive();
-            if(flag){
-                user.get().setActive(false);
-                userRepo.save(user.get());
-                sendEmail.sendEmail("Account De-Activation","Your account is successfully de-activated",
-                        user.get().getEmail());
-                sb.append("Account de-activated");
-            }else {
-                sb.append("User is already de-activated");
+            if (user.isPresent()) {
+                boolean flag = user.get().isActive();
+                if (flag) {
+                    user.get().setActive(false);
+                    userRepo.save(user.get());
+                    sendEmail.sendEmail("Account De-Activation", "Your account is successfully de-activated",
+                            user.get().getEmail());
+                    sb.append("Account de-activated");
+                } else {
+                    sb.append("User is already de-activated");
+                }
+            } else {
+                throw new NotFoundException("User not found");
             }
+            return sb.toString();
         }else {
-            throw new NotFoundException("User not found");
+            throw new BadRequestException("You are not authorized to view this information");
         }
-        return sb.toString();
     }
 }

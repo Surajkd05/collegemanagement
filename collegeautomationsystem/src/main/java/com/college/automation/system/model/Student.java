@@ -1,5 +1,6 @@
 package com.college.automation.system.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,7 +11,11 @@ import javax.persistence.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 //@JsonFilter("Student-Filter")
 public class Student extends User{
-    private String branch;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
+    @JoinColumn(name = "branch_id")
+    private Branches branches;
 
     private int year;
 
@@ -18,12 +23,12 @@ public class Student extends User{
 
     private int semester;
 
-    public String getBranch() {
-        return branch;
+    public Branches getBranches() {
+        return branches;
     }
 
-    public void setBranch(String branch) {
-        this.branch = branch;
+    public void setBranches(Branches branches) {
+        this.branches = branches;
     }
 
     public int getYear() {
