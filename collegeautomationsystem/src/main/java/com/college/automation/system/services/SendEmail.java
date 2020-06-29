@@ -18,7 +18,7 @@ public class SendEmail {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText(text);
         message.setSubject(subject);
-        message.setFrom("sd9808006@gmail.com");
+        message.setFrom("*");
         message.setTo(sentTo);
 
         javaMailSender.send(message);
