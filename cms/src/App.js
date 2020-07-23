@@ -6,7 +6,7 @@ import Logout from "./containers/Auth/Logout/Logout";
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
 import asyncComponent from "./hoc/asyncComponent/asyncComponent";
-import InventoryComplaint from "./containers/InventoryComplaint/InventoryComplaint";
+import InventoryComplaint from "./containers/InventoryComplaint/RegisterComplaint/InventoryComplaint";
 import Scheduler from "./containers/Scheduler/Scheduler";
 import TimeTableView from "./containers/Scheduler/TimeTableView/TimeTableView";
 import Admin from "./containers/Admin/Admin";
@@ -36,6 +36,9 @@ import ResetPassword from "./containers/Auth/Password/ResetPassword";
 import ForgotPassword from "./containers/Auth/Password/ForgotPassword";
 import UpdateUserPassword from "./containers/Auth/Password/UpdateUserPassword";
 import Subject from "./containers/Employee/Subject";
+import AllocateSubject from "./containers/Admin/AllocateSubject/AllocateSubject";
+import SubjectInfo from "./containers/Employee/SubjectInfo";
+import ViewComplaint from "./containers/InventoryComplaint/ViewComplaint/ViewComplaint";
 
 const asyncAuth = asyncComponent(() => {
   return import("./containers/Auth/Auth");
@@ -65,6 +68,7 @@ const App = (props) => {
       <Route path="/resetPassword" component={ResetPassword} />
       <Route path="/forgotPassword" component={ForgotPassword} />
       <Route path="/viewPlacement" component={ViewPlacement} />
+      <Route path="/allocateSubject" component={AllocateSubject} />
       <Route path="/employeeRegister" component={EmployeeRegister} />
       <Redirect to="/" />
     </Switch>
@@ -101,6 +105,9 @@ const App = (props) => {
         <Route path="/preparation" component={Preparation} />
         <Route path="/updateAddress" component={UserAddressUpdate} />
         <Route path="/getSeatInfo" component={GetSeatInfo} />
+        <Route path="/allocateSubject" component={AllocateSubject} />
+        <Route path="/getSubjectInfo" component={SubjectInfo} />
+        <Route path="/viewComplaint" component={ViewComplaint} />
         <Route path="/" exact component={Home} />
         <Redirect to="/" />
       </Switch>

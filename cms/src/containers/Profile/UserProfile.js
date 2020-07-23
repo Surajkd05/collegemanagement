@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import classes from "./UserProfile.module.css";
 import Button from "../../components/UI/Button/Button";
 import Aux from "../../hoc/Aux/aux";
 import AddressView from "./Address/AddressView";
 import axios from "../../axios-college";
-import Constants from "../../Constants/index";
-import { Redirect } from "react-router";
-import { inArray } from "highcharts";
+import avatar from "../../assets/images/avatar.webp"
 
 const UserProfile = React.memo((props) => {
   const { onFetchUserProfile } = props;
@@ -20,24 +17,27 @@ const UserProfile = React.memo((props) => {
 
   const [pro, setPro] = useState(false);
 
-  console.log("Token is : ", localStorage.getItem("token"));
-
   useEffect(() => {
     onFetchUserProfile();
-    fetch(Constants.API_URLS.FETCH_IMAGE + "image/", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    })
-    .then((res) => res.blob())
-    .then((image) => {
-      let outside = URL.createObjectURL(image);
-      setPro(true);
-      setProfileImage(outside);
-      console.log();
-    })
-    .catch((err) => console.error(err));
+    axios
+      .get("image/", {
+        responseType: "blob",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        var reader = new window.FileReader();
+        reader.readAsDataURL(response.data);
+        reader.onload = () => {
+          var imageDataUrl = reader.result;
+          setPro(true);
+          setProfileImage(imageDataUrl);
+        };
+      })
+      .catch((error) => {
+        console.error(error)
+      });
   }, []);
 
   const imageUploaderHandler = () => {
@@ -54,7 +54,10 @@ const UserProfile = React.memo((props) => {
           className={classes.uploadImage}
           onClick={() => imageUploaderHandler()}
         >
-          Click to Upload Image
+         <img src={avatar} alt="dummy" width="300" height="200" />
+         <div className={classes.Middle}>
+          <div className={classes.Text}>Upload Image</div>
+        </div>
         </div>
       </div>
     );
@@ -65,11 +68,7 @@ const UserProfile = React.memo((props) => {
         onClick={() => imageUploaderHandler()}
         style={{ cursor: "pointer" }}
       >
-        <img
-          src={profileImage}
-          alt="ProfileImage"
-          className={classes.Image}
-        />
+        <img src={profileImage} alt="ProfileImage" className={classes.Image} />
         <div className={classes.Middle}>
           <div className={classes.Text}>Upload Image</div>
         </div>
@@ -116,11 +115,6 @@ const UserProfile = React.memo((props) => {
   if (view) {
     addressView = <AddressView />;
   }
-
-  let editProfile = null;
-  // if (isEdit) {
-  //   editProfile = <UpdateUserProfile passedProfile={props.profile} />;
-  // }
 
   if (props.profile !== null) {
     userProfile = (
@@ -212,7 +206,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withErrorHandler(UserProfile, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

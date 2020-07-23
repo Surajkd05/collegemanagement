@@ -16,7 +16,7 @@
 .uploadImage {
   height: 100px;
   width: 100px;
-  border: 1px dashed black;
+  border: 1px black;
   cursor: pointer;
 }
 

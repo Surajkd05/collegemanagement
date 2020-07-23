@@ -3,6 +3,9 @@ import Aux from "../../hoc/Aux/aux";
 import classes from "./Home.module.css";
 import Slideshow from "./SlideShow/SlideShow";
 import img1 from "../../assets/images/event1.jpeg";
+import library from "../../assets/images/library.jpg"
+import cafeteria from "../../assets/images/cafeteria.jpeg"
+import college from "../../assets/images/college.jpeg"
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
@@ -12,7 +15,7 @@ class Home extends Component {
       <Aux>
         <section className="bg-white ml-5 mr-5">
           <div className={classes.Home}>
-            <h1>Welcome to SURAJKD</h1>
+            <h1>Welcome to IMSEC</h1>
           </div>
           <div>
             <Slideshow />
@@ -57,7 +60,7 @@ class Home extends Component {
                   <img
                     width="215px"
                     height="315px"
-                    src={img1}
+                    src={college}
                     className="part1"
                     alt=""
                   />
@@ -69,7 +72,7 @@ class Home extends Component {
                   <img
                     width="215px"
                     height="315px"
-                    src={img1}
+                    src={library}
                     className="part1"
                     alt=""
                   />
@@ -81,7 +84,7 @@ class Home extends Component {
                   <img
                     width="215px"
                     height="315px"
-                    src={img1}
+                    src={cafeteria}
                     className="part1"
                     alt=""
                   />
@@ -99,7 +102,7 @@ class Home extends Component {
                 id="left"
                 style={{ float: "left" }}
               >
-                copyright@SURAJ KD
+                copyright@IMSEC
               </div>
               <div
                 className="text-white mr-3"

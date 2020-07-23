@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Aux from "../../../hoc/Aux/aux";
 import axios from "../../../axios-college";
 import classes from "./ViewPlacement.module.css";
-import Constants from "../../../Constants/index";
 import { withRouter } from "react-router";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
@@ -26,22 +25,24 @@ const ViewPlacement = React.memo((props) => {
       .catch((error) => {
         alert(error.response.data.message);
       });
-    fetch(
-      Constants.API_URLS.FETCH_IMAGE +
-        "placement/image?userId=" +
-        props.history.location.state.studentId,
-      {
-        method: "GET",
-      }
-    )
-      .then((res) => res.blob())
-      .then((image) => {
-        let outside = URL.createObjectURL(image);
-        setPro(true);
-        setProfileImage(outside);
-        console.log();
+    //
+
+    axios
+      .get("placement/image?userId=" + props.history.location.state.studentId, {
+        responseType: "blob",
       })
-      .catch((err) => console.error(err));
+      .then((response) => {
+        var reader = new window.FileReader();
+        reader.readAsDataURL(response.data);
+        reader.onload = () => {
+          var imageDataUrl = reader.result;
+          setPro(true);
+          setProfileImage(imageDataUrl);
+        };
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   let image = null;

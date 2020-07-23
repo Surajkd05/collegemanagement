@@ -6,8 +6,10 @@ import Button from "../../components/UI/Button/Button";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import axios from "../../axios-college";
 import classes from "./Subject.module.css";
+import Aux from "../../hoc/Aux/aux";
+import Info from "./Info";
 
-const Subject = (props) => {
+const SubjectInfo = (props) => {
   const [branches, setBranches] = useState(null);
 
   const [branchId, setBranchId] = useState();
@@ -16,13 +18,13 @@ const Subject = (props) => {
 
   const [year, setYear] = useState(null);
 
-  const [subjectId, setSubjectId] = useState(null);
-
   const [subjectCode, setSubjectCode] = useState(null);
+
+  const [subjectId, setSubjectId] = useState(null);
 
   const [subjects, setSubjects] = useState(null);
 
-  const [info, setInfo] = useState("Enter subject info");
+  const [info, setInfo] = useState(null);
 
   useEffect(() => {
     axios
@@ -34,16 +36,18 @@ const Subject = (props) => {
         alert(error.response.data.message);
       });
 
-    axios
-      .get("employee/subject1", {
-        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-      })
-      .then((response) => {
-        setSubjects(response.data);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-      });
+    if (localStorage.getItem("role") === "emp") {
+      axios
+        .get("employee/subject1", {
+          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        })
+        .then((response) => {
+          setSubjects(response.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    }
   }, []);
 
   const [data, setData] = useState({
@@ -63,10 +67,6 @@ const Subject = (props) => {
       isValid: true,
     },
   });
-
-  const inputChangeHandler1 = (event) => {
-    setInfo(event.target.value);
-  };
 
   const inputChangedHandler = (event, dataData) => {
     const updatedSchedules = updateObject(data, {
@@ -104,18 +104,28 @@ const Subject = (props) => {
     event.preventDefault();
     setLoading(true);
 
-    const formData = { branchId: branchId, subjectId: subjectId, year: year , data : info};
+    const formData = {};
 
     for (let key in data) {
       formData[key] = data[key].value;
     }
 
     axios
-      .post("employee/subject", formData, {
-        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-      })
+      .get(
+        "students/info?branchId=" +
+          branchId +
+          "&subjectId=" +
+          subjectId +
+          "&year=" +
+          year +
+          "&section=" +
+          formData.section,
+        {
+          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        }
+      )
       .then((response) => {
-        alert(response.data);
+        setInfo(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -138,6 +148,21 @@ const Subject = (props) => {
 
   const yearChangedHandler = (event) => {
     setYear(event.target.value);
+    let year1 = event.target.value;
+    if (!(localStorage.getItem("role") === "emp")) {
+      axios
+        .get("students/subject?branchId=" + branchId + "&year=" + year1, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          setSubjects(response.data);
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    }
   };
 
   let branchView = null;
@@ -264,16 +289,6 @@ const Subject = (props) => {
       {form}
       {subjectCodes}
       {subjectName}
-      <div className="form-group green-border-focus" style={{padding:"10px"}}>
-        {" "}
-        <textarea
-          value={info}
-          onChange={inputChangeHandler1}
-          rows="5"
-          cols="90"
-          className="form-control"
-        />
-      </div>
     </form>
   );
 
@@ -282,14 +297,33 @@ const Subject = (props) => {
   }
 
   return (
-    <div className={classes.LoginData}>
-      <h4>Add Subject Info</h4>
-      {fullForm}
-      <Button btnType="Success" clicked={submitHandler}>
-        Submit
-      </Button>
-    </div>
+    <Aux>
+      <div className={classes.LoginData}>
+        <h4>Get Subject Info</h4>
+        {fullForm}
+        <Button btnType="Success" clicked={submitHandler}>
+          Submit
+        </Button>
+      </div>
+      <div>
+        {loading ? (
+          <div>
+            <Spinner />
+          </div>
+        ) : (info !== null ? (
+          <div>
+            {info.map((info, count) => (
+              <div key={info.dataId} className="col-sm-12">
+                <div className="row">
+                  <Info data={info} count={count + 1} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : null)}
+      </div>
+    </Aux>
   );
 };
 
-export default withRouter(Subject);
+export default withRouter(SubjectInfo);

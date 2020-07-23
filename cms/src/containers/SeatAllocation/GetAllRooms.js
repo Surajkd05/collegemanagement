@@ -111,7 +111,7 @@ const GetAllRoom = (props) => {
                       }
                       btnType="Success"
                     >
-                      Create
+                      Create <i class="fa fa-plus" aria-hidden="true"></i>
                     </Button>
                   </Td>
                 ) : null}
@@ -120,7 +120,7 @@ const GetAllRoom = (props) => {
                     clicked={() => getSeatHandler(room.roomId)}
                     btnType="Success"
                   >
-                    Get Seat
+                    Get Seat <i className="fas fa-chair"></i>
                   </Button>
                 </Td>
               </Tr>

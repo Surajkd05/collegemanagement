@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import classes from "./GetSeatInfo.module.css";
-import Constants from "../../Constants/index"
+import Constants from "../../Constants/index";
 import Aux from "../../hoc/Aux/aux";
 import axios from "../../axios-college";
 import { Redirect } from "react-router";
@@ -34,23 +34,25 @@ const GetSeatInfo = React.memo((props) => {
         alert(error.response.data.message);
       });
 
-    fetch(Constants.API_URLS.FETCH_IMAGE +
-      "seatAllocation/image?seatId=" +
-        props.history.location.state.seatId,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    )
-      .then((res) => res.blob())
-      .then((image) => {
-        let outside = URL.createObjectURL(image);
-        setPro(true);
-        setProfileImage(outside);
+    axios
+      .get(
+        "seatAllocation/image?seatId=" + props.history.location.state.seatId,
+        {
+          responseType: "blob",
+        }
+      )
+      .then((response) => {
+        var reader = new window.FileReader();
+        reader.readAsDataURL(response.data);
+        reader.onload = () => {
+          var imageDataUrl = reader.result;
+          setPro(true);
+          setProfileImage(imageDataUrl);
+        };
       })
-      .catch((err) => console.error(err));
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   let image = null;

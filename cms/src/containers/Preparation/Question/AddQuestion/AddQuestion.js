@@ -42,6 +42,7 @@ const AddQuestion = (props) => {
   return (
     <div>
       {!loading ? (
+        <div>
         <div className={classes.Box}>
           <h4>AddQuestion</h4>
           <div className="form-group green-border-focus">
@@ -57,6 +58,7 @@ const AddQuestion = (props) => {
           <Button btnType="Success" clicked={submitHandler}>
             AddQuestion
           </Button>
+        </div>
         </div>
       ) : (
         <Spinner />

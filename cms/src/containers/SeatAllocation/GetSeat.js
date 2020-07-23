@@ -87,7 +87,7 @@ const GetSeat = (props) => {
                       clicked={() => allocateSeatHandler(seat.seatId)}
                       btnType="Success"
                     >
-                      Allocate
+                      Allocate <i class="fa fa-user-plus" aria-hidden="true"></i>
                     </Button>
                   </Td>
                 ) : null}
@@ -97,7 +97,7 @@ const GetSeat = (props) => {
                       clicked={() => deAllocateSeatHandler(seat.seatId)}
                       btnType="Success"
                     >
-                      DeAllocate
+                      DeAllocate <i class="fa fa-user-minus" aria-hidden="true"></i>
                     </Button>
                   </Td>
                 ) : null}
@@ -106,7 +106,7 @@ const GetSeat = (props) => {
                     clicked={() => getSeatInfoHandler(seat.seatId)}
                     btnType="Success"
                   >
-                    View
+                    View <i class="fa fa-eye" aria-hidden="true"></i>
                   </Button>
                 </Td>
               </Tr>

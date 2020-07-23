@@ -30,12 +30,11 @@ const AllocateSeat = (props) => {
     axios
       .get("seatAllocation/employee?branchId="+e.target.value)
       .then((response) => {
-        console.log("Employees are : ", response.data);
         setEmployees(response.data);
         setLoading(false);
       })
       .catch((error) => {
-        console.log("Error is : ", error.response);
+        alert(error.response.data.message);
       });
   };
 
@@ -92,8 +91,6 @@ const AllocateSeat = (props) => {
         console.log(error.response);
       });
   };
-
-  console.log("Selcted employee props: ", props);
 
   let allocateSeat = null;
 

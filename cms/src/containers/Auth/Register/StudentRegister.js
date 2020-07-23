@@ -303,7 +303,7 @@ const StudentRegister = (props) => {
       })
       .catch((error) => {
         setLoading(false);
-        alert(error.response.data.message);
+        alert(error.response.data.message + " : " + error.response.data.details);
         console.log("Error is", error);
       });
   };

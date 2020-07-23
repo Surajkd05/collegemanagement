@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { updateObject, checkValidity } from "../../shared/utility";
-import Input from "../../components/UI/Input/Input";
-import Spinner from "../../components/UI/Spinner/Spinner";
-import Button from "../../components/UI/Button/Button";
+import { updateObject, checkValidity } from "../../../shared/utility";
+import Input from "../../../components/UI/Input/Input";
+import Spinner from "../../../components/UI/Spinner/Spinner";
+import Button from "../../../components/UI/Button/Button";
 import classes from "./InventoryComplaint.module.css";
-import axios from "../../axios-college";
+import axios from "../../../axios-college";
 import { withRouter } from "react-router-dom";
 
 const InventoryComplaint = (props) => {

@@ -54,7 +54,7 @@ const ViewQuestion = (props) => {
       ) : (
         <div>
           {questions.map((question, count) => (
-            <div key={question.questionId}>
+            <div key={question.questionId} className="col-sm-12">
               <div className="row">
                 <Question question={question} count={count + 1} />
               </div>
@@ -62,7 +62,7 @@ const ViewQuestion = (props) => {
           ))}
           <div className="row">
             <div className={classes.View}>
-              <div className="col-md-2">
+              <div className="col-sm-12 col-md-2">
                 {count !== 0 ? (
                   <Button
                     btnType="Success"
@@ -72,8 +72,8 @@ const ViewQuestion = (props) => {
                   </Button>
                 ) : null}
               </div>
-              <div className="col-md-8" />
-              <div className="col-md-2">
+              <div className="col-sm-12 col-md-8" />
+              <div className="col-sm-12 col-md-2">
                 <Button
                   btnType="Success"
                   clicked={() => pageChangeHandler(count + 1)}

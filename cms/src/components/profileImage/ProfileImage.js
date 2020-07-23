@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import classes from "./ProfileImage.module.css"
-import axios from "axios"
+import axios from "../../axios-college"
+import avatar from "../../assets/images/avatar.webp"
 
 const ProfileImage = (props) => {
    const [image, setImage] = useState({ preview: "", raw: "" });
@@ -47,7 +48,7 @@ const ProfileImage = (props) => {
             <span className="fa-stack fa-2x mt-3 mb-2">
               <i className="fas fa-store fa-stack-1x fa-inverse" />
             </span>
-            <h5 className={classes.uploadImage}>Upload your photo</h5>
+            <h5 className={classes.uploadImage}><img src={avatar} alt="dummy" width="300" height="200" /></h5>
           </>
         )}
       </label>
