@@ -3,6 +3,7 @@ package com.college.automation.system.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -18,6 +19,7 @@ public class Employee extends User{
     @JoinColumn(name ="branch_id")
     private Branches branches;
 
+    @JsonBackReference
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "employee_subject",joinColumns = @JoinColumn(name = "emp_id",referencedColumnName = "user_id")
             ,inverseJoinColumns = @JoinColumn(name = "subject_id",referencedColumnName = "subjectId"))

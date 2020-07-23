@@ -1,48 +1,14 @@
-package com.college.automation.system.model;
+package com.college.automation.system.dtos;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
-public class InventoryComplaint {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long tokenId;
-
-    private String token;
-
+public class ComplaintViewDto {
     private String complaintBy;
-
-    private String sentTo;
-
-    private String room;
-
-    private String inventoryName;
-
-    private String quantity;
-
     private String block;
-
+    private String room;
+    private String inventoryName;
+    private String quantity;
+    private String token;
     private boolean isActive;
-
-    public Long getTokenId() {
-        return tokenId;
-    }
-
-    public void setTokenId(Long tokenId) {
-        this.tokenId = tokenId;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
+    private Long id;
 
     public String getComplaintBy() {
         return complaintBy;
@@ -52,12 +18,12 @@ public class InventoryComplaint {
         this.complaintBy = complaintBy;
     }
 
-    public String getSentTo() {
-        return sentTo;
+    public String getBlock() {
+        return block;
     }
 
-    public void setSentTo(String sentTo) {
-        this.sentTo = sentTo;
+    public void setBlock(String block) {
+        this.block = block;
     }
 
     public String getRoom() {
@@ -84,12 +50,12 @@ public class InventoryComplaint {
         this.quantity = quantity;
     }
 
-    public String getBlock() {
-        return block;
+    public String getToken() {
+        return token;
     }
 
-    public void setBlock(String block) {
-        this.block = block;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public boolean isActive() {
@@ -98,5 +64,13 @@ public class InventoryComplaint {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

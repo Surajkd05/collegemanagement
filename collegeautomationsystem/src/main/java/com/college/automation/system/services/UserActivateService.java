@@ -121,7 +121,7 @@ public class UserActivateService {
                     userActivateRepo.save(localUserActivate);
 
                     sendEmail.sendEmail("RE-ACCOUNT ACTIVATE TOKEN","To confirm your account, please click here : "
-                            +"http://localhost:8080/college/register/confirm-account?token="+newToken,email);
+                            +"https://college-management-system2.herokuapp.com/college/auth/confirm-account?token="+newToken,email);
 
                     sb.append("Successful");
                 }

@@ -2,9 +2,8 @@ package com.college.automation.system.services;
 
 import com.college.automation.system.exceptions.BadRequestException;
 import com.college.automation.system.exceptions.NotFoundException;
-import com.college.automation.system.model.Employee;
-import com.college.automation.system.model.Student;
-import com.college.automation.system.model.User;
+import com.college.automation.system.model.*;
+import com.college.automation.system.repos.BranchRepo;
 import com.college.automation.system.repos.EmployeeRepo;
 import com.college.automation.system.repos.StudentRepo;
 import com.college.automation.system.repos.UserRepo;
@@ -17,8 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AdminService {
@@ -34,6 +32,9 @@ public class AdminService {
 
     @Autowired
     private SendEmail sendEmail;
+
+    @Autowired
+    private BranchRepo branchRepo;
 
     public MappingJacksonValue registeredStudents(String username, String page, String size, String SortBy) {
         User admin = userRepo.findByEmail(username);
@@ -135,5 +136,21 @@ public class AdminService {
         }else {
             throw new BadRequestException("You are not authorized to view this information");
         }
+    }
+
+    public Set<Employee> getEmployeeByBranch(Long branchId){
+
+        Optional<Branches> branches = branchRepo.findById(branchId);
+        List<Employee> employees = new ArrayList<>();
+        try{
+            employees = employeeRepo.findByBranches(branches.get());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Set<Employee> employeeSet = new HashSet<>();
+        for(Employee employee : employees){
+                employeeSet.add(employee);
+        }
+        return employeeSet;
     }
 }

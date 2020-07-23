@@ -80,7 +80,7 @@ public class AppUserDetailsService implements UserDetailsService {
         String  email = student.getEmail();
 
         sendEmail.sendEmail("ACCOUNT ACTIVATE TOKEN","To confirm your account, please click here : "
-                +"http://localhost:8080/college/register/confirm-account?token="+token,email);
+                +"https://college-management-system2.herokuapp.com/college/auth/confirm-account?token="+token,email);
 
         return "Registration Successful";
     }
@@ -114,7 +114,7 @@ public class AppUserDetailsService implements UserDetailsService {
         String  email = employee.getEmail();
 
         sendEmail.sendEmail("ACCOUNT ACTIVATE TOKEN","To confirm your account, please click here : "
-                +"http://localhost:8080/college/register/confirm-account?token="+token,email);
+                +"https://college-management-system2.herokuapp.com/college/register/confirm-account?token="+token,email);
 
         return "Registration Successful";
     }

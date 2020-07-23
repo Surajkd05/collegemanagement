@@ -3,6 +3,9 @@ package com.college.automation.system.controller;
 import com.college.automation.system.dtos.AllocateSubjectDto;
 import com.college.automation.system.dtos.BranchDto;
 import com.college.automation.system.dtos.SubjectDto;
+import com.college.automation.system.dtos.SubjectViewDto;
+import com.college.automation.system.model.Employee;
+import com.college.automation.system.repos.EmployeeRepo;
 import com.college.automation.system.services.AdminService;
 import com.college.automation.system.services.BranchService;
 import com.college.automation.system.services.SubjectService;
@@ -12,6 +15,7 @@ import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/admin")
@@ -28,6 +32,9 @@ public class AdminController {
 
     @Autowired
     private SubjectService subjectService;
+
+    @Autowired
+    private EmployeeRepo employeeRepo;
 
     /*
      *
@@ -121,6 +128,26 @@ public class AdminController {
     public String addSubjectByBranch(@RequestBody SubjectDto subjectDto){
         return subjectService.addSubjectByBranchAndYear(subjectDto);
     }
+
+    /*
+    *
+    * Get Subject by branch & year
+    *
+    */
+    @GetMapping(path = "/subject")
+    public Set<SubjectViewDto> getSubjectBYBranchAndYear(@RequestParam(value = "branchId") Long branchId, @RequestParam(value = "year") int year){
+        return subjectService.getSubjectsByBranchAndYear(branchId, year);
+    }
+
+    /*
+    *
+    * Get employee by branch
+    *
+    */
+    @GetMapping(path = "/employee")
+   public Set<Employee> getEmployeeByBranch(@RequestParam(value = "branchId") Long branchId){
+       return adminService.getEmployeeByBranch(branchId);
+   }
 
     /*
     *

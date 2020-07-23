@@ -1,13 +1,22 @@
 package com.college.automation.system.services;
 
+import com.college.automation.system.dtos.ComplaintViewDto;
 import com.college.automation.system.dtos.InventoryComplaintDto;
+import com.college.automation.system.dtos.PlacementViewDto;
+import com.college.automation.system.exceptions.NotFoundException;
 import com.college.automation.system.model.InventoryComplaint;
+import com.college.automation.system.model.Placement;
 import com.college.automation.system.repos.InventoryComplaintRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -35,6 +44,7 @@ public class InventoryComplaintService {
             complaint.setInventoryName(inventoryComplaintDto.getInventoryName());
             complaint.setRoom(inventoryComplaintDto.getRoom());
             complaint.setQuantity(inventoryComplaintDto.getQuantity());
+            complaint.setActive(false);
 
             //Testing email
             String email = "surajkd050599@gmail.com";
@@ -47,8 +57,7 @@ public class InventoryComplaintService {
                     + "  for inventoryName=" + inventoryComplaintDto.getInventoryName()
                     + "  and quantity=" + inventoryComplaintDto.getQuantity()
                     + "  and complaintBy=" + inventoryComplaintDto.getComplaintBy()
-                    + " . After resolving the complaint, please click here : " + " token=" + token, email);
-//                    "http://localhost:8080/college/invetory/complaint-resolved?token=" + token, email);
+                    + " . After resolving the complaint, please click here : http://localhost:8080/college/invetory/complaint-resolved?token=" + token, email);
 
             sb.append("Complaint Successfully Registered");
        /* }else {
@@ -67,15 +76,96 @@ public class InventoryComplaintService {
 
         InventoryComplaint complaint = inventoryComplaintRepo.findByToken(token);
 
-        System.out.println("Data comes from table is : "+complaint);
-
         if(null != complaint){
-            inventoryComplaintRepo.deleteByToken(token);
+            complaint.setActive(true);
+
+            inventoryComplaintRepo.save(complaint);
 
             sb.append("Complaint resolved");
         }else {
             sb.append("Complaint not exist for this token");
         }
         return sb.toString();
+    }
+
+    @Transactional
+    @Modifying
+    public String reOpenComplaint(String token){
+
+        StringBuilder sb = new StringBuilder();
+
+        InventoryComplaint complaint = inventoryComplaintRepo.findByToken(token);
+
+        if(null != complaint){
+            complaint.setActive(false);
+
+            inventoryComplaintRepo.save(complaint);
+
+            sb.append("Complaint reopened");
+        }else {
+            sb.append("Complaint not exist for this token");
+        }
+        return sb.toString();
+    }
+
+    /*
+     *
+     * Get all complaint information
+     *
+     */
+    public Set<ComplaintViewDto> getAllComplaints(String page){
+
+        List<InventoryComplaint> inventoryComplaints = inventoryComplaintRepo.findAll(PageRequest.of(Integer.parseInt(page),10, Sort.by("tokenId").descending())).getContent();
+
+        if(!inventoryComplaints.isEmpty()){
+            Set<ComplaintViewDto> complaintViewDtos = new HashSet<>();
+
+            for(InventoryComplaint complaint : inventoryComplaints){
+                ComplaintViewDto complaintViewDto = new ComplaintViewDto();
+
+                complaintViewDto.setBlock(complaint.getBlock());
+                complaintViewDto.setComplaintBy(complaint.getComplaintBy());
+                complaintViewDto.setInventoryName(complaint.getInventoryName());
+                complaintViewDto.setQuantity(complaint.getQuantity());
+                complaintViewDto.setRoom(complaint.getRoom());
+                complaintViewDto.setToken(complaint.getToken());
+                complaintViewDto.setActive(complaint.isActive());
+                complaintViewDto.setId(complaint.getTokenId());
+
+                complaintViewDtos.add(complaintViewDto);
+            }
+            return complaintViewDtos;
+        }else {
+            throw new NotFoundException("No records found");
+        }
+    }
+
+    /*
+     *
+     *  View complaint details by token
+     *
+     */
+    public Set<ComplaintViewDto> getDetailsByToken(String token){
+
+        InventoryComplaint inventoryComplaint = inventoryComplaintRepo.findByToken(token);
+
+        Set<ComplaintViewDto> complaintViewDtos = new HashSet<>();
+        if(null != inventoryComplaint){
+                ComplaintViewDto complaintViewDto = new ComplaintViewDto();
+
+                complaintViewDto.setActive(inventoryComplaint.isActive());
+                complaintViewDto.setToken(inventoryComplaint.getToken());
+                complaintViewDto.setRoom(inventoryComplaint.getRoom());
+                complaintViewDto.setQuantity(inventoryComplaint.getQuantity());
+                complaintViewDto.setInventoryName(complaintViewDto.getInventoryName());
+                complaintViewDto.setBlock(inventoryComplaint.getBlock());
+                complaintViewDto.setComplaintBy(inventoryComplaint.getComplaintBy());
+                complaintViewDto.setId(inventoryComplaint.getTokenId());
+
+                complaintViewDtos.add(complaintViewDto);
+            return complaintViewDtos;
+        }else {
+            throw new NotFoundException("No record found by token");
+        }
     }
 }

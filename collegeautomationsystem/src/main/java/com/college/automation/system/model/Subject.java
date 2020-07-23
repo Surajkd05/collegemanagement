@@ -17,9 +17,9 @@ public class Subject {
 
     private String subjectCode;
 
+    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "branch_id")
-    @JsonBackReference
     private Branches branches;
 
     public Long getSubjectId() {
