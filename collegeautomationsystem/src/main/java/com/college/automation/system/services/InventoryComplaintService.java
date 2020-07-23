@@ -101,6 +101,14 @@ public class InventoryComplaintService {
 
             inventoryComplaintRepo.save(complaint);
 
+            String email = "surajkd050599@gmail.com";
+            sendEmail.sendEmail("Inventory Complaint Reopen", "Complaint for an inventory in block=" + complaint.getBlock()
+                    + "  in room=" + complaint.getRoom()
+                    + "  for inventoryName=" + complaint.getInventoryName()
+                    + "  and quantity=" + complaint.getQuantity()
+                    + "  and complaintBy=" + complaint.getComplaintBy()
+                    + " . After resolving the complaint, please click here : http://localhost:8080/college/invetory/complaint-resolved?token=" + token, email);
+
             sb.append("Complaint reopened");
         }else {
             sb.append("Complaint not exist for this token");
