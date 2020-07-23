@@ -14,8 +14,7 @@ const ViewQuestion = (props) => {
   useEffect(() => {
     axios
       .get(
-        "preparation/question?branchId=" +
-          props.branchId
+        "preparation/question?branchId=" + props.history.location.state.branchId
       )
       .then((response) => {
         setQuestions(response.data);
@@ -31,7 +30,7 @@ const ViewQuestion = (props) => {
     axios
       .get(
         "preparation/question?branchId=" +
-          props.branchId +
+          props.history.location.state.branchId +
           "&page=" +
           page
       )
@@ -52,36 +51,46 @@ const ViewQuestion = (props) => {
           <Spinner />
         </div>
       ) : (
-        <div>
-          {questions.map((question, count) => (
-            <div key={question.questionId} className="col-sm-12">
-              <div className="row">
-                <Question question={question} count={count + 1} />
+        <div className="row">
+          <div className="container-fluid">
+            <div className="col-md-2" />
+            <div className="col-md-8">
+              <div className={classes.Box}>
+                <div>
+                  {questions.map((question, count) => (
+                    <div key={question.questionId} className="col-sm-12">
+                      <div className="row">
+                        <Question question={question} count={count + 1} />
+                      </div>
+                    </div>
+                  ))}
+                  <div className="row">
+                    <div className={classes.View}>
+                      <div className="col-sm-12 col-md-2">
+                        {count !== 0 ? (
+                          <Button
+                            btnType="Success"
+                            clicked={() => pageChangeHandler(count - 1)}
+                          >
+                            Prev
+                          </Button>
+                        ) : null}
+                      </div>
+                      <div className="col-sm-12 col-md-8" />
+                      <div className="col-sm-12 col-md-2">
+                        <Button
+                          btnType="Success"
+                          clicked={() => pageChangeHandler(count + 1)}
+                        >
+                          Next
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
-          <div className="row">
-            <div className={classes.View}>
-              <div className="col-sm-12 col-md-2">
-                {count !== 0 ? (
-                  <Button
-                    btnType="Success"
-                    clicked={() => pageChangeHandler(count - 1)}
-                  >
-                    Prev
-                  </Button>
-                ) : null}
-              </div>
-              <div className="col-sm-12 col-md-8" />
-              <div className="col-sm-12 col-md-2">
-                <Button
-                  btnType="Success"
-                  clicked={() => pageChangeHandler(count + 1)}
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
+            <div className="col-md-2" />
           </div>
         </div>
       )}

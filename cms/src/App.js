@@ -39,6 +39,7 @@ import Subject from "./containers/Employee/Subject";
 import AllocateSubject from "./containers/Admin/AllocateSubject/AllocateSubject";
 import SubjectInfo from "./containers/Employee/SubjectInfo";
 import ViewComplaint from "./containers/InventoryComplaint/ViewComplaint/ViewComplaint";
+import ViewQuestion from "./containers/Preparation/Question/ViewQuestion/ViewQuestion";
 
 const asyncAuth = asyncComponent(() => {
   return import("./containers/Auth/Auth");
@@ -96,6 +97,7 @@ const App = (props) => {
         <Route path="/answer" component={ViewAnswer} />
         <Route path="/complaint" component={InventoryComplaint} />
         <Route path="/time" component={TimeTableView} />
+        <Route path="/question" component={ViewQuestion} />
         <Route path="/complaint" component={InventoryComplaint} />
         <Route path="/profile" component={UserProfile} />
         <Route path="/upload" component={ProfileImage} />

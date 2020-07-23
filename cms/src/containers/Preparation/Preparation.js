@@ -119,17 +119,12 @@ const Preparation = (props) => {
           </div>
         ) : null}
         {viewQuestion ? (
-          <div className="row">
-            <div className="container-fluid">
-              <div className="col-md-2" />
-              <div className="col-md-8">
-                <div className={classes.Box}>
-                  <ViewQuestion branchId={branchId} />
-                </div>
-              </div>
-              <div className="col-md-2" />
-            </div>
-          </div>
+           props.history.push({
+            pathname: "/question",
+            state: {
+              branchId: branchId,
+            },
+          })
         ) : null}
       </div>
     );
