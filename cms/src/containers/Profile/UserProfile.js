@@ -6,7 +6,7 @@ import Button from "../../components/UI/Button/Button";
 import Aux from "../../hoc/Aux/aux";
 import AddressView from "./Address/AddressView";
 import axios from "../../axios-college";
-import avatar from "../../assets/images/avatar.webp"
+import avatar from "../../assets/images/avatar.webp";
 
 const UserProfile = React.memo((props) => {
   const { onFetchUserProfile } = props;
@@ -36,7 +36,7 @@ const UserProfile = React.memo((props) => {
         };
       })
       .catch((error) => {
-        console.error(error)
+        console.error(error);
       });
   }, []);
 
@@ -54,10 +54,10 @@ const UserProfile = React.memo((props) => {
           className={classes.uploadImage}
           onClick={() => imageUploaderHandler()}
         >
-         <img src={avatar} alt="dummy" width="300" height="200" />
-         <div className={classes.Middle}>
-          <div className={classes.Text}>Upload Image</div>
-        </div>
+          <img src={avatar} alt="dummy" className={classes.Image} />
+          <div className={classes.Middle}>
+            <div className={classes.Text}>Upload Image</div>
+          </div>
         </div>
       </div>
     );
