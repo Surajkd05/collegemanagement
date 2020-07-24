@@ -3,6 +3,7 @@ package com.college.automation.system.exceptions;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,8 +40,19 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        int count = 1;
+        String details = "";
+
+        for(ObjectError error : ex.getBindingResult().getAllErrors()){
+            String[] firstSplit = error.toString().split(";");
+            String[] secondSplit = firstSplit[firstSplit.length-1].split("default message");
+
+            details = details + count + ". " + secondSplit[secondSplit.length -1] + " ";
+
+            count++;
+        }
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validation Failed",
-                ex.getBindingResult().getAllErrors().toString());
+                details);
         return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 }
