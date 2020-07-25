@@ -1,5 +1,8 @@
 package com.college.automation.system.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.context.annotation.Lazy;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -18,7 +21,8 @@ public class User {
 
     private String lastName;
 
-    private int age;
+    @Column(name = "age")
+    private Integer age;
 
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
@@ -108,11 +112,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 

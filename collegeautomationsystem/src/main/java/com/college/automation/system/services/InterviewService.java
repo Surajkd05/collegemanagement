@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -60,7 +60,7 @@ public class InterviewService {
         List<InterviewTips> interviewTipsList = interviewRepo.findAllByBranch(branchId, PageRequest.of(Integer.parseInt(page),Integer.parseInt(size), Sort.by(sortBy).descending()));
 
         if(!interviewTipsList.isEmpty()){
-            Set<InterviewTipViewDto> interviewTipViewDtos = new HashSet<>();
+            Set<InterviewTipViewDto> interviewTipViewDtos = new LinkedHashSet<>();
             for(InterviewTips interviewTips : interviewTipsList){
                 InterviewTipViewDto interviewTipViewDto = new InterviewTipViewDto();
                 interviewTipViewDto.setTip(interviewTips.getTip());

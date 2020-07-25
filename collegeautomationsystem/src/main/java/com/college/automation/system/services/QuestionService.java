@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -60,7 +60,7 @@ public class QuestionService {
             List<Questions> questionsSet = questionsRepo.findAllByBranch(branchId, PageRequest.of(Integer.parseInt(page),Integer.parseInt(size), Sort.by(sortBy).descending()));
 
             if(questionsSet != null){
-                Set<QuestionViewDto> questionViewDtos = new HashSet<>();
+                Set<QuestionViewDto> questionViewDtos = new LinkedHashSet<>();
                 for(Questions questions : questionsSet){
                     QuestionViewDto questionDto = new QuestionViewDto();
 

@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -126,7 +126,7 @@ public class InventoryComplaintService {
         List<InventoryComplaint> inventoryComplaints = inventoryComplaintRepo.findAll(PageRequest.of(Integer.parseInt(page),10, Sort.by("tokenId").descending())).getContent();
 
         if(!inventoryComplaints.isEmpty()){
-            Set<ComplaintViewDto> complaintViewDtos = new HashSet<>();
+            Set<ComplaintViewDto> complaintViewDtos = new LinkedHashSet<>();
 
             for(InventoryComplaint complaint : inventoryComplaints){
                 ComplaintViewDto complaintViewDto = new ComplaintViewDto();
@@ -157,7 +157,7 @@ public class InventoryComplaintService {
 
         InventoryComplaint inventoryComplaint = inventoryComplaintRepo.findByToken(token);
 
-        Set<ComplaintViewDto> complaintViewDtos = new HashSet<>();
+        Set<ComplaintViewDto> complaintViewDtos = new LinkedHashSet<>();
         if(null != inventoryComplaint){
                 ComplaintViewDto complaintViewDto = new ComplaintViewDto();
 

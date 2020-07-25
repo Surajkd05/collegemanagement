@@ -18,7 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -111,7 +111,7 @@ public class PlacementService {
         List<Placement> placementList = placementRepo.findAll(PageRequest.of(Integer.parseInt(page),10, Sort.by("placementId").descending())).getContent();
 
         if(!placementList.isEmpty()){
-            Set<PlacementViewDto> placementViewDtos = new HashSet<>();
+            Set<PlacementViewDto> placementViewDtos = new LinkedHashSet<>();
 
             for(Placement placement : placementList){
                 PlacementViewDto placementViewDto = new PlacementViewDto();
@@ -141,7 +141,7 @@ public class PlacementService {
         List<Placement> placementList = placementRepo.findAllByBranch(branchId,  PageRequest.of(Integer.parseInt(page),10, Sort.by("placement_id").descending()));
 
         if(!placementList.isEmpty()){
-            Set<PlacementViewDto> placementViewDtos = new HashSet<>();
+            Set<PlacementViewDto> placementViewDtos = new LinkedHashSet<>();
 
             for(Placement placement : placementList){
                 PlacementViewDto placementViewDto = new PlacementViewDto();
@@ -174,7 +174,7 @@ public class PlacementService {
             Set<PlacementData> placementDataSet = placementDataRepo.findAllByPlacementId(placement.get().getPlacementId());
 
             if(null != placementDataSet){
-                Set<CompanyDetailsDto> companyDetailsDtos = new HashSet<>();
+                Set<CompanyDetailsDto> companyDetailsDtos = new LinkedHashSet<>();
 
                 for(PlacementData placementData : placementDataSet){
                     CompanyDetailsDto companyDetailsDto = new CompanyDetailsDto();
@@ -212,7 +212,7 @@ public class PlacementService {
         List<Placement> placementList = placementRepo.findByStudentName(studentName, PageRequest.of(Integer.parseInt(page),10, Sort.by("placementId").descending()));
 
         if(!placementList.isEmpty()){
-            Set<PlacementViewDto> placementViewDtos = new HashSet<>();
+            Set<PlacementViewDto> placementViewDtos = new LinkedHashSet<>();
 
             for(Placement placement : placementList){
                 PlacementViewDto placementViewDto = new PlacementViewDto();

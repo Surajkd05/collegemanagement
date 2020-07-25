@@ -12,7 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -65,7 +65,7 @@ public class AnswerService {
             List<Answers> answersSet= answersRepo.findAllByQuestion(questionId, PageRequest.of(Integer.parseInt(page),Integer.parseInt(size), Sort.by(sortBy).descending()));
 
             if(answersSet != null){
-                Set<AnswerViewDto> answerViewDtos = new HashSet<>();
+                Set<AnswerViewDto> answerViewDtos = new LinkedHashSet<>();
 
                 for(Answers answers : answersSet){
                     AnswerViewDto answerViewDto = new AnswerViewDto();

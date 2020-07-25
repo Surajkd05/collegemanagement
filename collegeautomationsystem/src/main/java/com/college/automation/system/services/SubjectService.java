@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -66,7 +66,7 @@ public class SubjectService {
         Set<Subject> subjectSet = subjectRepo.findSubjectByBranchAndYear(branchId,year);
 
         if(!subjectSet.isEmpty()){
-            Set<SubjectViewDto> subjectViewDtos = new HashSet<>();
+            Set<SubjectViewDto> subjectViewDtos = new LinkedHashSet<>();
 
             for (Subject subject : subjectSet){
                 SubjectViewDto subjectViewDto = new SubjectViewDto();
@@ -95,7 +95,7 @@ public class SubjectService {
         if(null != employee){
             Optional<Subject> subject = subjectRepo.findById(allocateSubjectDto.getSubId());
             if(subject.isPresent()){
-                Set<Subject> subjects = new HashSet<>();
+                Set<Subject> subjects = new LinkedHashSet<>();
                 subjects.add(subject.get());
                 employee.setSubjects(subjects);
                 employeeRepo.save(employee);
@@ -117,7 +117,7 @@ public class SubjectService {
 
         Employee employee = employeeRepo.findByEmail(username);
 
-        Set<SubjectViewDto> subjectViewDtos = new HashSet<>();
+        Set<SubjectViewDto> subjectViewDtos = new LinkedHashSet<>();
         if(null != employee.getSubjects()) {
             System.out.println("In if block");
             for (Subject subject : employee.getSubjects()) {
@@ -192,7 +192,7 @@ public class SubjectService {
 
             if(null != subjectInfoData){
 
-                Set<SubjectInfoViewDto> subjectInfoViewDtos = new HashSet<>();
+                Set<SubjectInfoViewDto> subjectInfoViewDtos = new LinkedHashSet<>();
 
                 for(SubjectInfoData subjectInfoData1 : subjectInfoData){
                     System.out.println("Id is : "+subjectInfoData1.getDataId());

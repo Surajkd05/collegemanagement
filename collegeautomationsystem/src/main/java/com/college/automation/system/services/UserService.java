@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -76,7 +76,7 @@ public class UserService {
         Optional<User> user = Optional.ofNullable(userRepo.findByEmail(username));
 
         if (user.isPresent()) {
-            Set<Address> addresses = new HashSet<>();
+            Set<Address> addresses = new LinkedHashSet<>();
 
             System.out.println("Addresses in user : "+user.get().getAddresses());
             for(Address address : user.get().getAddresses()){

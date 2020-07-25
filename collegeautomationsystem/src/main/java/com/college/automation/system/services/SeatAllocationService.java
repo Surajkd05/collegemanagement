@@ -103,7 +103,7 @@ public class SeatAllocationService {
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-		Set<Employee> employeeSet = new HashSet<>();
+		Set<Employee> employeeSet = new LinkedHashSet<>();
 		for(Employee employee : employees){
 			SeatsMapped seatsMapped = seatAllocationRepo.findByEmpId(employee.getUserId());
 			if(null == seatsMapped){

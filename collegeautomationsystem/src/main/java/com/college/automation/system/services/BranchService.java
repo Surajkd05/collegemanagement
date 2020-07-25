@@ -11,7 +11,7 @@ import com.college.automation.system.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -54,7 +54,7 @@ public class BranchService {
         List<Branches> branchesList =  branchRepo.findAll();
 
         if(!branchesList.isEmpty()){
-            Set<BranchViewDto> branchViewDtos = new HashSet<>();
+            Set<BranchViewDto> branchViewDtos = new LinkedHashSet<>();
 
             for(Branches branches : branchesList){
                 BranchViewDto branchViewDto = new BranchViewDto();

@@ -87,7 +87,6 @@ public class AdminService {
     public String activateUser(String username,Long userId) {
         User admin = userRepo.findByEmail(username);
 
-        System.out.println("Admin is  : "+admin);
         if(null != admin){
             Optional<User> user = userRepo.findById(userId);
             StringBuilder sb = new StringBuilder();
@@ -147,7 +146,7 @@ public class AdminService {
         }catch (Exception e){
             e.printStackTrace();
         }
-        Set<Employee> employeeSet = new HashSet<>();
+        Set<Employee> employeeSet = new LinkedHashSet<>();
         for(Employee employee : employees){
                 employeeSet.add(employee);
         }

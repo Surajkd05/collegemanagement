@@ -60,7 +60,7 @@ public class AppUserDetailsService implements UserDetailsService {
         String pass = passwordEncoder.encode(student.getPassword());
         student.setPassword(pass);
 
-        Set<Role> roles = new HashSet<>();
+        Set<Role> roles = new LinkedHashSet<>();
         roles.add(new Role("STUDENT"));
         student.setPassword(pass);
         student.setRoles(roles);
@@ -95,7 +95,7 @@ public class AppUserDetailsService implements UserDetailsService {
         }
 
         String pass = passwordEncoder.encode(employee.getPassword());
-        Set<Role> roles = new HashSet<>();
+        Set<Role> roles = new LinkedHashSet<>();
         roles.add(new Role("EMPLOYEE"));
         employee.setRoles(roles);
         employee.setPassword(pass);
@@ -125,7 +125,7 @@ public class AppUserDetailsService implements UserDetailsService {
     {
         String pass = passwordEncoder.encode(admin.getPassword());
         admin.setPassword(pass);
-        Set<Role> roles = new HashSet<>();
+        Set<Role> roles = new LinkedHashSet<>();
         roles.add(new Role("ADMIN"));
         admin.setRoles(roles);
         return adminRepo.save(admin);
