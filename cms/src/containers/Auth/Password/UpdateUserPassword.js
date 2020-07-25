@@ -5,7 +5,7 @@ import Input from "../../../components/UI/Input/Input";
 import Button from "../../../components/UI/Button/Button";
 import classes from "./UpdatePassword.module.css";
 import axios from "../../../axios-college";
-import Aux from "../../../hoc/Aux/aux";
+import Aux from "../../../hoc/Aux1/aux1";
 import { withRouter } from "react-router-dom";
 
 const UpdateUserPassword = React.memo((props) => {

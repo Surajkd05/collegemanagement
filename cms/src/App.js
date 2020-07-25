@@ -35,11 +35,12 @@ import ResendActivation from "./containers/Auth/Login/Resend/ResendActivation";
 import ResetPassword from "./containers/Auth/Password/ResetPassword";
 import ForgotPassword from "./containers/Auth/Password/ForgotPassword";
 import UpdateUserPassword from "./containers/Auth/Password/UpdateUserPassword";
-import Subject from "./containers/Employee/Subject";
+import Subject from "./containers/Employee/Subject/Subject";
 import AllocateSubject from "./containers/Admin/AllocateSubject/AllocateSubject";
-import SubjectInfo from "./containers/Employee/SubjectInfo";
+import SubjectInfo from "./containers/Employee/Subject/SubjectInfo";
 import ViewComplaint from "./containers/InventoryComplaint/ViewComplaint/ViewComplaint";
 import ViewQuestion from "./containers/Preparation/Question/ViewQuestion/ViewQuestion";
+import StudentView from "./containers/Employee/Student/StudentView";
 
 const asyncAuth = asyncComponent(() => {
   return import("./containers/Auth/Auth");
@@ -110,6 +111,7 @@ const App = (props) => {
         <Route path="/allocateSubject" component={AllocateSubject} />
         <Route path="/getSubjectInfo" component={SubjectInfo} />
         <Route path="/viewComplaint" component={ViewComplaint} />
+        <Route path="/registeredStudents" component={StudentView} />
         <Route path="/" exact component={Home} />
         <Redirect to="/" />
       </Switch>

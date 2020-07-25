@@ -5,7 +5,7 @@ import Button from "../../../components/UI/Button/Button";
 import classes from "./TimeTableView.module.css";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import TimeTableViewList from "../../../components/timeTable/TimeTableViewList";
-import Aux from "../../../hoc/Aux/aux";
+import Aux from "../../../hoc/Aux1/aux1";
 import axios from "../../../axios-college";
 
 const TimeTableView = React.memo((props) => {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Aux from "../../hoc/Aux/aux";
+import Aux from "../../hoc/Aux1/aux1";
 import classes from "./Home.module.css";
 import Slideshow from "./SlideShow/SlideShow";
 import img1 from "../../assets/images/event1.jpeg";

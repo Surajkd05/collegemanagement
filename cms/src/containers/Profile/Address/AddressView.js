@@ -4,7 +4,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import * as actions from "../../../store/actions/index";
 import { connect } from "react-redux";
-import Aux from "../../../hoc/Aux/aux";
+import Aux from "../../../hoc/Aux1/aux1";
 import axios from "../../../axios-college";
 import Button from "../../../components/UI/Button/Button";
 import UserAddressUpdate from "../../../components/user/UserAddressUpdate";

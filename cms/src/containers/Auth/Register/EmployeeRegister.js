@@ -154,6 +154,9 @@ const EmployeeRegister = (props) => {
       isValid: false,
       touched: false,
     },
+    label:{
+      elementType:"label"
+    },
     dateOfBirth: {
       elementType: "input",
       elementConfig: {

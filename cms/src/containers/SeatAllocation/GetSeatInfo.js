@@ -4,7 +4,7 @@ import * as actions from "../../store/actions/index";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import classes from "./GetSeatInfo.module.css";
 import Constants from "../../Constants/index";
-import Aux from "../../hoc/Aux/aux";
+import Aux from "../../hoc/Aux1/aux1";
 import axios from "../../axios-college";
 import { Redirect } from "react-router";
 

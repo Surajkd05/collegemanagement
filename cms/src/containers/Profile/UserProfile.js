@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 import classes from "./UserProfile.module.css";
 import Button from "../../components/UI/Button/Button";
-import Aux from "../../hoc/Aux/aux";
+import Aux from "../../hoc/Aux1/aux1";
 import AddressView from "./Address/AddressView";
 import axios from "../../axios-college";
 import avatar from "../../assets/images/avatar.webp";

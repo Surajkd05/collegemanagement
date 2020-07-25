@@ -7,7 +7,7 @@ import Spinner from "../../../components/UI/Spinner/Spinner";
 import axios from "../../../axios-college";
 import { connect } from "react-redux";
 import { Redirect, withRouter } from "react-router-dom";
-import Aux from "../../../hoc/Aux/aux";
+import Aux from "../../../hoc/Aux1/aux1";
 
 const UpdateStudentProfile = (props) => {
   const oldProfile = props.history.location.state.profile

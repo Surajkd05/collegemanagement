@@ -15,6 +15,12 @@ const navigationItems = (props) => (
       </NavigationItem>
     ) : null}
 
+{props.isAuthenticated && (localStorage.getItem("role") === "emp") ? (
+      <NavigationItem link="/registeredStudents" active>
+        RegisteredStudents
+      </NavigationItem>
+    ) : null}
+
     {props.isAuthenticated && localStorage.getItem("role") === "admin" ? (
       <div className={classes1.NavigationItem}>
         <div className={classes.Dropdown}>

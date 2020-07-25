@@ -13,22 +13,33 @@ const UserView = (props) => {
   const activateUserHandler = (userId) => {
     setLoading(true);
     let fetchedData = null;
-    if (props.userRole === "std") {
-      fetchedData = axios({
-        method: "PATCH",
-        url: "admin/activateStudent/" + userId,
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+
+    if (!(localStorage.getItem("role") === "emp")) {
+      if (props.userRole === "std") {
+        fetchedData = axios({
+          method: "PATCH",
+          url: "admin/activateStudent/" + userId,
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+      } else {
+        fetchedData = axios({
+          method: "PATCH",
+          url: "admin/activateEmployee/" + userId,
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+      }
     } else {
       fetchedData = axios({
         method: "PATCH",
-        url: "admin/activateEmployee/" + userId,
+        url: "employee/activateStudent/" + userId,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
-      })
+      });
     }
     fetchedData
       .then((response) => {
@@ -37,29 +48,39 @@ const UserView = (props) => {
       })
       .catch((error) => {
         setLoading(false);
-        alert(error.response.data.message)
+        alert(error.response.data.message);
       });
   };
 
   const deActivateUserHandler = (userId) => {
     setLoading(true);
     let fetchedData = null;
-    if (props.userRole === "std") {
-      fetchedData = axios({
-        method: "PATCH",
-        url: "admin/de-activateStudent/" + userId,
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    if (!(localStorage.getItem("role") === "emp")) {
+      if (props.userRole === "std") {
+        fetchedData = axios({
+          method: "PATCH",
+          url: "admin/de-activateStudent/" + userId,
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+      } else {
+        fetchedData = axios({
+          method: "PATCH",
+          url: "admin/de-activateEmployee/" + userId,
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+      }
     } else {
       fetchedData = axios({
         method: "PATCH",
-        url: "admin/de-activateEmployee/" + userId,
+        url: "employee/de-activateStudent/" + userId,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
-      })
+      });
     }
     fetchedData
       .then((response) => {
@@ -68,7 +89,7 @@ const UserView = (props) => {
       })
       .catch((error) => {
         setLoading(false);
-        alert(error.response.data.message)
+        alert(error.response.data.message);
       });
   };
 

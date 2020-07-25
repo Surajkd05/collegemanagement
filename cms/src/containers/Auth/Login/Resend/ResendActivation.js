@@ -6,7 +6,7 @@ import Button from "../../../../components/UI/Button/Button";
 import axios from "../../../../axios-college";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
 import { Redirect, withRouter } from "react-router-dom";
-import Aux from "../../../../hoc/Aux/aux";
+import Aux from "../../../../hoc/Aux1/aux1";
 
 const ResendActivation = (props) => {
 

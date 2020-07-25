@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Aux from "../../../hoc/Aux/aux";
+import Aux from "../../../hoc/Aux1/aux1";
 import axios from "../../../axios-college";
 import classes from "./ViewPlacement.module.css";
 import { withRouter } from "react-router";

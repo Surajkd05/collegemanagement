@@ -153,13 +153,14 @@ const StudentRegister = (props) => {
       isValid: false,
       touched: false,
     },
-
+    label:{
+      elementType:"label",
+    },
     dateOfBirth: {
       elementType: "input",
       elementConfig: {
         type: "date",
         placeholder: "Enter your Birth date",
-        onfocus : "Enter your Birth date"
       },
       value: "",
       validation: {
@@ -303,25 +304,33 @@ const StudentRegister = (props) => {
       })
       .catch((error) => {
         setLoading(false);
-        alert(error.response.data.message + " : " + error.response.data.details);
+        alert(
+          error.response.data.message + " : " + error.response.data.details
+        );
         console.log("Error is", error);
       });
   };
 
-  if (loading) {
-    form = <Spinner />;
-  }
-
   if (registered) {
     return <Redirect to="/auth" />;
+  }
+
+  let fullForm = (
+    <div>
+      {form}
+      {branchView !== null ? branchView : null}
+    </div>
+  );
+
+  if (loading) {
+    fullForm = <Spinner />;
   }
 
   return (
     <div className={classes.RegisterData}>
       <h4> Student Register</h4>
       <form onSubmit={submitHandler}>
-        {form}
-        {branchView !== null ? branchView : null}
+        {fullForm}
         <button type="submit">Register</button>
       </form>
     </div>

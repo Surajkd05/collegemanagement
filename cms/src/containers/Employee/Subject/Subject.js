@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import { updateObject, checkValidity } from "../../shared/utility";
-import Input from "../../components/UI/Input/Input";
-import Button from "../../components/UI/Button/Button";
-import Spinner from "../../components/UI/Spinner/Spinner";
-import axios from "../../axios-college";
+import { updateObject, checkValidity } from "../../../shared/utility";
+import Input from "../../../components/UI/Input/Input";
+import Button from "../../../components/UI/Button/Button";
+import Spinner from "../../../components/UI/Spinner/Spinner";
+import axios from "../../../axios-college";
 import classes from "./Subject.module.css";
 
 const Subject = (props) => {
