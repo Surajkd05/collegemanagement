@@ -40,6 +40,11 @@ public class UserController {
         return userService.getUserProfile(username);
     }
 
+    @GetMapping(path = "/user")
+    public UserProfileDto getUserDetails(@RequestParam("userId") Long userId) {
+        return userService.getUserProfile1(userId);
+    }
+
     @GetMapping(path = "/student")
     public StudentProfileDto getStudentDetails() {
         String username = userAuthenticationService.getUserName();
@@ -50,6 +55,11 @@ public class UserController {
     public Set<Address> getCustomerAddress() {
         String username = userAuthenticationService.getUserName();
         return userService.getUserAddress(username);
+    }
+
+    @GetMapping(path = "/address1")
+    public Set<Address> getCustomerAddress(@RequestParam("userId") Long userId) {
+        return userService.getUserAddress(userId);
     }
 
     @PutMapping(path = "/student")

@@ -59,4 +59,14 @@ public class ImageService {
             throw new NotFoundException("File not found with id " + user.getUserId());
         }
     }
+
+    public ImageData downloadImage1(Long userId) {
+        ImageData userImage = imageRepo.findImageByUserId(userId);
+
+        if (null != userImage) {
+            return userImage;
+        } else {
+            throw new NotFoundException("File not found with id " + userId);
+        }
+    }
 }

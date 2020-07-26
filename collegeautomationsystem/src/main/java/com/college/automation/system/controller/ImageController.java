@@ -41,7 +41,19 @@ public class ImageController {
 
          ImageData imageData = imageService.downloadImage(username);
 
-        System.out.println("Image data is "+imageData);
+        if(null != imageData) {
+            return ResponseEntity.ok().contentType(MediaType.parseMediaType(imageData.getContentType()))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageData.getFileName() + "\"")
+                    .body(new ByteArrayResource(imageData.getProfileImage()));
+        }else {
+            throw new NotFoundException("Image not found");
+        }
+    }
+
+    @GetMapping(path = "/user")
+    public ResponseEntity<?> getProfileImage(@RequestParam("userId") Long userId) {
+
+        ImageData imageData = imageService.downloadImage1(userId);
 
         if(null != imageData) {
             return ResponseEntity.ok().contentType(MediaType.parseMediaType(imageData.getContentType()))

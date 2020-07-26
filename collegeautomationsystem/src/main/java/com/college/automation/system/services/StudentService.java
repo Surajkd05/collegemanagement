@@ -26,15 +26,17 @@ public class StudentService {
         if(!students.isEmpty()) {
             for (Student student : students) {
 
-                StudentViewDto studentViewDto = new StudentViewDto();
+                if(student.isActive()) {
+                    StudentViewDto studentViewDto = new StudentViewDto();
 
-                studentViewDto.setUserId(student.getUserId());
-                studentViewDto.setActive(student.isActive());
-                studentViewDto.setFirstName(student.getFirstName());
-                studentViewDto.setLastName(student.getLastName());
-                studentViewDto.setEmail(student.getEmail());
+                    studentViewDto.setUserId(student.getUserId());
+                    studentViewDto.setActive(student.isActive());
+                    studentViewDto.setFirstName(student.getFirstName());
+                    studentViewDto.setLastName(student.getLastName());
+                    studentViewDto.setEmail(student.getEmail());
 
-                studentViewDtos.add(studentViewDto);
+                    studentViewDtos.add(studentViewDto);
+                }
             }
             return studentViewDtos;
         }else {

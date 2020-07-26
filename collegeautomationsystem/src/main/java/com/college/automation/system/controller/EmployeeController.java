@@ -61,17 +61,6 @@ public class EmployeeController {
         return studentService.getAllStudents(branchId, year, section, semester);
     }
 
-    /*
-     *
-     * Activate Student controller
-     *
-     */
-    @PatchMapping(path = "/activateStudent/{id}")
-    public String activateStudent(@PathVariable(value = "id") Long id, HttpServletResponse response){
-        System.out.println("User authentication is : "+userAuthenticationService.getUserName());
-        String username = userAuthenticationService.getUserName();
-        return adminService.activateUser(username,id);
-    }
 
     /*
      *

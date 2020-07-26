@@ -37,12 +37,25 @@ public class UserService {
 
     public UserProfileDto getUserProfile(String username) {
         User customer = userRepo.findByEmail(username);
-
-        System.out.println("Customer in service : "+customer);
-
         if (null != customer) {
             UserProfileDto userProfileDto = new UserProfileDto();
             BeanUtils.copyProperties(customer, userProfileDto);
+            return userProfileDto;
+        } else {
+            throw new NotFoundException("User not found");
+        }
+    }
+
+    public UserProfileDto getUserProfile1(Long userId) {
+        Optional<User> customer = userRepo.findById(userId);
+        if (customer.isPresent()) {
+            UserProfileDto userProfileDto = new UserProfileDto();
+            userProfileDto.setActive(customer.get().isActive());
+            userProfileDto.setFirstName(customer.get().getFirstName());
+            userProfileDto.setLastName(customer.get().getLastName());
+            userProfileDto.setMobileNo(customer.get().getMobileNo());
+            userProfileDto.setUserId(customer.get().getUserId());
+            userProfileDto.setUsername(customer.get().getUsername());
             return userProfileDto;
         } else {
             throw new NotFoundException("User not found");
@@ -89,6 +102,24 @@ public class UserService {
             throw new NotFoundException("User not found");
         }
     }
+
+    public Set<Address> getUserAddress(Long userId) {
+        Optional<User> user = userRepo.findById(userId);
+
+        if (user.isPresent()) {
+            Set<Address> addresses = new LinkedHashSet<>();
+
+            for(Address address : user.get().getAddresses()){
+                if(!address.isDeleted()) {
+                    addresses.add(address);
+                }
+            }
+            return addresses;
+        } else {
+            throw new NotFoundException("User not found");
+        }
+    }
+
 
     @Transactional
     @Modifying
