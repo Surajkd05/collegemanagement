@@ -14,33 +14,24 @@ const UserView = (props) => {
     setLoading(true);
     let fetchedData = null;
 
-    if (!(localStorage.getItem("role") === "emp")) {
-      if (props.userRole === "std") {
-        fetchedData = axios({
-          method: "PATCH",
-          url: "admin/activateStudent/" + userId,
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        });
-      } else {
-        fetchedData = axios({
-          method: "PATCH",
-          url: "admin/activateEmployee/" + userId,
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        });
-      }
+    if (props.userRole === "std") {
+      fetchedData = axios({
+        method: "PATCH",
+        url: "admin/activateStudent/" + userId,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
     } else {
       fetchedData = axios({
         method: "PATCH",
-        url: "employee/activateStudent/" + userId,
+        url: "admin/activateEmployee/" + userId,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
     }
+
     fetchedData
       .then((response) => {
         setLoading(false);
@@ -93,6 +84,15 @@ const UserView = (props) => {
       });
   };
 
+  const viewUserHandler = (userId) => {
+    props.history.push({
+      pathname: "/userProfile",
+      state: {
+        userId: userId,
+      },
+    });
+  };
+
   if (loading) {
     return <Spinner />;
   }
@@ -108,9 +108,12 @@ const UserView = (props) => {
             <Th>First Name</Th>
             <Th>Last Name</Th>
             <Th>Email</Th>
-            <Th>Active</Th>
-            <Th>Activate</Th>
+            {!(localStorage.getItem("role") === "emp") ? <Th>Active</Th> : null}
+            {!(localStorage.getItem("role") === "emp") ? (
+              <Th>Activate</Th>
+            ) : null}
             <Th>DeActivate</Th>
+            <Th>View</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -122,21 +125,33 @@ const UserView = (props) => {
               <Td>{user.firstName}</Td>
               <Td>{user.lastName}</Td>
               <Td>{user.email}</Td>
-              <Td>{String(user.active)}</Td>
-              <Td>
-                <Button
-                  clicked={(userId) => activateUserHandler(user.userId)}
-                  btnType="Success"
-                >
-                  Activate
-                </Button>
-              </Td>
+              {!(localStorage.getItem("role") === "emp") ? (
+                <Td>{String(user.active)}</Td>
+              ) : null}
+              {!(localStorage.getItem("role") === "emp") ? (
+                <Td>
+                  <Button
+                    clicked={(userId) => activateUserHandler(user.userId)}
+                    btnType="Success"
+                  >
+                    Activate
+                  </Button>
+                </Td>
+              ) : null}
               <Td>
                 <Button
                   clicked={(userId) => deActivateUserHandler(user.userId)}
                   btnType="Danger"
                 >
                   DeActivate
+                </Button>
+              </Td>
+              <Td>
+                <Button
+                  clicked={(userId) => viewUserHandler(user.userId)}
+                  btnType="Success"
+                >
+                  View <i class="fa fa-eye" aria-hidden="true"></i>
                 </Button>
               </Td>
             </Tr>

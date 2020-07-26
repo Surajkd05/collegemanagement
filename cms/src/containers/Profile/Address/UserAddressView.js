@@ -1,12 +1,9 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState} from "react";
 import classes from "./AddressView.module.css";
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
-import * as actions from "../../../store/actions/index";
-import { connect } from "react-redux";
 import Aux from "../../../hoc/Aux1/aux1";
 import axios from "../../../axios-college";
-import Button from "../../../components/UI/Button/Button";
 import { withRouter } from "react-router-dom";
 
 const AddressView = React.memo((props) => {
@@ -14,11 +11,10 @@ const AddressView = React.memo((props) => {
   const [addresses, setAddresses] = useState();
   const [isAddress, setIsAddress] = useState(false);
 
-  const token = localStorage.getItem("token");
   useEffect(() => {
     axios
-      .get("user/address", {
-        headers: { Authorization: "Bearer " + token },
+      .get("user/address1?userId="+props.userId.userId, {
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((response) => {
         setAddresses(response.data);
@@ -28,17 +24,6 @@ const AddressView = React.memo((props) => {
         alert(error.response.data.message)
       });
   }, []);
-
-  const deleteAddressHandler = (id) => {
-    props.onDeleteUserAddress(id);
-  };
-
-  const updateAddressHandler = (id, address) => {
-  props.history.push({pathname: "/updateAddress", state: {
-    id : id,
-    address: address
-  }})
-  };
 
   let addressView = null;
   if (isAddress) {
@@ -59,8 +44,6 @@ const AddressView = React.memo((props) => {
               <Th>Country</Th>
               <Th>Label</Th>
               <Th>ZipCode</Th>
-              <Th>Delete</Th>
-              <Th>Update</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -77,20 +60,6 @@ const AddressView = React.memo((props) => {
                 <Td>{address.country}</Td>
                 <Td>{address.label}</Td>
                 <Td>{address.zipCode}</Td>
-                <Td>
-                  <Button
-                    clicked={() => deleteAddressHandler(address.addressId)}
-                    btnType="Danger"
-                  >
-                    Delete
-                  </Button>
-                </Td>
-                <Td>
-                  <Button
-                    clicked={() => updateAddressHandler(address.addressId, address)}
-                    btnType="Success"
-                  >Update</Button>
-                </Td>
               </Tr>
             ))}
           </Tbody>
@@ -106,22 +75,5 @@ const AddressView = React.memo((props) => {
   );
 });
 
-const mapStateToProps = (state) => {
-  return {
-    addresses: state.user.addresses,
-    loading: state.user.loading,
-    error: state.user.error,
-    token: state.auth.token,
-  };
-};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onFetchUserAddress: (token) =>
-      dispatch(actions.fetchUserAddress(token)),
-    onDeleteUserAddress: (id) =>
-      dispatch(actions.onDeleteUserAddress(id)),
-  };
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddressView));
+export default withRouter(AddressView);

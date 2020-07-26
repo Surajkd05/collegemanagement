@@ -41,6 +41,7 @@ import SubjectInfo from "./containers/Employee/Subject/SubjectInfo";
 import ViewComplaint from "./containers/InventoryComplaint/ViewComplaint/ViewComplaint";
 import ViewQuestion from "./containers/Preparation/Question/ViewQuestion/ViewQuestion";
 import StudentView from "./containers/Employee/Student/StudentView";
+import ViewProfile from "./containers/Profile/ViewProfile";
 
 const asyncAuth = asyncComponent(() => {
   return import("./containers/Auth/Auth");
@@ -101,6 +102,7 @@ const App = (props) => {
         <Route path="/question" component={ViewQuestion} />
         <Route path="/complaint" component={InventoryComplaint} />
         <Route path="/profile" component={UserProfile} />
+        <Route path="/userProfile" component={ViewProfile} />
         <Route path="/upload" component={ProfileImage} />
         <Route path="/addAddress" component={AddAddress} />
         <Route path="/editEmployeeProfile" component={UpdateUserProfile} />
