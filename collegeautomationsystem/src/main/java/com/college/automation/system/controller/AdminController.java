@@ -1,15 +1,9 @@
 package com.college.automation.system.controller;
 
-import com.college.automation.system.dtos.AllocateSubjectDto;
-import com.college.automation.system.dtos.BranchDto;
-import com.college.automation.system.dtos.SubjectDto;
-import com.college.automation.system.dtos.SubjectViewDto;
+import com.college.automation.system.dtos.*;
 import com.college.automation.system.model.Employee;
 import com.college.automation.system.repos.EmployeeRepo;
-import com.college.automation.system.services.AdminService;
-import com.college.automation.system.services.BranchService;
-import com.college.automation.system.services.SubjectService;
-import com.college.automation.system.services.UserAuthenticationService;
+import com.college.automation.system.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +29,9 @@ public class AdminController {
 
     @Autowired
     private EmployeeRepo employeeRepo;
+
+    @Autowired
+    private CourseService courseService;
 
     /*
      *
@@ -106,6 +103,17 @@ public class AdminController {
     public String deactivateEmployee(@PathVariable(value = "id") Long id,HttpServletResponse response){
         String username = userAuthenticationService.getUserName();
         return adminService.deactivateUser(username,id);
+    }
+
+    /*
+     *
+     * Add branch controller
+     *
+     */
+    @PostMapping(path="/course")
+    public String addCourse(@RequestBody CourseDto courseDto){
+        String username = userAuthenticationService.getUserName();
+        return courseService.addCourse(username,courseDto);
     }
 
     /*

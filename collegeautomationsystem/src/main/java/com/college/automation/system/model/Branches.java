@@ -18,6 +18,10 @@ public class Branches {
     @OneToMany(mappedBy = "branches", cascade = CascadeType.ALL)
     private Set<InterviewTips> interviewTipsSet;
 
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
+
     public Long getBranchId() {
         return branchId;
     }
@@ -48,5 +52,13 @@ public class Branches {
 
     public void setInterviewTipsSet(Set<InterviewTips> interviewTipsSet) {
         this.interviewTipsSet = interviewTipsSet;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

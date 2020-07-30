@@ -1,10 +1,10 @@
 package com.college.automation.system.dtos;
 
-public class BranchDto {
+public class CourseViewDto {
 
     private Long courseId;
 
-    private String branchName;
+    private String  courseName;
 
     public Long getCourseId() {
         return courseId;
@@ -14,11 +14,11 @@ public class BranchDto {
         this.courseId = courseId;
     }
 
-    public String getBranchName() {
-        return branchName;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 }

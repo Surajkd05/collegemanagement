@@ -117,6 +117,7 @@ public class PlacementService {
                 PlacementViewDto placementViewDto = new PlacementViewDto();
 
                 placementViewDto.setBranchName(placement.getBranches().getBranchName());
+                placementViewDto.setCourseName(placement.getBranches().getCourse().getCourseName());
                 placementViewDto.setCompanies(placement.getCompanies());
                 placementViewDto.setPlacementId(placement.getPlacementId());
                 placementViewDto.setStudentName(placement.getStudentName());
@@ -147,6 +148,7 @@ public class PlacementService {
                 PlacementViewDto placementViewDto = new PlacementViewDto();
 
                 placementViewDto.setBranchName(placement.getBranches().getBranchName());
+                placementViewDto.setCourseName(placement.getBranches().getCourse().getCourseName());
                 placementViewDto.setCompanies(placement.getCompanies());
                 placementViewDto.setPlacementId(placement.getPlacementId());
                 placementViewDto.setStudentName(placement.getStudentName());
@@ -219,6 +221,7 @@ public class PlacementService {
 
                 placementViewDto.setBranchName(placement.getBranches().getBranchName());
                 placementViewDto.setCompanies(placement.getCompanies());
+                placementViewDto.setCourseName(placement.getBranches().getCourse().getCourseName());
                 placementViewDto.setPlacementId(placement.getPlacementId());
                 placementViewDto.setStudentName(placement.getStudentName());
                 placementViewDto.setStudentId(placement.getStudent().getUserId());

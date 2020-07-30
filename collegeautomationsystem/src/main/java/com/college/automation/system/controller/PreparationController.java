@@ -32,8 +32,8 @@ public class PreparationController {
     *
     */
     @GetMapping(path = "/branch")
-    public Set<BranchViewDto> getBranches(){
-        return branchService.getBranch();
+    public Set<BranchViewDto> getBranches(@RequestParam(value = "courseId") Long courseId){
+        return branchService.getBranch(courseId);
     }
 
     /*

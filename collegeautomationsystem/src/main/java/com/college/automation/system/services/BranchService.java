@@ -7,6 +7,7 @@ import com.college.automation.system.exceptions.NotFoundException;
 import com.college.automation.system.model.Branches;
 import com.college.automation.system.model.User;
 import com.college.automation.system.repos.BranchRepo;
+import com.college.automation.system.repos.CourseRepo;
 import com.college.automation.system.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class BranchService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private CourseRepo courseRepo;
+
     /*
     *
     * Add branch service
@@ -35,6 +39,7 @@ public class BranchService {
             Branches branches = new Branches();
 
             branches.setBranchName(branchDto.getBranchName());
+            branches.setCourse(courseRepo.findById(branchDto.getCourseId()).get());
 
             branchRepo.save(branches);
 
@@ -50,8 +55,8 @@ public class BranchService {
     *
     */
 
-    public Set<BranchViewDto> getBranch(){
-        List<Branches> branchesList =  branchRepo.findAll();
+    public Set<BranchViewDto> getBranch(Long courseId){
+        List<Branches> branchesList =  branchRepo.findAllBranchesByCourse(courseId);
 
         if(!branchesList.isEmpty()){
             Set<BranchViewDto> branchViewDtos = new LinkedHashSet<>();

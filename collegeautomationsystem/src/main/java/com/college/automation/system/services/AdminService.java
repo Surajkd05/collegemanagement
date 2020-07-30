@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -35,6 +37,9 @@ public class AdminService {
 
     @Autowired
     private BranchRepo branchRepo;
+
+    @Autowired
+    private MessageSource messageSource;
 
     public MappingJacksonValue registeredStudents(String username, String page, String size, String SortBy) {
         User admin = userRepo.findByEmail(username);
@@ -100,7 +105,7 @@ public class AdminService {
                             user.get().getEmail());
                     sb.append("Account activated");
                 } else {
-                    sb.append("User is already activated");
+                    sb.append(messageSource.getMessage("User.activated",null, LocaleContextHolder.getLocale()));
                 }
             } else {
                 throw new NotFoundException("User not found");

@@ -8,6 +8,8 @@ public class PlacementViewDto {
 
     private String branchName;
 
+    private String courseName;
+
     private int companies;
 
     private Long studentId;
@@ -60,5 +62,13 @@ public class PlacementViewDto {
 
     public void setBranchId(Long branchId) {
         this.branchId = branchId;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 }

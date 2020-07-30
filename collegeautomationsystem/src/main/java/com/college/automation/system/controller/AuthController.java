@@ -69,7 +69,6 @@ public class AuthController {
             return appUserDetailsService.registerStudent(studentDto);
 
         } else {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return dtoService.validateStudent(studentDto);
         }
     }

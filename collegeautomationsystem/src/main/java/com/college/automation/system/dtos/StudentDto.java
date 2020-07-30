@@ -1,10 +1,15 @@
 package com.college.automation.system.dtos;
 
 import com.college.automation.system.model.Address;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
@@ -12,10 +17,12 @@ import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class StudentDto {
+
     @Column(unique = true)
+    @NotEmpty(message = "{NotNull.username}")
     private String username;
 
-    @NotEmpty(message = "Must provide your first name")
+    @NotEmpty(message ="{NotNull.firstName}")
     private String firstName;
 
     @NotEmpty(message = "Must provide your last name")
