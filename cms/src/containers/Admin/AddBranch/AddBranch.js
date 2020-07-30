@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { updateObject, checkValidity } from "../../../shared/utility";
 import Input from "../../../components/UI/Input/Input";
@@ -8,6 +8,8 @@ import classes from "./AddBranch.module.css";
 import axios from "../../../axios-college";
 
 const AddBranch = (props) => {
+  const [courses, setCourses] = useState(null);
+  const [courseId, setCourseId] = useState(null);
   const [branch, setBranch] = useState({
     branchName: {
       elementType: "input",
@@ -23,6 +25,17 @@ const AddBranch = (props) => {
       touched: false,
     },
   });
+
+  useEffect(() => {
+    axios
+      .get("app/course")
+      .then((response) => {
+        setCourses(response.data);
+      })
+      .catch((error) => {
+        alert(error.response.data.error);
+      });
+  }, []);
 
   const [loading, setLoading] = useState(false);
 
@@ -58,11 +71,44 @@ const AddBranch = (props) => {
     />
   ));
 
+  const idChangedHandler = (e) => {
+    setCourseId(e.target.value);
+  };
+
+  let courseView = null;
+  if (courses !== null) {
+    courseView = (
+      <div className="row" style={{ padding: "10px" }}>
+        <div className="col-md-12">
+          <div>
+            <select
+              id="empId"
+              className="form-control"
+              size="0"
+              onChange={idChangedHandler}
+            >
+              <option value="default">Select Course</option>
+              {courses.map((course) => (
+                <option
+                  key={course.courseId}
+                  value={course.courseId}
+                  onChange={idChangedHandler}
+                >
+                  {course.courseName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const submitHandler = (event) => {
     event.preventDefault();
     setLoading(true);
 
-    const formData = {};
+    const formData = { courseId: courseId};
 
     for (let key in branch) {
       formData[key] = branch[key].value;
@@ -82,17 +128,26 @@ const AddBranch = (props) => {
       });
   };
 
+  let fullForm = (
+    <div>
+      {courseView}
+      {form}
+    </div>
+  );
+
   if (loading) {
-    form = <Spinner />;
+    fullForm = <Spinner />;
   }
 
   return (
     <div className={classes.BranchData}>
       <h4>Branch</h4>
-      <form>{form}</form>
-      <Button btnType="Success" clicked={submitHandler}>
-        AddBranch
-      </Button>
+      <form>
+        {fullForm}
+        <Button btnType="Success" clicked={submitHandler}>
+          AddBranch
+        </Button>
+      </form>
     </div>
   );
 };

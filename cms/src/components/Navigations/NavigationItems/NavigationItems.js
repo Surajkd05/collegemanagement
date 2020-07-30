@@ -47,6 +47,10 @@ const navigationItems = (props) => (
             <NavigationItem link="/createBranch" active>
               Create Branch <i class="fa fa-plus" aria-hidden="true"></i>
             </NavigationItem>
+
+            <NavigationItem link="/addCourse" active>
+              Create Course <i class="fa fa-plus" aria-hidden="true"></i>
+            </NavigationItem>
           </div>
         </div>{" "}
       </div>

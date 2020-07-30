@@ -128,10 +128,12 @@ const Login = React.memo((props) => {
       <h4>Login</h4>
       {authRedirect}
       {errorMessage}
-      <form>{form}</form>
+      <form>{form}
       <Button btnType="Success" clicked={submitHandler}>
         LOGIN
       </Button>
+      </form>
+      
     </div>
   );
 });

@@ -88,7 +88,7 @@ export const auth = (login) => {
         dispatch(checkAuthTimeout(response.data.expires_in));
       })
       .catch((error) => {
-        console.log(error);
+        alert(error.response.data.error_description);
         dispatch(authFail(error.response.data.error));
       });
   };

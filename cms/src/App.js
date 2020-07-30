@@ -42,6 +42,7 @@ import ViewComplaint from "./containers/InventoryComplaint/ViewComplaint/ViewCom
 import ViewQuestion from "./containers/Preparation/Question/ViewQuestion/ViewQuestion";
 import StudentView from "./containers/Employee/Student/StudentView";
 import ViewProfile from "./containers/Profile/ViewProfile";
+import AddCourse from "./containers/Admin/AddCourse/AddCourse";
 
 const asyncAuth = asyncComponent(() => {
   return import("./containers/Auth/Auth");
@@ -71,6 +72,7 @@ const App = (props) => {
       <Route path="/resetPassword" component={ResetPassword} />
       <Route path="/forgotPassword" component={ForgotPassword} />
       <Route path="/viewPlacement" component={ViewPlacement} />
+      <Route path="/question" component={ViewQuestion} />
       <Route path="/allocateSubject" component={AllocateSubject} />
       <Route path="/employeeRegister" component={EmployeeRegister} />
       <Redirect to="/" />
@@ -101,6 +103,7 @@ const App = (props) => {
         <Route path="/time" component={TimeTableView} />
         <Route path="/question" component={ViewQuestion} />
         <Route path="/complaint" component={InventoryComplaint} />
+        <Route path="/addCourse" component={AddCourse} />
         <Route path="/profile" component={UserProfile} />
         <Route path="/userProfile" component={ViewProfile} />
         <Route path="/upload" component={ProfileImage} />

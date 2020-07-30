@@ -300,17 +300,19 @@ const SubjectInfo = (props) => {
     <Aux>
       <div className={classes.LoginData}>
         <h4>Get Subject Info</h4>
-        {fullForm}
-        <Button btnType="Success" clicked={submitHandler}>
-          Submit
-        </Button>
+        <form>
+          {fullForm}
+          <Button btnType="Success" clicked={submitHandler}>
+            Submit
+          </Button>
+        </form>
       </div>
       <div>
         {loading ? (
           <div>
             <Spinner />
           </div>
-        ) : (info !== null ? (
+        ) : info !== null ? (
           <div>
             {info.map((info, count) => (
               <div key={info.dataId} className="col-sm-12">
@@ -320,7 +322,7 @@ const SubjectInfo = (props) => {
               </div>
             ))}
           </div>
-        ) : null)}
+        ) : null}
       </div>
     </Aux>
   );

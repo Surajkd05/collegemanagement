@@ -13,7 +13,7 @@ const Placement = (props) => {
 
   const [url, setUrl] = useState("placement/all?page=");
 
-  const [name, setName] = useState("Search student by name");
+  const [name, setName] = useState(null);
 
   const [branch, setBranch] = useState(false);
 
@@ -22,6 +22,9 @@ const Placement = (props) => {
   const [branches, setBranches] = useState(null);
 
   const [branchCount, setBranchCount] = useState(0);
+
+  const [courses, setCourses] = useState(null);
+  const [courseId, setCourseId] = useState(null);
 
   useEffect(() => {
     axios
@@ -32,6 +35,15 @@ const Placement = (props) => {
       .catch((error) => {
         alert(error.response.data.message);
       });
+
+    axios
+      .get("app/course")
+      .then((response) => {
+        setCourses(response.data);
+      })
+      .catch((error) => {
+        alert(error.response.data.error);
+      });
   }, []);
 
   const onClickHandler = (url) => {
@@ -41,7 +53,7 @@ const Placement = (props) => {
       .then((response) => {
         setPlacedData(response.data);
         setBranch(false);
-        setName("Search student by name");
+        setName(null);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -53,14 +65,16 @@ const Placement = (props) => {
     setPlacedData(null);
     if (branchCount === 0) {
       setBranchCount(1);
-      axios
-        .get("preparation/branch")
-        .then((response) => {
-          setBranches(response.data);
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
+      if (courseId !== null) {
+        axios
+          .get("preparation/branch?courseId=" + courseId)
+          .then((response) => {
+            setBranches(response.data);
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
+      }
     }
   };
 
@@ -89,14 +103,56 @@ const Placement = (props) => {
   };
 
   const viewCompanyHandler = (placementId, studentId) => {
-      props.history.push({
-          pathname:"/viewPlacement",
-          state: {
-              placementId : placementId,
-              studentId : studentId
-          }
-      })
+    props.history.push({
+      pathname: "/viewPlacement",
+      state: {
+        placementId: placementId,
+        studentId: studentId,
+      },
+    });
   };
+
+  const idChangedHandler1 = (e) => {
+    setCourseId(e.target.value);
+
+    axios
+      .get("app/branch?courseId=" + e.target.value)
+      .then((response) => {
+        setBranches(response.data);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  let courseView = null;
+  if (courses !== null) {
+    courseView = (
+      <div className="row" style={{ padding: "10px" }}>
+        <div className="col-md-12">
+          <div>
+            <select
+              id="empId"
+              className="form-control"
+              size="0"
+              onChange={idChangedHandler1}
+            >
+              <option value="default">Select Course</option>
+              {courses.map((course) => (
+                <option
+                  key={course.courseId}
+                  value={course.courseId}
+                  onChange={idChangedHandler1}
+                >
+                  {course.courseName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   let branchView = null;
   if (branches !== null) {
@@ -137,6 +193,7 @@ const Placement = (props) => {
             <Tr>
               <Th>S.No</Th>
               <Th>Student Name</Th>
+              <Th>Course Name</Th>
               <Th>Branch Name</Th>
               <Th>Number of Companies</Th>
               <Th>View Companies</Th>
@@ -148,11 +205,14 @@ const Placement = (props) => {
                 <Td key={data.placementId}>{count + 1}</Td>
 
                 <Td>{data.studentName}</Td>
+                <Td>{data.courseName}</Td>
                 <Td>{data.branchName}</Td>
                 <Td>{data.companies}</Td>
                 <Td>
                   <Button
-                    clicked={() => viewCompanyHandler(data.placementId,data.studentId)}
+                    clicked={() =>
+                      viewCompanyHandler(data.placementId, data.studentId)
+                    }
                     btnType="Success"
                   >
                     View
@@ -171,7 +231,12 @@ const Placement = (props) => {
       <div className="row">
         <div className="col-md-4" />
         <div className="col-md-4">
-          <input type="text" value={name} onChange={onChangeHandler} />
+          <input
+            type="text"
+            value={name}
+            onChange={onChangeHandler}
+            placeholder="Search by student name"
+          />
           <Button
             btnType="Success"
             clicked={() =>
@@ -202,7 +267,7 @@ const Placement = (props) => {
           </Button>
 
           <Button btnType="Success" clicked={() => branchChangeHandler()}>
-            View By Branch
+            View By Course & Branch
           </Button>
         </div>
         <div className="col-md-4" />
@@ -212,7 +277,8 @@ const Placement = (props) => {
         {" "}
         {branch ? (
           <div className={classes.LoginData}>
-            <h4>View By Branch</h4>
+            <h4>View By Course & Branch</h4>
+            {courseView}
             {branchView}
             <Button
               btnType="Success"

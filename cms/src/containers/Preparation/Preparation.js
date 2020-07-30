@@ -7,14 +7,17 @@ import ViewQuestion from "./Question/ViewQuestion/ViewQuestion";
 import classes from "./Preparation.module.css";
 
 const Preparation = (props) => {
-  const [branches, setBranches] = useState();
+  const [branches, setBranches] = useState()
   const [loading, setLoading] = useState(true);
+
+  const [courses, setCourses] = useState(null);
+  const [courseId, setCourseId] = useState(null);
 
   useEffect(() => {
     axios
-      .get("preparation/branch")
+      .get("app/course")
       .then((response) => {
-        setBranches(response.data);
+        setCourses(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -25,6 +28,8 @@ const Preparation = (props) => {
   const [branchId, setBranchId] = useState();
 
   const [branch, setBranch] = useState(false);
+
+  const [branch1, setBranch1] = useState(false)
 
   const [addQuestion, setAddQuestion] = useState(false);
 
@@ -49,7 +54,85 @@ const Preparation = (props) => {
   };
 
   const interviewTimeHandler = () => {
-    props.history.push("/interview")
+    props.history.push("/interview");
+  };
+
+  const idChangedHandler1 = (e) => {
+    setCourseId(e.target.value);
+  
+    axios
+      .get("app/branch?courseId=" + e.target.value)
+      .then((response) => {
+        setBranches(response.data);
+        setBranch1(true)
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+
+      
+  };
+
+  let courseView = null;
+  if (courses !== null) {
+    courseView = (
+      <div className="row">
+        <div className="col-md-4"></div>
+        <div className="col-md-4">
+          <div>
+            <select
+              id="courseId"
+              className="form-control"
+              size="0"
+              onChange={idChangedHandler1}
+            >
+              <option value="default">Select Course</option>
+              {courses.map((course) => (
+                <option
+                  key={course.courseId}
+                  value={course.courseId}
+                  onChange={idChangedHandler1}
+                >
+                  {course.courseName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="col-md-4"></div>
+      </div>
+    );
+  }
+
+  let branchView = null;
+  if (branch1) {
+    branchView = (
+      <div className="row">
+        <div className="col-md-4"></div>
+        <div className="col-md-4">
+          <div>
+            <select
+              id="branchId"
+              className="form-control"
+              size="0"
+              onChange={idChangedHandler}
+            >
+              <option value="default">Select Branch</option>
+              {branches.map((branch) => (
+                <option
+                  key={branch.branchId}
+                  value={branch.branchId}
+                  onChange={idChangedHandler}
+                >
+                  {branch.branchName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="col-md-4"></div>
+      </div>
+    );
   }
 
   let preparationView = null;
@@ -65,31 +148,9 @@ const Preparation = (props) => {
             </Button>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-4"></div>
-          <div className="col-md-4">
-            <div>
-              <select
-                id="empId"
-                className="form-control"
-                size="0"
-                onChange={idChangedHandler}
-              >
-                <option value="default">Select Branch</option>
-                {branches.map((branch) => (
-                  <option
-                    key={branch.branchId}
-                    value={branch.branchId}
-                    onChange={idChangedHandler}
-                  >
-                    {branch.branchName}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="col-md-4"></div>
-        </div>
+        {courseView}
+        {branchView}
+
         {branch ? (
           <div className="row">
             <div className="col-md-4"></div>
@@ -118,14 +179,14 @@ const Preparation = (props) => {
             <div className="col-md-2" />
           </div>
         ) : null}
-        {viewQuestion ? (
-           props.history.push({
-            pathname: "/question",
-            state: {
-              branchId: branchId,
-            },
-          })
-        ) : null}
+        {viewQuestion
+          ? props.history.push({
+              pathname: "/question",
+              state: {
+                branchId: branchId,
+              },
+            })
+          : null}
       </div>
     );
   }
