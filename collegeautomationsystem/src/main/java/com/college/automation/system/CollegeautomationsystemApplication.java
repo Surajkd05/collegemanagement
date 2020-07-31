@@ -41,17 +41,20 @@ public class CollegeautomationsystemApplication {
 	}
 
 	@Bean
-	public MessageSource messageSource () {
-		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-		messageSource.setBasename("messages");
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource messageSource
+				= new ReloadableResourceBundleMessageSource();
+
+		messageSource.setBasename("classpath:messages");
+		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
 	}
 
 	@Bean
-	public LocaleResolver localeResolver(){
-		AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
-		acceptHeaderLocaleResolver.setDefaultLocale(Locale.US);
-		return acceptHeaderLocaleResolver;
+	public LocalValidatorFactoryBean getValidator() {
+		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+		bean.setValidationMessageSource(messageSource());
+		return bean;
 	}
 
 }

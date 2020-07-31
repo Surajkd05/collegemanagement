@@ -80,6 +80,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers("/image/**").permitAll()
                 .antMatchers("/students/**").hasAnyAuthority("STUDENT","EMPLOYEE")
                 .antMatchers("/user/**").hasAnyAuthority("STUDENT","EMPLOYEE","ADMIN")
+                .antMatchers("/paper/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

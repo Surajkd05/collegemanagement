@@ -39,7 +39,6 @@ public class ImageService {
         }
         ImageData userImageData = new ImageData();
 
-        System.out.println("Image uploaded is " + image.getContentType());
         userImageData.setProfileImage(image.getBytes());
         userImageData.setContentType(image.getContentType());
         userImageData.setFileName(StringUtils.cleanPath(image.getOriginalFilename()));
