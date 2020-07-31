@@ -7,14 +7,16 @@ import axios from "../../../axios-college";
 import { withRouter, Redirect } from "react-router-dom";
 
 const EmployeeRegister = (props) => {
-
   const [branches, setBranches] = useState(null);
+  const [courses, setCourses] = useState(null);
+  const [courseId, setCourseId] = useState(null);
+  const [branch1, setBranch1] = useState(false);
 
   useEffect(() => {
     axios
-      .get("preparation/branch")
+      .get("app/course")
       .then((response) => {
-        setBranches(response.data);
+        setCourses(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -28,14 +30,62 @@ const EmployeeRegister = (props) => {
     setBranchId(e.target.value);
   };
 
-  let branchView = null;
-  if (branches !== null) {
-    branchView = (
+  const idChangedHandler1 = (e) => {
+    setCourseId(e.target.value);
+    setBranch1(false);
+    setBranches(null);
+
+    axios
+      .get("app/branch?courseId=" + e.target.value)
+      .then((response) => {
+        setBranches(response.data);
+        setBranch1(true);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  let courseView = null;
+  if (courses !== null) {
+    courseView = (
       <div className="row" style={{ padding: "10px" }}>
-        <div className="col-md-12">
+        <div className="col-md-4"></div>
+        <div className="col-md-4">
           <div>
             <select
-              id="empId"
+              id="courseId"
+              className="form-control"
+              size="0"
+              onChange={idChangedHandler1}
+            >
+              <option value="default">Select Course</option>
+              {courses.map((course) => (
+                <option
+                  key={course.courseId}
+                  value={course.courseId}
+                  onChange={idChangedHandler1}
+                >
+                  {course.courseName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="col-md-4"></div>
+      </div>
+    );
+  }
+
+  let branchView = null;
+  if (branch1) {
+    branchView = (
+      <div className="row" style={{ padding: "10px" }}>
+        <div className="col-md-4"></div>
+        <div className="col-md-4">
+          <div>
+            <select
+              id="branchId"
               className="form-control"
               size="0"
               onChange={idChangedHandler}
@@ -53,6 +103,7 @@ const EmployeeRegister = (props) => {
             </select>
           </div>
         </div>
+        <div className="col-md-4"></div>
       </div>
     );
   }
@@ -154,8 +205,8 @@ const EmployeeRegister = (props) => {
       isValid: false,
       touched: false,
     },
-    label:{
-      elementType:"label"
+    label: {
+      elementType: "label",
     },
     dateOfBirth: {
       elementType: "input",
@@ -198,7 +249,7 @@ const EmployeeRegister = (props) => {
     },
   });
 
-  const [registered, setRegistered] = useState(false)
+  const [registered, setRegistered] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -246,35 +297,39 @@ const EmployeeRegister = (props) => {
       registerData[key] = register[key].value;
     }
 
-      axios.post(
-        "auth/employee",
-        registerData
-      )
+    axios
+      .post("auth/employee", registerData)
       .then((response) => {
         setLoading(false);
-        alert(response.data)
-        setRegistered(true)
+        alert(response.data);
+        setRegistered(true);
       })
       .catch((error) => {
         setLoading(false);
-        alert(error.response.data.message)
+        alert(error.response.data.message);
       });
   };
+  let fullForm = (
+    <div>
+      {courseView !== null? courseView : null}
+      {form}
+      {branchView !== null ? branchView : null}
+    </div>
+  );
 
   if (loading) {
-    form = <Spinner />;
+    fullForm = <Spinner />;
   }
 
-  if(registered){
-    return <Redirect to = "/auth" />
+  if (registered) {
+    return <Redirect to="/auth" />;
   }
 
   return (
     <div className={classes.RegisterData}>
       <h4>Employee Register</h4>
       <form onSubmit={submitHandler}>
-        {form}
-        {branchView !== null ? branchView : null}
+        {fullForm}
         <button type="submit">Register</button>
       </form>
     </div>

@@ -8,12 +8,16 @@ import { withRouter, Redirect } from "react-router-dom";
 
 const StudentRegister = (props) => {
   const [branches, setBranches] = useState(null);
+  const [courses, setCourses] = useState(null);
+  const [courseId, setCourseId] = useState(null);
+  const [branch1, setBranch1] = useState(false)
+
 
   useEffect(() => {
     axios
-      .get("preparation/branch")
+      .get("app/course")
       .then((response) => {
-        setBranches(response.data);
+        setCourses(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -27,14 +31,62 @@ const StudentRegister = (props) => {
     setBranchId(e.target.value);
   };
 
-  let branchView = null;
-  if (branches !== null) {
-    branchView = (
-      <div className="row" style={{ padding: "10px" }}>
-        <div className="col-md-12">
+  const idChangedHandler1 = (e) => {
+    setCourseId(e.target.value);
+    setBranch1(false)
+    setBranches(null)
+  
+    axios
+      .get("app/branch?courseId=" + e.target.value)
+      .then((response) => {
+        setBranches(response.data);
+        setBranch1(true)
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });      
+  };
+
+  let courseView = null;
+  if (courses !== null) {
+    courseView = (
+      <div className="row"  style={{ padding: "10px" }}>
+        <div className="col-md-4"></div>
+        <div className="col-md-4">
           <div>
             <select
-              id="empId"
+              id="courseId"
+              className="form-control"
+              size="0"
+              onChange={idChangedHandler1}
+            >
+              <option value="default">Select Course</option>
+              {courses.map((course) => (
+                <option
+                  key={course.courseId}
+                  value={course.courseId}
+                  onChange={idChangedHandler1}
+                >
+                  {course.courseName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="col-md-4"></div>
+      </div>
+    );
+  }
+
+  let branchView = null;
+  if (branch1) {
+    branchView = (
+      <div className="row"  style={{ padding: "10px" }}>
+        <div className="col-md-4"></div>
+        <div className="col-md-4">
+          <div>
+            <select
+              id="branchId"
               className="form-control"
               size="0"
               onChange={idChangedHandler}
@@ -52,6 +104,7 @@ const StudentRegister = (props) => {
             </select>
           </div>
         </div>
+        <div className="col-md-4"></div>
       </div>
     );
   }
@@ -317,6 +370,7 @@ const StudentRegister = (props) => {
 
   let fullForm = (
     <div>
+      {courseView !== null? courseView : null}
       {form}
       {branchView !== null ? branchView : null}
     </div>

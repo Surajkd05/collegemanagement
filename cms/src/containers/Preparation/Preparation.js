@@ -59,6 +59,8 @@ const Preparation = (props) => {
 
   const idChangedHandler1 = (e) => {
     setCourseId(e.target.value);
+    setBranch1(false)
+    setBranches(null)
   
     axios
       .get("app/branch?courseId=" + e.target.value)
@@ -68,9 +70,7 @@ const Preparation = (props) => {
       })
       .catch((error) => {
         alert(error.response.data.message);
-      });
-
-      
+      });      
   };
 
   let courseView = null;
