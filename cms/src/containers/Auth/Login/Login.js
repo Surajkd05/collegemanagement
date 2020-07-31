@@ -101,8 +101,6 @@ const Login = React.memo((props) => {
   const submitHandler = (event) => {
     event.preventDefault();
     setLoading(true);
-    console.log("props  in login are : ", props);
-    console.log("Role is : ",login.role.value)
     localStorage.setItem("role", login.role.value);
     props.onAuth(login);
     setLoading(false);

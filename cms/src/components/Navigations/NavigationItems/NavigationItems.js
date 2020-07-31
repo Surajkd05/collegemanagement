@@ -9,6 +9,10 @@ const navigationItems = (props) => (
       Home <i class="fa fa-home"></i>
     </NavigationItem>
 
+    <NavigationItem link="/paper" active>
+      Add Paper <i class="fa fa-home"></i>
+    </NavigationItem>
+
     {props.isAuthenticated && !(localStorage.getItem("role") === "admin") ? (
       <NavigationItem link="/getAllRoom" active>
         Get Room

@@ -6,11 +6,13 @@ import img1 from "../../assets/images/event1.jpeg";
 import library from "../../assets/images/library.jpg"
 import cafeteria from "../../assets/images/cafeteria.jpeg"
 import college from "../../assets/images/college.jpeg"
-import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
 class Home extends Component {
+
+  
   render() {
+    
     return (
       <Aux>
         <section className="bg-white ml-5 mr-5">

@@ -7,7 +7,7 @@ import ViewQuestion from "./Question/ViewQuestion/ViewQuestion";
 import classes from "./Preparation.module.css";
 
 const Preparation = (props) => {
-  const [branches, setBranches] = useState()
+  const [branches, setBranches] = useState();
   const [loading, setLoading] = useState(true);
 
   const [courses, setCourses] = useState(null);
@@ -29,7 +29,7 @@ const Preparation = (props) => {
 
   const [branch, setBranch] = useState(false);
 
-  const [branch1, setBranch1] = useState(false)
+  const [branch1, setBranch1] = useState(false);
 
   const [addQuestion, setAddQuestion] = useState(false);
 
@@ -57,20 +57,24 @@ const Preparation = (props) => {
     props.history.push("/interview");
   };
 
+  const paperHandler = () => {
+    props.history.push("/paperView");
+  };
+
   const idChangedHandler1 = (e) => {
     setCourseId(e.target.value);
-    setBranch1(false)
-    setBranches(null)
-  
+    setBranch1(false);
+    setBranches(null);
+
     axios
       .get("app/branch?courseId=" + e.target.value)
       .then((response) => {
         setBranches(response.data);
-        setBranch1(true)
+        setBranch1(true);
       })
       .catch((error) => {
         alert(error.response.data.message);
-      });      
+      });
   };
 
   let courseView = null;
@@ -141,7 +145,12 @@ const Preparation = (props) => {
     preparationView = (
       <div>
         <div className="row">
-          <div className="col-md-10"></div>
+          <div className="col-md-3">
+            <Button btnType="Success" clicked={() => paperHandler()}>
+              <h4>PreviousYearPaper?</h4>
+            </Button>
+          </div>
+          <div className="col-md-7" />
           <div className="col-md-2">
             <Button btnType="Success" clicked={() => interviewTimeHandler()}>
               <h4>Interview Time?</h4>

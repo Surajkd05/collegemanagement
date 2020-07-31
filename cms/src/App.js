@@ -43,6 +43,8 @@ import ViewQuestion from "./containers/Preparation/Question/ViewQuestion/ViewQue
 import StudentView from "./containers/Employee/Student/StudentView";
 import ViewProfile from "./containers/Profile/ViewProfile";
 import AddCourse from "./containers/Admin/AddCourse/AddCourse";
+import AddPaper from "./containers/Admin/Paper/AddPaper";
+import ViewPaper from "./containers/Preparation/Paper/ViewPaper";
 
 const asyncAuth = asyncComponent(() => {
   return import("./containers/Auth/Auth");
@@ -61,6 +63,8 @@ const App = (props) => {
 
   let routes = (
     <Switch>
+       <Route path="/paperView" component={ViewPaper} />
+      <Route path="/paper" component={AddPaper} />
       <Route path="/auth" component={asyncAuth} />
       <Route path="/" exact component={Home} />
       <Route path="/studentRegister" component={StudentRegister} />
@@ -82,6 +86,8 @@ const App = (props) => {
   if (props.isAuthenticated) {
     routes = (
       <Switch>
+        <Route path="/paper" component={AddPaper} />
+        <Route path="/paperView" component={ViewPaper} />
         <Route path="/logout" component={Logout} />
         <Route path="/schedule" component={Scheduler} />
         <Route path="/auth" component={asyncLogin} />
