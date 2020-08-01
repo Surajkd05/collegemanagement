@@ -6,6 +6,9 @@ import classes from "./ViewPaper.module.css";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import { withRouter } from "react-router-dom";
 import Button from "../../../components/UI/Button/Button";
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import axios1 from "axios";
 
 const ViewPaper = (props) => {
   const [branches, setBranches] = useState();
@@ -59,7 +62,7 @@ const ViewPaper = (props) => {
   let courseView = null;
   if (courses !== null) {
     courseView = (
-      <div className="row" style={{ padding: "10px" }} >
+      <div className="row" style={{ padding: "10px" }}>
         <div className="col-md-12">
           <div>
             <select
@@ -89,7 +92,6 @@ const ViewPaper = (props) => {
   if (branch1) {
     branchView = (
       <div className="row" style={{ padding: "10px" }}>
-        
         <div className="col-md-12">
           <div>
             <select
@@ -111,7 +113,6 @@ const ViewPaper = (props) => {
             </select>
           </div>
         </div>
-       
       </div>
     );
   }
@@ -226,33 +227,53 @@ const ViewPaper = (props) => {
     <div>
       <div className={classes.BranchData}>
         <h4> View Paper</h4>
-        
-          <form >
-            {fullForm}
-            <Button btnType="Success" clicked = {submitHandler}>Submit</Button>
-          </form>
-     
+
+        <form>
+          {fullForm}
+          <Button btnType="Success" clicked={submitHandler}>
+            Submit
+          </Button>
+        </form>
       </div>
       <div className="row">
-        {file !== null ? (
-          <div>
-            {file.map((file1) => (
-              <div className="row">
-                <a href={file1.downloadUri}>
-                  {file1.courseName +
-                    " " +
-                    file1.branchName +
-                    " & year = " +
-                    file1.year +
-                    " & semester = " +
-                    file1.semester +
-                    " & session = " +
-                    file1.session}
-                </a>
-              </div>
-            ))}
-          </div>
-        ) : null}
+        <div className="col-md-12">
+          {file !== null ? (
+            <section className={classes.UserView}>
+              <h4>Fetched Papers</h4>
+              <Table>
+                <Thead>
+                  <Tr>
+                    <Th>S.No</Th>
+                    <Th>Course Name</Th>
+                    <Th>Branch Name</Th>
+                    <Th>Year</Th>
+                    <Th>Semester</Th>
+                    <Th>Session</Th>
+                    <Th>Download</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {file.map((file1, count) => (
+                    <Tr key={file1.paperId}>
+                      <Td key={file1.paperId}>{count + 1}</Td>
+
+                      <Td>{file1.courseName}</Td>
+                      <Td>{file1.branchName}</Td>
+                      <Td>{file1.year}</Td>
+                      <Td>{file1.semester}</Td>
+                      <Td>{file1.session}</Td>
+                      <Td>
+                        <a href={file1.downloadUri} download>
+                          <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </section>
+          ) : null}
+        </div>
       </div>
     </div>
   );
