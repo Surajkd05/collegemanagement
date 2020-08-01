@@ -230,7 +230,7 @@ const ViewPaper = (props) => {
 
         <form>
           {fullForm}
-          <Button btnType="Success" clicked={submitHandler}>
+          <Button btnType="Success" clicked={submitHandler} disabled = {!branch1}>
             Submit
           </Button>
         </form>

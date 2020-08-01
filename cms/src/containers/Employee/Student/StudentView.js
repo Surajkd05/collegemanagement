@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { updateObject, checkValidity } from "../../../shared/utility";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
@@ -11,11 +11,18 @@ import Aux from "../../../hoc/Aux1/aux1";
 const StudentView = React.memo((props) => {
   const [branches, setBranches] = useState(null);
 
+  const [courses, setCourses] = useState(null);
+  const [courseId, setCourseId] = useState(null);
+
+  const [branch1, setBranch1] = useState(false);
+
+  const [branch, setBranch] = useState(false);
+
   useEffect(() => {
     axios
-      .get("preparation/branch")
+      .get("app/course")
       .then((response) => {
-        setBranches(response.data);
+        setCourses(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -26,17 +33,64 @@ const StudentView = React.memo((props) => {
   const [branchId, setBranchId] = useState(null);
 
   const idChangedHandler = (e) => {
+    setBranch(false);
     setBranchId(e.target.value);
+    setBranch(true);
   };
 
+  const idChangedHandler1 = (e) => {
+    setCourseId(e.target.value);
+    setBranch1(false);
+    setBranches(null);
+
+    axios
+      .get("app/branch?courseId=" + e.target.value)
+      .then((response) => {
+        setBranches(response.data);
+        setBranch1(true);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  let courseView = null;
+  if (courses !== null) {
+    courseView = (
+      <div className="row" style={{ padding: "10px" }}>
+        <div className="col-md-12">
+          <div>
+            <select
+              id="courseId"
+              className="form-control"
+              size="0"
+              onChange={idChangedHandler1}
+            >
+              <option value="default">Select Course</option>
+              {courses.map((course) => (
+                <option
+                  key={course.courseId}
+                  value={course.courseId}
+                  onChange={idChangedHandler1}
+                >
+                  {course.courseName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   let branchView = null;
-  if (branches !== null) {
+  if (branch1) {
     branchView = (
       <div className="row" style={{ padding: "10px" }}>
         <div className="col-md-12">
           <div>
             <select
-              id="empId"
+              id="branchId"
               className="form-control"
               size="0"
               onChange={idChangedHandler}
@@ -118,12 +172,13 @@ const StudentView = React.memo((props) => {
     event.preventDefault();
     setLoading(true);
 
-    let query = "?branchId="+branchId;
+    let query = "?branchId=" + branchId;
     for (let key in params) {
-          query = query + "&" + key + "=" + params[key].value;
-      }
+      query = query + "&" + key + "=" + params[key].value;
+    }
 
-   axios.get("employee/student" + query, {
+    axios
+      .get("employee/student" + query, {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((response) => {
@@ -176,6 +231,7 @@ const StudentView = React.memo((props) => {
 
   let fullForm = (
     <div>
+      {courseView}
       {branchView}
       {form}
     </div>

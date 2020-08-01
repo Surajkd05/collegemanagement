@@ -12,6 +12,8 @@ const AddPaper = (props) => {
   const [branches, setBranches] = useState();
   const [loading, setLoading] = useState(false);
 
+  const [disabled, setDisabled] = useState(true)
+
   const [courses, setCourses] = useState(null);
   const [courseId, setCourseId] = useState(null);
 
@@ -236,6 +238,7 @@ const AddPaper = (props) => {
 
   const onChangeHandler = (event) => {
     setFile(event.target.files[0]);
+    setDisabled(false)
   };
 
   let fullForm = (
@@ -267,7 +270,7 @@ const AddPaper = (props) => {
       <h4> Add Paper</h4>
       <form>
         {fullForm}
-        <Button btnType = "Success" clicked={submitHandler}>Submit</Button>
+        <Button btnType = "Success" clicked={submitHandler} disabled = {disabled}>Submit</Button>
       </form>
     </div>
   );

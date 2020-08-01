@@ -14,6 +14,13 @@ const Subject = (props) => {
 
   const [loading, setLoading] = useState(false);
 
+  const [courses, setCourses] = useState(null);
+  const [courseId, setCourseId] = useState(null);
+
+  const [branch1, setBranch1] = useState(false);
+
+  const [branch, setBranch] = useState(false);
+
   const [year, setYear] = useState(null);
 
   const [subjectId, setSubjectId] = useState(null);
@@ -26,9 +33,9 @@ const Subject = (props) => {
 
   useEffect(() => {
     axios
-      .get("preparation/branch")
+      .get("app/course")
       .then((response) => {
-        setBranches(response.data);
+        setCourses(response.data);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -45,6 +52,86 @@ const Subject = (props) => {
         alert(error.response.data.message);
       });
   }, []);
+
+  const idChangedHandler = (e) => {
+    setBranch(false);
+    setBranchId(e.target.value);
+    setBranch(true);
+  };
+
+  const idChangedHandler1 = (e) => {
+    setCourseId(e.target.value);
+    setBranch1(false);
+    setBranches(null);
+
+    axios
+      .get("app/branch?courseId=" + e.target.value)
+      .then((response) => {
+        setBranches(response.data);
+        setBranch1(true);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  let courseView = null;
+  if (courses !== null) {
+    courseView = (
+      <div className="row" style={{ padding: "10px" }}>
+        <div className="col-md-12">
+          <div>
+            <select
+              id="courseId"
+              className="form-control"
+              size="0"
+              onChange={idChangedHandler1}
+            >
+              <option value="default">Select Course</option>
+              {courses.map((course) => (
+                <option
+                  key={course.courseId}
+                  value={course.courseId}
+                  onChange={idChangedHandler1}
+                >
+                  {course.courseName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  let branchView = null;
+  if (branch1) {
+    branchView = (
+      <div className="row" style={{ padding: "10px" }}>
+        <div className="col-md-12">
+          <div>
+            <select
+              id="branchId"
+              className="form-control"
+              size="0"
+              onChange={idChangedHandler}
+            >
+              <option value="default">Select Branch</option>
+              {branches.map((branch) => (
+                <option
+                  key={branch.branchId}
+                  value={branch.branchId}
+                  onChange={idChangedHandler}
+                >
+                  {branch.branchName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const [data, setData] = useState({
     section: {
@@ -104,7 +191,12 @@ const Subject = (props) => {
     event.preventDefault();
     setLoading(true);
 
-    const formData = { branchId: branchId, subjectId: subjectId, year: year , data : info};
+    const formData = {
+      branchId: branchId,
+      subjectId: subjectId,
+      year: year,
+      data: info,
+    };
 
     for (let key in data) {
       formData[key] = data[key].value;
@@ -124,10 +216,6 @@ const Subject = (props) => {
       });
   };
 
-  const idChangedHandler = (event) => {
-    setBranchId(event.target.value);
-  };
-
   const subjectChangedHandler = (event) => {
     setSubjectId(event.target.value);
   };
@@ -139,35 +227,6 @@ const Subject = (props) => {
   const yearChangedHandler = (event) => {
     setYear(event.target.value);
   };
-
-  let branchView = null;
-  if (branches !== null) {
-    branchView = (
-      <div className="row" style={{ padding: "10px" }}>
-        <div className="col-md-12">
-          <div>
-            <select
-              id="empId"
-              className="form-control"
-              size="0"
-              onChange={idChangedHandler}
-            >
-              <option value="default">Select Branch</option>
-              {branches.map((branch) => (
-                <option
-                  key={branch.branchId}
-                  value={branch.branchId}
-                  onChange={idChangedHandler}
-                >
-                  {branch.branchName}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   let subjectName = null;
   if (subjects !== null) {
@@ -259,12 +318,16 @@ const Subject = (props) => {
 
   let fullForm = (
     <form>
+      {courseView}
       {branchView}
       {yearView}
       {form}
       {subjectCodes}
       {subjectName}
-      <div className="form-group green-border-focus" style={{padding:"10px"}}>
+      <div
+        className="form-group green-border-focus"
+        style={{ padding: "10px" }}
+      >
         {" "}
         <textarea
           value={info}
